@@ -18,7 +18,7 @@ am4core.useTheme(am4themes_animated);
 var memberT = [];
 
 export default {
-	name: 'Graphtest',
+	name: 'Graph',
   props: {
     limits: {type: Number, default: 5},
     loadMore: {type: Boolean, default: false}
