@@ -1,0 +1,91 @@
+/* 모바일 */
+
+@media only screen and (max-device-width: 599px) {
+    #aboutmeimg {
+        display: none;
+    }
+    .mr-4 {
+        text-align: center;
+    }
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+    .img {
+        width: 80%;
+    }
+    .img:visited {
+        filter: alpha(opacity=50);
+        opacity:'0.4';
+    }
+}
+
+@media only screen and (min-width:960px) {
+    /* .display-2 {
+        font-size: calc(20px + 0.5vw) !important;
+        line-height: calc(20px + 1vw) !important;
+    } */
+    .subheading {
+        font-size: calc(14px + 0.5vw) !important;
+        line-height: calc(14px + 0.5vw) !important;
+    }
+    .headline,
+    #repo_name {
+        font-size: calc(20px + 0.5vw) !important;
+        line-height: calc(20px + 1vw) !important;
+    }
+    p,
+    span {
+        font-size: calc(14px + 0.5vw);
+    }
+    .img{
+        width: 12vw;
+        height: 12vw;
+    }
+    .img:visited {
+        filter: alpha(opacity=50);
+        opacity:'0.4';
+    }
+}
+
+
+/* font-size: calc(20px + 2vw) !important; */
+
+@media only screen and (max-width:959px) {
+    /* .display-2 {
+        font-size: calc(30px + 2vw) !important;
+        line-height: calc(30px + 2.5vw) !important;
+    } */
+    .subheading {
+        font-size: calc(14px + 1vw) !important;
+        line-height: calc(14px + 1.5vw) !important;
+    }
+    .headline,
+    #repo_name {
+        font-size: calc(20px + 2vw) !important;
+        line-height: calc(20px + 2.5vw)!important;
+    }
+    p,
+    span {
+        font-size: calc(14px + 1.5vw);
+    }
+}
+
+
+/* } */
+
+a {
+    text-decoration: none;
+}
+
+a>h2 {
+    color: black;
+}
+
+.container {
+    width: 100%;
+}
+
+.v-toolbar__content {
+    padding: 0px;
+}
