@@ -35,7 +35,7 @@
       <v-layout my-5>
         <v-flex hidden-xs-only>
           <h2 class="headline text-xs-center mb-3">Commit Counts</h2>
-            <Graphtest></Graphtest>
+            <Graph></Graph>
         </v-flex>
       </v-layout>
 
@@ -86,7 +86,7 @@ import ImgBanner from '../components/ImgBanner'
 import PortfolioList from '../components/PortfolioList'
 import PostList from '../components/PostList'
 import RepositoryList from '../components/RepositoryList'
-import Graphtest from '../components/Graphtest'
+import Graph from '../components/Graph'
 
 export default {
   name: 'HomePage',
@@ -95,7 +95,7 @@ export default {
 		PortfolioList,
 		PostList,
     RepositoryList,
-    Graphtest
+    Graph
 	},
   data () {
       return {
