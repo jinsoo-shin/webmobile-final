@@ -69,6 +69,7 @@ export default {
         { title: 'Post', url: 'post' },
         { title: 'Portpolio', url: 'portfolio' },
         { title: 'Login', url: 'login'},
+        { title: 'QnA', url: '/'},
         { title: 'Admin', url: 'admin'}
       ],
       login: false
