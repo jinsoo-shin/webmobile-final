@@ -69,8 +69,8 @@ export default {
         { title: 'Post', url: 'post' },
         { title: 'Portpolio', url: 'portfolio' },
         { title: 'Login', url: 'login'},
-        { title: 'Admin', url: 'admin'},
-        { title: 'QnA', url: '/'}
+        { title: 'QnA', url: '/'},
+        { title: 'Admin', url: 'admin'}
       ],
       login: false
     }
