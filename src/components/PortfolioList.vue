@@ -24,7 +24,7 @@ export default {
 	data() {
 		return {
 			portfolios: [],
-			limits:3,
+			limits:6,
 			loadMore:true
 		}
 	},
@@ -40,7 +40,7 @@ export default {
 			this.portfolios = await FirebaseService.getPortfolios()
 		},
 		loadMorePortfolios() {
-			this.limits+=3;
+			this.limits+=6;
 			if(this.limits>=this.portfolios.length){
 				this.limits=this.portfolios.length;
 				this.loadMore=false;
