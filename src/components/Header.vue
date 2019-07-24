@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <v-toolbar dark color="#FBC02D" fixed>
-      <router-link to ="/"><v-icon>home</v-icon></router-link>
+      <!-- <router-link to ="/"><v-icon>home</v-icon></router-link> -->
+      <v-btn flat icon v-on:click='go("home")'><v-icon>home</v-icon></v-btn>
       <v-toolbar-title style="font-family: 'Jua', sans-serif;">5G는5조</v-toolbar-title>
       <v-spacer></v-spacer>
 
@@ -126,13 +127,21 @@ export default {
         }
       },
       go(item){
-        if(item.title=="Logout"){
-          this.logout();
-        }else{
-          if(this.$router.currentRoute.path==("/"+item.url)){
-            window.location.href=item.url
+        if(item=="home"){
+          if(this.$router.currentRoute.path==("/")){
+            window.location.href="/"
           }else{
-            this.$router.push(item.url);
+            this.$router.push("/");
+          }
+        }else{
+          if(item.title=="Logout"){
+            this.logout();
+          }else{
+            if(this.$router.currentRoute.path==("/"+item.url)){
+              window.location.href=item.url
+            }else{
+              this.$router.push(item.url);
+            }
           }
         }
       }
