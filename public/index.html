@@ -26,8 +26,12 @@
 
 </html>
 
-<script type="text/javascript">
-import firebase from 'firebase/app'
+<script>
+import firebase from "firebase/app";
+import "firebase/firestore";
+import "firebase/database";
+import "firebase/auth";
+import "firebase/functions";
 // Retrieve Firebase Messaging object.
 const messaging = firebase.messaging();
 // Add the public key generated from the console here.
@@ -41,7 +45,8 @@ Notification.requestPermission().then(function(permission) {
     console.log('Unable to get permission to notify.');
   }
 });
-
+</script>
+<script type="text/javascript">
     function googleTranslateElementInit() {
         new google.translate.TranslateElement({
             pageLanguage: 'kor'
