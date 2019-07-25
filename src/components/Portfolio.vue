@@ -26,7 +26,21 @@
       <div class="text-truncate">
         <div class="headline" id="portfolio_title">{{title}}</div>
         <span class="grey--text" id="portfolio_body">{{body}}</span>
-        <v-btn>자세히보기</v-btn>
+        <v-btn color="primary" dark @click.stop="dialog = true">자세히보기</v-btn>
+        <v-dialog v-model="dialog" max-width="290">
+          <v-card>
+            <v-card-title class="headline">{{title}}</v-card-title>
+            <v-card-text>{{body}}</v-card-text>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="red darken-1" dark outline text @click="dialog = false">
+                Close
+              </v-btn>
+            </v-card-actions>
+            
+          </v-card>
+      </v-dialog>
       </div>
     </v-card-title>
   </v-card>
@@ -34,6 +48,11 @@
 <script>
 export default {
 	name: 'Portfolio',
+  data () {
+      return {
+        dialog: false,
+      }
+    },
 	props: {
 		date: {type: String},
 		title: {type: String},
@@ -42,4 +61,3 @@ export default {
 	}
 }
 </script>
-
