@@ -59,6 +59,12 @@
 										<v-text-field label="Email*" v-model="email" required></v-text-field>
 									</v-flex>
 									<v-flex xs12>
+									<v-btn v-on:click="sendEmail">Send</v-btn>
+									</v-flex>
+									<v-flex xs12>
+										<v-text-field label="Authentication*" v-model="auth" required></v-text-field>
+									</v-flex>
+									<v-flex xs12>
 										<v-text-field label="Imgur-Album-Hash*" v-model="album" required></v-text-field>
 									</v-flex>
 									<v-flex xs12>
@@ -123,6 +129,12 @@
 										<v-text-field label="Email*" v-model="email" required></v-text-field>
 									</v-flex>
 									<v-flex xs12>
+										<v-btn v-on:click="sendEmail">Send</v-btn>
+									</v-flex>
+									<v-flex xs12>
+										<v-text-field label="Authentication*" v-model="auth" required></v-text-field>
+									</v-flex>
+									<v-flex xs12>
 										<v-text-field label="Imgur-Album-Hash*" v-model="album" required></v-text-field>
 									</v-flex>
 									<v-flex xs12>
@@ -163,7 +175,9 @@ export default {
 			email: '',
 			album: '',
 			password: '',
-			age: ''
+			age: '',
+			auth: '',
+			myauth: ''
 		}
 	},
 	methods: {
@@ -190,10 +204,29 @@ export default {
 			this.album= ''
 			this.password= ''
 			this.age= ''
+			this.auth = ''
       	},
 		registMember() {
-			let msg = FirebaseService.postMember(this.name, this.password, this.email, this.album, this.age);
+			if(this.auth == this.myauth) {
+				alert('회원가입이 완료 되었습니다!');
+				let msg = FirebaseService.postMember(this.name, this.password, this.email, this.album, this.age);
+			} else {
+				alert('인증 번호가 일치하지 않습니다, 확인 후 재입력 부탁드립니다!')
+			}
 			this.close()
+		},
+		sendEmail() {
+			this.$axios({
+				method: 'GET',
+				url: "http://localhost:3000?address=" + this.email,
+				headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+				}).then(response => {
+					console.log(this.email)
+					this.myauth = response.config.data;
+					console.log(response)
+				}).catch(function(error) {
+					console.log(error);
+				});
 		}
 	}
 };
