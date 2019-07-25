@@ -9,7 +9,7 @@ import VueSwal from "vue-swal";
 import Vue from "vue";
 Vue.use(VueSwal);
 
-const MEMBER = "members";
+const MEMBER = "member";
 const POSTS = "posts";
 const PORTFOLIOS = "portfolios";
 
