@@ -26,26 +26,6 @@
 
 </html>
 
-<script>
-import firebase from "firebase/app";
-import "firebase/firestore";
-import "firebase/database";
-import "firebase/auth";
-import "firebase/functions";
-// Retrieve Firebase Messaging object.
-const messaging = firebase.messaging();
-// Add the public key generated from the console here.
-messaging.usePublicVapidKey("AAAAetXiiZ8:APA91bEDN_UzOz802laMRNNnKBKPBAJRCcFW9ic2MVefQNkPBczQjD9aDDOJ3b0DDRqOkJoWvgOndK-ppHWX1Bf1fTeixjomBq-TA0dO14uKWmcnoEc5ffspPHAklDzibqyUq1ndDlpb");
-Notification.requestPermission().then(function(permission) {
-  if (permission === 'granted') {
-    console.log('Notification permission granted.');
-    // TODO(developer): Retrieve an Instance ID token for use with FCM.
-    // ...
-  } else {
-    console.log('Unable to get permission to notify.');
-  }
-});
-</script>
 <script type="text/javascript">
     function googleTranslateElementInit() {
         new google.translate.TranslateElement({
