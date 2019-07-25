@@ -1,7 +1,7 @@
 <template></template>
 
 <script>
-// Chrome 1 - 71
+// Chrome 1 - 71 
 var isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
 
 window.onload = function () {
