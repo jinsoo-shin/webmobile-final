@@ -36,5 +36,6 @@
             "type": "image\/png",
             "density": "4.0"
         }
-    ]
+    ],
+    "gcm_sender_id": "527574403487"
 }

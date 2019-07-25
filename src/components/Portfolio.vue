@@ -27,12 +27,21 @@
         <span class="grey--text" id="portfolio_body">{{body}}</span>
         <v-btn color="primary" dark @click.stop="dialog = true">자세히보기</v-btn>
 
-        <v-dialog v-model="dialog" max-width="800" >
-          <v-card>
-            <v-icon style="float:right" ml-1 large flat @click="dialog = false"> close</v-icon>
-            <v-img :src="imgSrc" width="45%" height="300px"></v-img>
-            <v-card-title class="headline">{{title}}</v-card-title>
-            <v-card-text>{{body}}</v-card-text>
+        <v-dialog v-model="dialog" max-width="800">
+          <v-card class="px-3 py-3">
+            <v-icon style="float:right" large flat @click="dialog = false"> close</v-icon>
+            <v-layout>
+              <v-flex md5 lg5>
+            <v-img :src="imgSrc" width="100%" height="300px"></v-img>
+              </v-flex>
+              <v-flex md5 lg5 class="px-3 py-1">
+            <h2>{{title}}</h2><br>
+            {{body}}<br>
+            <v-btn class="primary">수정</v-btn>
+            <v-btn class="warning">삭제</v-btn>
+              </v-flex>
+            </v-layout>
+            댓글란
           </v-card>
         </v-dialog>
 
