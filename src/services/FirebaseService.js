@@ -48,7 +48,20 @@ export default {
         function(user) {
           var signUpLog = firebase.functions().httpsCallable("signUpLog");
           signUpLog({ name: name, email: email })
-            .then(function(result) {})
+            .then(function(result) {
+              user
+                .updateProfile({
+                  displayName: name
+                })
+                .then(
+                  function() {
+                    // Update successful.
+                  },
+                  function(error) {
+                    // An error happened.
+                  }
+                );
+            })
             .catch(function(error) {});
           alert("가입등록이 완료되었습니다. 다시 로그인해 주세요");
         },
@@ -133,7 +146,20 @@ export default {
         let user = result.user;
         var signInLog = firebase.functions().httpsCallable("signInLog");
         signInLog({ access: "Google" })
-          .then(function(result) {})
+          .then(function(result) {
+            user
+              .updateProfile({
+                displayName: user.email
+              })
+              .then(
+                function() {
+                  // Update successful.
+                },
+                function(error) {
+                  // An error happened.
+                }
+              );
+          })
           .catch(function(error) {});
         return result;
       })
@@ -154,7 +180,20 @@ export default {
         let user = result.user;
         var signInLog = firebase.functions().httpsCallable("signInLog");
         signInLog({ access: "Facebook" })
-          .then(function(result) {})
+          .then(function(result) {
+            user
+              .updateProfile({
+                displayName: user.email
+              })
+              .then(
+                function() {
+                  // Update successful.
+                },
+                function(error) {
+                  // An error happened.
+                }
+              );
+          })
           .catch(function(error) {});
         return result;
       })
@@ -166,6 +205,8 @@ export default {
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         Eventbus.$emit("getUserEmail", user.email);
+        Eventbus.$emit("getUserName", user.displayName);
+        console.log(user);
       } else {
       }
     });

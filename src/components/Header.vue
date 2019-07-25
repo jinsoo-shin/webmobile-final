@@ -27,7 +27,7 @@
             </v-list-tile-avatar>
 
             <v-list-tile-content>
-              <v-list-tile-title style="font-family: 'Jua', sans-serif;">{{email}}</v-list-tile-title>
+              <v-list-tile-title style="font-family: 'Jua', sans-serif;">{{name}}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
@@ -63,6 +63,7 @@ export default {
   data () {
     return {
       email:"5G는5조",
+      name : "",
       drawer: null,
       right: null,
       items: [
@@ -80,6 +81,16 @@ export default {
       this.login=true;
       sessionStorage.setItem('email',getEmail)
       this.email=getEmail;
+    });
+    Eventbus.$on('getUserName',getName=>{
+      this.login=true;
+      sessionStorage.setItem('name',getName)
+      if(getName == null)
+        this.name="없음";
+      else
+        this.name=getName;
+
+      console.log("name : ", this.name)
       this.changeTitle();
     });
     FirebaseService.loginChk();
