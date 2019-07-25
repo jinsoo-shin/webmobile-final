@@ -19,24 +19,24 @@
 
 </style>
 <template>
-  <v-card>
+  <v-card @click.stop="dialog = true" style="cursor : pointer">
     <v-img :src="imgSrc" height="200px"></v-img>
     <v-card-title primary-title>
       <div class="text-truncate">
         <div class="headline" id="portfolio_title">{{title}}</div>
         <span class="grey--text" id="portfolio_body">{{body}}</span>
-        <v-btn color="primary" dark @click.stop="dialog = true">자세히보기</v-btn>
 
-        <v-dialog v-model="dialog" max-width="800">
+        <v-dialog v-model="dialog" max-width="800px">
           <v-card class="px-3 py-3">
             <v-icon style="float:right" large flat @click="dialog = false"> close</v-icon>
             <v-layout>
               <v-flex md5 lg5>
             <v-img :src="imgSrc" width="100%" height="300px"></v-img>
               </v-flex>
-              <v-flex md5 lg5 class="px-3 py-1">
+              <v-flex md6 lg6 class="px-3 py-1">
             <h2>{{title}}</h2><br>
-            {{body}}<br>
+            <v-textarea v-model="body" full-width height="160px" no-resize readonly></v-textarea>
+            
             <v-btn class="primary">수정</v-btn>
             <v-btn class="warning">삭제</v-btn>
               </v-flex>
