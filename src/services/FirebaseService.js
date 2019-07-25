@@ -26,11 +26,10 @@ const config = {
 var app = firebase.initializeApp(config);
 var db;
 const firestore = firebase.firestore()
-let accessToken = ''
 export default {
     getMember: function(email) {
         db = firebase.firestore(app);
-        var docRef = db.collection(MEMBER).doc(email);
+        var docRef = db.collection(MEMBERS).doc(email);
         return docRef.get().then((doc) => {
             return doc.data()
         }).catch(function(error) {
@@ -55,9 +54,10 @@ export default {
             created_at: firebase.firestore.FieldValue.serverTimestamp(),
             email: email,
             name: name,
-            password: password
+            password: password,
+            rank: 1
         };
-        db.collection(MEMBER).doc(email).set(data);
+        db.collection(MEMBERS).doc(email).set(data);
     },
     getPosts() {
         const postsCollection = firestore.collection(POSTS)
