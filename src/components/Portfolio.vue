@@ -13,6 +13,10 @@
    -webkit-box-orient: vertical ;
    word-break:break-all;
  }
+ #app{
+   height: auto;
+ }
+
 </style>
 <template>
   <v-card>
@@ -22,6 +26,7 @@
       <div class="text-truncate">
         <div class="headline" id="portfolio_title">{{title}}</div>
         <span class="grey--text" id="portfolio_body">{{body}}</span>
+        <v-btn>자세히보기</v-btn>
       </div>
     </v-card-title>
   </v-card>
