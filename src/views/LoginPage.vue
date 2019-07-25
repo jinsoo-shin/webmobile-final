@@ -211,7 +211,7 @@ export default {
 				alert('회원가입이 완료 되었습니다!');
 				let msg = FirebaseService.postMember(this.name, this.password, this.email, this.album, this.age);
 			} else {
-				alert('인증 번호가 일치하지 않습니다, 확인 후 재입력 부탁드립니다!')
+				alert(this.auth +"&" + this.myauth +'인증 번호가 일치하지 않습니다, 확인 후 재입력 부탁드립니다!')
 			}
 			this.close()
 		},
@@ -222,7 +222,7 @@ export default {
 				headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 				}).then(response => {
 					console.log(this.email)
-					this.myauth = response.config.data;
+					this.myauth = response.data;
 					console.log(response)
 				}).catch(function(error) {
 					console.log(error);
