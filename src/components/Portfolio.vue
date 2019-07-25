@@ -20,27 +20,22 @@
 </style>
 <template>
   <v-card>
-    <v-img :src="imgSrc" height="200px">
-    </v-img>
+    <v-img :src="imgSrc" height="200px"></v-img>
     <v-card-title primary-title>
       <div class="text-truncate">
         <div class="headline" id="portfolio_title">{{title}}</div>
         <span class="grey--text" id="portfolio_body">{{body}}</span>
         <v-btn color="primary" dark @click.stop="dialog = true">자세히보기</v-btn>
-        <v-dialog v-model="dialog" max-width="290">
+
+        <v-dialog v-model="dialog" max-width="800" >
           <v-card>
+            <v-icon style="float:right" ml-1 large flat @click="dialog = false"> close</v-icon>
+            <v-img :src="imgSrc" width="45%" height="300px"></v-img>
             <v-card-title class="headline">{{title}}</v-card-title>
             <v-card-text>{{body}}</v-card-text>
-
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="red darken-1" dark outline text @click="dialog = false">
-                Close
-              </v-btn>
-            </v-card-actions>
-            
           </v-card>
-      </v-dialog>
+        </v-dialog>
+
       </div>
     </v-card-title>
   </v-card>
