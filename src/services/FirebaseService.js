@@ -9,7 +9,7 @@ import VueSwal from 'vue-swal'
 import Vue from 'vue'
 Vue.use(VueSwal)
 
-const MEMBER = 'member'
+const MEMBER = 'members'
 const POSTS = 'posts'
 const PORTFOLIOS = 'portfolios'
 
@@ -29,7 +29,7 @@ const firestore = firebase.firestore()
 export default {
     getMember: function(email) {
         db = firebase.firestore(app);
-        var docRef = db.collection(MEMBERS).doc(email);
+        var docRef = db.collection(MEMBER).doc(email);
         return docRef.get().then((doc) => {
             return doc.data()
         }).catch(function(error) {
@@ -57,7 +57,7 @@ export default {
             password: password,
             rank: 1
         };
-        db.collection(MEMBERS).doc(email).set(data);
+        db.collection(MEMBER).doc(email).set(data);
     },
     getPosts() {
         const postsCollection = firestore.collection(POSTS)
