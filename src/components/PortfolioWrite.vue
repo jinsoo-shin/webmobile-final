@@ -48,7 +48,7 @@
 <script>
 import Portfolio from '@/components/Portfolio'
 import FirebaseService from '@/services/FirebaseService'
-import 'v-markdown-editor/dist/index.css';
+import 'v-markdown-editor/dist/index.css'
 import Vue from 'vue'
 import Editor from 'v-markdown-editor'
 import PortfolioList from '../components/PortfolioList'
@@ -59,9 +59,9 @@ export default{
   name : "PortfolioWrite",
    data() {
       return {
-         title : "",
-         body : "",
-         img : "https://source.unsplash.com/random",
+        title : "",
+        body : "",
+        img : "https://source.unsplash.com/random",
         img_title: "Image Upload",
         dialog: false,
         imageName: '',

@@ -7,6 +7,7 @@ import store from "../store.js";
 import { Eventbus } from "../main.js";
 import VueSwal from "vue-swal";
 import Vue from "vue";
+import { SSL_OP_NO_SESSION_RESUMPTION_ON_RENEGOTIATION } from "constants";
 Vue.use(VueSwal);
 
 const MEMBER = "members";
@@ -34,6 +35,7 @@ export default {
       .get()
       .then(doc => {
         sessionStorage.setItem('name', doc.data().name);
+        sessionStorage.setItem('rank', doc.data().rank);
         return doc.data();
       })
       .catch(function(error) {
@@ -99,7 +101,7 @@ export default {
         return docSnapshots.docs.map(doc => {
           let data = doc.data();
           data.created_at = new Date(data.created_at.toDate());
-          return data;
+          return [data,doc];
         });
       });
   },
@@ -120,6 +122,12 @@ export default {
         window.location.href = "/";
       })
       .catch(function(error) {});
+  },
+  deletePortfolio(id){
+    return firestore
+      .collection(PORTFOLIOS)
+      .doc(id)
+      .delete()
   },
   loginWithGoogle() {
     let provider = new firebase.auth.GoogleAuthProvider();

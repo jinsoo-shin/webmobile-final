@@ -38,7 +38,7 @@
             <v-textarea v-model="body" full-width height="160px" no-resize readonly></v-textarea>
             
             <v-btn class="primary">수정</v-btn>
-            <v-btn class="warning">삭제</v-btn>
+            <v-btn @click="deletePortfolio(doc)" class="warning">삭제</v-btn>
               </v-flex>
             </v-layout>
             댓글란
@@ -50,6 +50,8 @@
   </v-card>
 </template>
 <script>
+import FirebaseService from '@/services/FirebaseService'
+
 export default {
 	name: 'Portfolio',
   data () {
@@ -58,10 +60,18 @@ export default {
       }
     },
 	props: {
+    doc: '',
 		date: {type: String},
 		title: {type: String},
 		body: {type: String},
 		imgSrc: {type: String},
-	}
+	},
+  methods: {
+    async deletePortfolio(id){
+      await FirebaseService.deletePortfolio(id)
+      this.dialog = false
+      location.reload(true)
+    }
+  }
 }
 </script>
