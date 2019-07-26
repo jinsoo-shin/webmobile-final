@@ -26,7 +26,6 @@ const config = {
 var app = firebase.initializeApp(config);
 var db;
 const firestore = firebase.firestore();
-let accessToken = "";
 export default {
   getMember: function(email) {
     db = firebase.firestore(app);
@@ -64,7 +63,8 @@ export default {
       created_at: firebase.firestore.FieldValue.serverTimestamp(),
       email: email,
       name: name,
-      password: password
+      password: password,
+      rank: 1
     };
     db.collection(MEMBER)
       .doc(email)
