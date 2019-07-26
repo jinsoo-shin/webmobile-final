@@ -82,7 +82,7 @@ export default {
       sessionStorage.setItem('email',getEmail)
       this.email=getEmail;
       this.name=sessionStorage.getItem('name');
-      changeTitle();
+      this.changeTitle();
     });
     FirebaseService.loginChk();
   },
