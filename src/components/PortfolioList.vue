@@ -2,10 +2,11 @@
   <v-layout mt-5 wrap>
     <v-flex v-bind:key="i" xs12 sm6 md4 v-for="i in portfolios.length > limits ? limits : portfolios.length">
       <Portfolio class="ma-3"
-              :date="portfolios[i - 1].created_at.toString()"
-              :title="portfolios[i - 1].title"
-              :body="portfolios[i - 1].body"
-              :imgSrc="portfolios[i - 1].img"
+	  		  :doc="portfolios[i - 1][1].id"
+              :date="portfolios[i - 1][0].created_at.toString()"
+              :title="portfolios[i - 1][0].title"
+              :body="portfolios[i - 1][0].body"
+              :imgSrc="portfolios[i - 1][0].img"
       ></Portfolio>
     </v-flex>
 
@@ -38,6 +39,7 @@ export default {
 	methods: {
 		async getPortfolios() {
 			this.portfolios = await FirebaseService.getPortfolios()
+			console.log(this.portfolios)
 		},
 		loadMorePortfolios() {
 			this.limits+=6;
