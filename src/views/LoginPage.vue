@@ -197,6 +197,7 @@ export default {
 		},
 		loginWithEmail(e) {
 			const result = FirebaseService.loginService(e, this.email, this.password)
+			FirebaseService.getMember(this.email);
 		},
 		close() {
 			this.name= ''
