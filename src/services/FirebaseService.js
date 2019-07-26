@@ -34,6 +34,7 @@ export default {
     return docRef
       .get()
       .then(doc => {
+        sessionStorage.setItem('name', doc.data().name);
         return doc.data();
       })
       .catch(function(error) {
