@@ -26,7 +26,7 @@ export default {
   data() {
     return {
       repositories: [],
-      members: [],
+      members: [0,0,0,0,0],
       commitlist: []
     }
   },
@@ -34,13 +34,12 @@ export default {
     Repository,
   },
   mounted() {
+    this.getGitlabCommits('6084')
     this.getGitlabCommits('7569')
   },
   methods: {
     
     async getGitlabCommits(fullName) {
-      this.members = [0,0,0,0,0]
-      
       var len = 1
       var page = 1
       while(len > 0)
@@ -70,7 +69,10 @@ export default {
       memberT = this.members
       page += 1
       }
-      graphT();
+      if(fullName === "6084")
+      {
+        graphT();
+      }
     }
   }
 
@@ -94,7 +96,7 @@ function graphT(){
       "href": "https://vignette.wikia.nocookie.net/pokemon/images/f/f9/%EB%82%98%EB%AA%B0%EB%B9%BC%EB%AF%B8_%EA%B3%B5%EC%8B%9D_%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8.png/revision/latest?cb=20170803021707&path-prefix=ko"
   }, {
       "name": "안현상",
-      "steps": memberT[2]+30,
+      "steps": memberT[2],
       "href": "https://vignette.wikia.nocookie.net/pokemon/images/5/54/%EB%A1%B1%EC%8A%A4%ED%86%A4_%EA%B3%B5%EC%8B%9D_%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8.png/revision/latest?cb=20170405023350&path-prefix=ko"
   }, {
       "name": "이지선",
