@@ -34,7 +34,7 @@ export default {
     Repository,
   },
   mounted() {
-    this.getGitlabCommits('6084')
+    this.getGitlabCommits('7569')
   },
   methods: {
     
