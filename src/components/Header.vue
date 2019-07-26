@@ -81,17 +81,8 @@ export default {
       this.login=true;
       sessionStorage.setItem('email',getEmail)
       this.email=getEmail;
-    });
-    Eventbus.$on('getUserName',getName=>{
-      this.login=true;
-      sessionStorage.setItem('name',getName)
-      if(getName == null)
-        this.name="없음";
-      else
-        this.name=getName;
-
-      console.log("name : ", this.name)
-      this.changeTitle();
+      this.name=sessionStorage.getItem('name');
+      changeTitle();
     });
     FirebaseService.loginChk();
   },
