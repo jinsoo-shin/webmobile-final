@@ -31,19 +31,19 @@ db.enablePersistence({ experimentalTabSynchronization: true })
 const firestore = firebase.firestore();
 
 export default {
-    getMember: function(email) {
-        db = firebase.firestore(app);
-        var docRef = db.collection(MEMBER).doc(email);
-        return docRef
-            .get()
-            .then(doc => {
-                sessionStorage.setItem("name", doc.data().name);
-                sessionStorage.setItem("rank", doc.data().rank);
-                return doc.data();
-            })
-            .catch(function(error) {
-                console.log("Error getting document:", error);
-            });
+  getMember: function(email) {
+      db = firebase.firestore(app);
+      var docRef = db.collection(MEMBER).doc(email);
+      return docRef
+          .get()
+          .then(doc => {
+              sessionStorage.setItem("name", doc.data().name);
+              sessionStorage.setItem("rank", doc.data().rank);
+              return doc.data();
+          })
+          .catch(function(error) {
+              console.log("Error getting document:", error);
+          });
     },
     postMember(name, password, email, album, age) {
         firebase
@@ -138,6 +138,18 @@ export default {
             })
             .catch(function(error) {});
     },
+    changePortfolio(id,title,body,img) {
+      db = firebase.firestore(app);
+      var data = {
+        title: title,
+        body: body,
+        created_at: firebase.firestore.FieldValue.serverTimestamp(),
+        img: img
+      };
+      db.collection(PORTFOLIOS)
+        .doc(id)
+        .set(data);
+      },
     deletePortfolio(id) {
         return firestore
             .collection(PORTFOLIOS)
@@ -223,5 +235,11 @@ export default {
                         .signOut()
                         .then(function() {});
                 })
+    },
+    logOut() {
+        var email = sessionStorage.getItem('email');
+        var signOutLog = firebase.functions().httpsCallable('signOutLog');
+        signOutLog({ email: email }).then(function(result) {}).catch(function(error) {});
+        firebase.auth().signOut().then(function() {})
     }
 }
