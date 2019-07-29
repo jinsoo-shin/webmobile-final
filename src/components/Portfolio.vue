@@ -36,7 +36,7 @@
               <v-flex md6 lg6 class="px-3 py-1">
             <h2>{{title}}</h2><br>
             <v-textarea v-model="body" full-width height="160px" no-resize readonly></v-textarea>
-            
+            작성자 : {{author}}
             <v-btn class="primary">수정</v-btn>
             <v-btn @click="deletePortfolio(doc)" class="warning">삭제</v-btn>
               </v-flex>
@@ -64,7 +64,8 @@ export default {
 		date: {type: String},
 		title: {type: String},
 		body: {type: String},
-		imgSrc: {type: String},
+    imgSrc: {type: String},
+    author: {type: String}
 	},
   methods: {
     async deletePortfolio(id){
