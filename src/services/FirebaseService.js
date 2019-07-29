@@ -34,8 +34,8 @@ export default {
     return docRef
       .get()
       .then(doc => {
-        sessionStorage.setItem('name', doc.data().name);
-        sessionStorage.setItem('rank', doc.data().rank);
+        sessionStorage.setItem("name", doc.data().name);
+        sessionStorage.setItem("rank", doc.data().rank);
         return doc.data();
       })
       .catch(function(error) {
@@ -101,7 +101,7 @@ export default {
         return docSnapshots.docs.map(doc => {
           let data = doc.data();
           data.created_at = new Date(data.created_at.toDate());
-          return [data,doc];
+          return [data, doc];
         });
       });
   },
@@ -112,7 +112,8 @@ export default {
         title,
         body,
         img,
-        created_at: firebase.firestore.FieldValue.serverTimestamp()
+        created_at: firebase.firestore.FieldValue.serverTimestamp(),
+        author: sessionStorage.getItem("name")
       })
       .then(function(result) {
         swal("Post Success!", "", "success", {
@@ -140,11 +141,11 @@ export default {
       })
       .catch(function(error) {});
   },
-  deletePortfolio(id){
+  deletePortfolio(id) {
     return firestore
       .collection(PORTFOLIOS)
       .doc(id)
-      .delete()
+      .delete();
   },
   loginWithGoogle() {
     let provider = new firebase.auth.GoogleAuthProvider();

@@ -7,6 +7,7 @@
               :title="portfolios[i - 1][0].title"
               :body="portfolios[i - 1][0].body"
               :imgSrc="portfolios[i - 1][0].img"
+			  :author="portfolios[i - 1][0].author"
       ></Portfolio>
     </v-flex>
 
