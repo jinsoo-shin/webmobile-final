@@ -223,5 +223,11 @@ export default {
                         .signOut()
                         .then(function() {});
                 })
+    },
+    logOut() {
+        var email = sessionStorage.getItem('email');
+        var signOutLog = firebase.functions().httpsCallable('signOutLog');
+        signOutLog({ email: email }).then(function(result) {}).catch(function(error) {});
+        firebase.auth().signOut().then(function() {})
     }
 }
