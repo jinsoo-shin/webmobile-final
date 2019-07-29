@@ -96,7 +96,7 @@ function graphT(){
       "href": "https://vignette.wikia.nocookie.net/pokemon/images/f/f9/%EB%82%98%EB%AA%B0%EB%B9%BC%EB%AF%B8_%EA%B3%B5%EC%8B%9D_%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8.png/revision/latest?cb=20170803021707&path-prefix=ko"
   }, {
       "name": "안현상",
-      "steps": memberT[2],
+      "steps": memberT[2]+45,
       "href": "https://vignette.wikia.nocookie.net/pokemon/images/5/54/%EB%A1%B1%EC%8A%A4%ED%86%A4_%EA%B3%B5%EC%8B%9D_%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8.png/revision/latest?cb=20170405023350&path-prefix=ko"
   }, {
       "name": "이지선",
