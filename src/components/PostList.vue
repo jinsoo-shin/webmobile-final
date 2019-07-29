@@ -1,6 +1,6 @@
 <template>
   <v-layout row wrap mw-1000>
-    <v-flex xs12 sm6 md4 v-bind:key="i" v-for="i in posts.length > limits ? limits : posts.length" :class="'xs' + 12 / column" px-3>
+    <v-flex xs12 sm6 md4 v-bind:key="i" v-for="i in posts.length > limits ? limits : posts.length">
       <Post
               :date="posts[i - 1].created_at"
               :title="posts[i - 1].title"
