@@ -8,7 +8,7 @@
       <!-- Post -->
       <v-layout>
         <v-flex xs12>
-          <PostList :limits="6" :load-more="true"></PostList>
+          <PostList :limits=cnt :load-more="true"></PostList>
         </v-flex>
       </v-layout>
       <PostWrite></PostWrite>
@@ -20,8 +20,14 @@
 import ImgBanner from '../components/ImgBanner'
 import PostList from '../components/PostList'
 import PostWrite from '../components/PostWrite'
+import PortfolioListVue from '../components/PostList.vue'
+
 export default {
 	name: 'PostPage',
+  props:{
+    cnt:PostList.limits,
+    loadmore:PostList.loadmore
+  },
 	components: {
 		ImgBanner,
     PostList,

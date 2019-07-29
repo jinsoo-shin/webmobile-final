@@ -18,14 +18,11 @@ import FirebaseService from '@/services/FirebaseService'
 
 export default {
 	name: 'PostList',
-	props: {
-		column: {type: Number, default: 1},
-		limits: {type: Number, default: 4},
-		loadMore: {type: Boolean, default: false}
-	},
 	data() {
 		return {
-			posts: []
+			posts: [],
+			limits:6,
+			loadMore:true
 		}
 	},
 	components: {
@@ -39,8 +36,12 @@ export default {
 			this.posts = await FirebaseService.getPosts()
 		},
 		loadMorePosts() {
-
-    }
+			this.limits+=6;
+			if(this.limits>=this.posts.length){
+				this.limits=this.posts.length;
+				this.loadMore=false;
+			}
+		}
 	}
 }
 </script>
