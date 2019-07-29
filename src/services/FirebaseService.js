@@ -32,12 +32,13 @@ const firestore = firebase.firestore();
 
 export default {
     getMember: function(email) {
+        db = firebase.firestore(app);
         var docRef = db.collection(MEMBER).doc(email);
         return docRef
             .get()
             .then(doc => {
-                sessionStorage.setItem('name', doc.data().name);
-                sessionStorage.setItem('rank', doc.data().rank);
+                sessionStorage.setItem("name", doc.data().name);
+                sessionStorage.setItem("rank", doc.data().rank);
                 return doc.data();
             })
             .catch(function(error) {
@@ -60,6 +61,7 @@ export default {
                     alert("실패" + err.message);
                 }
             );
+        db = firebase.firestore(app);
         var data = {
             age: age,
             album: album,
@@ -80,21 +82,30 @@ export default {
             .get()
             .then(docSnapshots => {
                 return docSnapshots.docs.map(doc => {
-                    if (docSnapshots.metadata.fromCache) {
-                        console.log("오프라인")
-                    }
                     let data = doc.data();
+                    console.log(doc)
                     data.created_at = new Date(data.created_at.toDate());
-                    return data;
+                    return [data, doc];
                 });
             });
     },
     postPost(title, body) {
-        return firestore.collection(POSTS).add({
-            title,
-            body,
-            created_at: firebase.firestore.FieldValue.serverTimestamp()
-        });
+        return firestore
+            .collection(POSTS)
+            .add({
+                title,
+                body,
+                created_at: firebase.firestore.FieldValue.serverTimestamp(),
+                author: sessionStorage.getItem("name")
+            })
+            .then(function(result) {
+                swal("Post Success!", "", "success", {
+                    buttons: false,
+                    timer: 2000
+                });
+                window.location.href = "/post";
+            })
+            .catch(function(error) {});
     },
     getPortfolios() {
         const postsCollection = firestore.collection(PORTFOLIOS);
@@ -116,14 +127,15 @@ export default {
                 title,
                 body,
                 img,
-                created_at: firebase.firestore.FieldValue.serverTimestamp()
+                created_at: firebase.firestore.FieldValue.serverTimestamp(),
+                author: sessionStorage.getItem("name")
             })
             .then(function(result) {
                 swal("Post Success!", "", "success", {
                     buttons: false,
                     timer: 2000
                 });
-                window.location.href = "/";
+                window.location.href = "/portfolio";
             })
             .catch(function(error) {});
     },
@@ -131,7 +143,13 @@ export default {
         return firestore
             .collection(PORTFOLIOS)
             .doc(id)
-            .delete()
+            .delete();
+    },
+    deletePost(id) {
+        return firestore
+            .collection(POSTS)
+            .doc(id)
+            .delete();
     },
     loginWithGoogle() {
         let provider = new firebase.auth.GoogleAuthProvider();
@@ -201,33 +219,10 @@ export default {
                     signInWithEmailLog({ access: "Email", email: email })
                         .then(function(result) {})
                         .catch(function(error) {});
-
-                    setTimeout(() => {
-                        window.location.href = "/";
-                    }, 2000);
-                },
-                function(err) {
-                    swal(
-                        "Login Failed!",
-                        "Please Check your E-mail or Password!",
-                        "warning", {
-                            buttons: false,
-                            timer: 1500
-                        }
-                    );
-                }
-            );
-        e.preventDefault();
-    },
-    logOut() {
-        var email = sessionStorage.getItem("email");
-        var signOutLog = firebase.functions().httpsCallable("signOutLog");
-        signOutLog({ email: email })
-            .then(function(result) {})
-            .catch(function(error) {});
-        firebase
-            .auth()
-            .signOut()
-            .then(function() {});
+                    firebase
+                        .auth()
+                        .signOut()
+                        .then(function() {});
+                })
     }
-};
+}
