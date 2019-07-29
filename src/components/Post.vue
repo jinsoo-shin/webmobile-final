@@ -32,7 +32,7 @@
               <v-textarea v-model="body" full-width height="160px" no-resize readonly></v-textarea>
               작성자 : {{author}}
             <v-btn class="primary">수정</v-btn>
-            <v-btn @click="deletePortfolio(doc)" class="warning">삭제</v-btn>
+            <v-btn @click="deletePost()" class="warning">삭제</v-btn>
               </v-flex>
             </v-layout>
             댓글란
@@ -44,6 +44,8 @@
 </template>
 
 <script>
+import FirebaseService from '@/services/FirebaseService'
+
 export default {
 	name: 'Post',
   data () {
@@ -52,11 +54,20 @@ export default {
       }
     },
 	props: {
+    doc: {type: String},
 		date: {type: Date},
 		title: {type: String},
 		body: {type: String},
     author: {type: String}
-	},
+  },
+  methods: {
+    async deletePost(){
+      console.log(this.doc)
+      await FirebaseService.deletePost(this.doc)
+      this.dialog = false
+      location.reload(true)
+    }
+  },
   computed: {
 		formatedDate() {
 			return `${this.date.getFullYear()}년 ${this.date.getMonth()}월 ${this.date.getDate()}일`
