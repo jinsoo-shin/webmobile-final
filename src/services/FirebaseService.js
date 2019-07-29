@@ -25,23 +25,13 @@ const config = {
 };
 
 var app = firebase.initializeApp(config);
-var db;
+let db = firebase.firestore(app);
+
+db.enablePersistence({ experimentalTabSynchronization: true })
 const firestore = firebase.firestore();
-firestore.enablePersistence()
-    .catch(function(err) {
-        if (err.code == 'failed-precondition') {
-            // Multiple tabs open, persistence can only be enabled
-            // in one tab at a a time.
-            // ...
-        } else if (err.code == 'unimplemented') {
-            // The current browser does not support all of the
-            // features required to enable persistence
-            // ...
-        }
-    });
+
 export default {
     getMember: function(email) {
-        db = firebase.firestore(app);
         var docRef = db.collection(MEMBER).doc(email);
         return docRef
             .get()
@@ -70,7 +60,6 @@ export default {
                     alert("실패" + err.message);
                 }
             );
-        db = firebase.firestore(app);
         var data = {
             age: age,
             album: album,
@@ -91,6 +80,9 @@ export default {
             .get()
             .then(docSnapshots => {
                 return docSnapshots.docs.map(doc => {
+                    if (docSnapshots.metadata.fromCache) {
+                        console.log("오프라인")
+                    }
                     let data = doc.data();
                     data.created_at = new Date(data.created_at.toDate());
                     return data;
