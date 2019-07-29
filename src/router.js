@@ -8,31 +8,30 @@ import LoginPage from "./views/LoginPage.vue";
 Vue.use(Router);
 
 export default new Router({
-  scrollBehavior() {
-    return { x: 0, y: 0 };
-  },
-  mode: "history",
-  base: process.env.BASE_URL,
-  routes: [
-    {
-      path: "/",
-      name: "home",
-      component: HomePage
+    scrollBehavior() {
+        return { x: 0, y: 0 };
     },
-    {
-      path: "/post",
-      name: "post",
-      component: PostPage
-    },
-    {
-      path: "/portfolio",
-      name: "portfolio",
-      component: PortfolioPage
-    },
-    {
-      path: "/login",
-      name: "login",
-      component: LoginPage
-    }
-  ]
+    mode: "history",
+    base: process.env.BASE_URL,
+    routes: [{
+            path: "/",
+            name: "home",
+            component: HomePage
+        },
+        {
+            path: "/post",
+            name: "post",
+            component: PostPage
+        },
+        {
+            path: "/portfolio",
+            name: "portfolio",
+            component: PortfolioPage
+        },
+        {
+            path: "/login",
+            name: "login",
+            component: LoginPage
+        }
+    ]
 });
