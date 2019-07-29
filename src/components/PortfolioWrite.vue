@@ -1,5 +1,5 @@
 <template>
-<div id="wirtePage_div">
+<div id="wirtePage_div" v-if="chk" >
     <v-container>
     <v-form>
       <v-layout>
@@ -67,11 +67,24 @@ export default{
         imageName: '',
         imageUrl: '',
         imageFile: '',
-        imgurUserName:''
+        imgurUserName:'',
+        rank: 0
       }
    },
    components: {
       Portfolio
+   },
+   computed: {
+       chk(){
+         this.rank = sessionStorage.getItem("rank");
+          console.log("d", this.rank)
+         if ( this.rank !=0 && this.rank != 1 && this.rank != null){
+           return true;
+         }
+         else{
+           return false;
+         }
+       }
    },
    methods: {
     pickFile () {

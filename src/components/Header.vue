@@ -109,6 +109,8 @@ export default {
         FirebaseService.logOut();
         this.login=false;
         sessionStorage.removeItem('email');
+        sessionStorage.removeItem('name');
+        sessionStorage.removeItem('rank');
         this.$swal("LOGOUT!", "Good Bye!", "success",{
           buttons: false,
                     timer: 2000,
