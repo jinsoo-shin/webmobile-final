@@ -119,7 +119,24 @@ export default {
           buttons: false,
           timer: 2000
         });
-        window.location.href = "/";
+        window.location.href = "/portfolio";
+      })
+      .catch(function(error) {});
+  },
+  postPost(title, body) {
+    return firestore
+      .collection(POSTS)
+      .add({
+        title,
+        body,
+        created_at: firebase.firestore.FieldValue.serverTimestamp()
+      })
+      .then(function(result) {
+        swal("Post Success!", "", "success", {
+          buttons: false,
+          timer: 2000
+        });
+        window.location.href = "/post";
       })
       .catch(function(error) {});
   },
