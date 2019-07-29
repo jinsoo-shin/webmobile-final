@@ -11,7 +11,7 @@
           <PostList :limits="6" :load-more="true"></PostList>
         </v-flex>
       </v-layout>
-
+      <PostWrite></PostWrite>
     </v-container>
   </div>
 </template>
@@ -19,12 +19,13 @@
 <script>
 import ImgBanner from '../components/ImgBanner'
 import PostList from '../components/PostList'
-
+import PostWrite from '../components/PostWrite'
 export default {
 	name: 'PostPage',
 	components: {
 		ImgBanner,
-		PostList,
+    PostList,
+    PostWrite,
 	}
 }
 </script>
