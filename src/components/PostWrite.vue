@@ -15,9 +15,6 @@
   </v-form>
     <div class="container">
       <markdown-editor v-model="body"></markdown-editor>
-      <v-flex xs12 md6 align-center>
-      <img :src="imageUrl" width="100%" v-if="imageUrl" class=""/>
-      </v-flex>
     </div>
     <br class='fclear'>
     <router-link :to="{ name: 'post', params: {} }">
