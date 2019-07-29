@@ -77,7 +77,6 @@ export default{
    computed: {
        chk(){
          this.rank = sessionStorage.getItem("rank");
-          console.log("d", this.rank)
          if ( this.rank !=0 && this.rank != 1 && this.rank != null){
            return true;
          }
