@@ -4,7 +4,9 @@
       <Post
               :date="posts[i - 1].created_at"
               :title="posts[i - 1].title"
-              :body="posts[i - 1].body"></Post>
+              :body="posts[i - 1].body"
+			  :author="posts[i - 1].author"
+	  ></Post>
       <v-divider></v-divider>
     </v-flex>
     <v-flex xs12 text-xs-center round my-5 v-if="loadMore">
