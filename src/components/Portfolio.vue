@@ -35,9 +35,11 @@
               </v-flex>
               <v-flex md6 lg6 class="px-3 py-1">
             <h2>{{title}}</h2><br>
-            <v-textarea v-model="body" full-width height="160px" no-resize readonly></v-textarea>
+            <v-textarea v-model="body" full-width height="160px" v-if="flag" no-resize readonly></v-textarea>
+            <v-textarea v-model="editbody" v-if="!flag" full-width height="160px" no-resize></v-textarea>
             작성자 : {{author}}
-            <v-btn class="primary">수정</v-btn>
+            <v-btn @click="edit()" v-if="flag" class="primary">수정</v-btn>
+            <v-btn @click="editcomplete()" v-if="!flag" class="primary">수정완료</v-btn>
             <v-btn @click="deletePortfolio(doc)" class="warning">삭제</v-btn>
               </v-flex>
             </v-layout>
@@ -57,6 +59,8 @@ export default {
   data () {
       return {
         dialog: false,
+        editbody:"",
+        flag: true,
       }
     },
 	props: {
@@ -72,6 +76,13 @@ export default {
       await FirebaseService.deletePortfolio(id)
       this.dialog = false
       location.reload(true)
+    },
+    edit(){
+      this.editbody = this.body;
+      this.flag = false;
+    },
+    editcomplete(){
+
     }
   }
 }
