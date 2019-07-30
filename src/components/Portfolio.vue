@@ -40,7 +40,7 @@
                 작성자 : {{author}}
                 <div v-if="chkauthor">
                   <v-btn @click="onclickeditbtn()" v-if="flag" class="primary">수정</v-btn>
-                  <v-btn @click="editPortfolio(doc, title, editbody, imgSrc)" v-if="!flag" class="primary">수정완료</v-btn>
+                  <v-btn @click="editPortfolio(doc, title, editbody, imgSrc, author)" v-if="!flag" class="primary">수정완료</v-btn>
                   <v-btn @click="deletePortfolio(doc)" class="warning">삭제</v-btn>
                 </div>
               </v-flex>
@@ -84,8 +84,8 @@ export default {
       this.editbody = this.body;
       this.flag = false;
     },
-    async editPortfolio(doc, title, body, img){
-      await FirebaseService.editPortfolio(doc, title, body, img)
+    async editPortfolio(doc, title, body, img, auth){
+      await FirebaseService.editPortfolio(doc, title, body, img, auth)
       this.dialog = false
       location.reload(true)
     }
