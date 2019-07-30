@@ -27,12 +27,15 @@
           <v-card class="px-3 py-3">
             <v-icon style="float:right" large flat @click="dialog = false"> close</v-icon>
             <v-layout>
-              <v-flex md6 lg6 class="px-3 py-1">
-              <h2>{{title}}</h2><br>
-              <v-textarea v-model="body" full-width height="160px" no-resize readonly></v-textarea>
-              작성자 : {{author}}
-            <v-btn class="primary">수정</v-btn>
-            <v-btn @click="deletePost()" class="warning">삭제</v-btn>
+              <v-flex class="px-3 py-1">
+              <h2>{{title}}</h2>
+              <v-textarea v-model="body" v-if="flag" full-width height="160px" no-resize readonly></v-textarea>
+              <v-textarea v-model="changebody" v-if="!flag" full-width height="160px" no-resize></v-textarea>
+              작성자 : {{author}} <br>
+              작성일 : {{formatedDate}}
+            <v-btn style="float:right" v-if="flag" @click="change()" class="primary">수정</v-btn>
+            <v-btn style="float:right" v-if="!flag" @click="changePost(doc, title, changebody)" class="primary">수정완료</v-btn>
+            <v-btn style="float:right" @click="deletePost()" class="warning">삭제</v-btn>
               </v-flex>
             </v-layout>
             댓글란
@@ -51,21 +54,29 @@ export default {
   data () {
       return {
         dialog: false,
+        changebody: "",
+        flag: true,
       }
     },
 	props: {
-    doc: {type: String},
+    doc: '',
 		date: {type: Date},
 		title: {type: String},
 		body: {type: String},
     author: {type: String}
   },
   methods: {
-    async deletePost(){
-      console.log(this.doc)
-      await FirebaseService.deletePost(this.doc)
+    async deletePost(id){
+      await FirebaseService.deletePost(id)
       this.dialog = false
       location.reload(true)
+    },
+    change(){
+      this.changebody = this.body;
+      this.flag = false;
+    },
+    changePost(doc, title, body){
+      FirebaseService.changePost(doc, title, body)
     }
   },
   computed: {

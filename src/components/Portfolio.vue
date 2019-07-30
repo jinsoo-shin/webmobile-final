@@ -35,7 +35,7 @@
               </v-flex>
               <v-flex md6 lg6 class="px-3 py-1">
             <h2>{{title}}</h2><br>
-            <v-textarea v-model="body" full-width height="160px" v-if="flag" no-resize readonly></v-textarea>
+            <v-textarea v-model="body" v-if="flag" full-width height="160px" no-resize readonly></v-textarea>
             <v-textarea v-model="changebody" v-if="!flag" full-width height="160px" no-resize></v-textarea>
             작성자 : {{author}}
             <v-btn @click="change()" v-if="flag" class="primary">수정</v-btn>
