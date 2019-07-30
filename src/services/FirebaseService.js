@@ -83,7 +83,7 @@ export default {
             .then(docSnapshots => {
                 return docSnapshots.docs.map(doc => {
                     let data = doc.data();
-                    data.created_at = new Date(data.created_at.toDate());
+                    data.created_at = new Date();
                     return [data, doc];
                 });
             });
@@ -106,12 +106,13 @@ export default {
             })
             .catch(function(error) {});
     },
-    editPost(id,title,body) {
+    editPost(id,title,body,author) {
         db = firebase.firestore(app);
         var data = {
           title: title,
           body: body,
-          created_at: firebase.firestore.FieldValue.serverTimestamp()
+          created_at: firebase.firestore.FieldValue.serverTimestamp(),
+          author : author
         };
         db.collection(POSTS)
           .doc(id)
@@ -131,7 +132,7 @@ export default {
             .then(docSnapshots => {
                 return docSnapshots.docs.map(doc => {
                     let data = doc.data();
-                    data.created_at = new Date(data.created_at.toDate());
+                    data.created_at = new Date();
                     return [data, doc];
                 });
             });
@@ -155,15 +156,16 @@ export default {
             })
             .catch(function(error) {});
     },
-    editPortfolio(id,title,body,img) {
+    editPortfolio(id,title,body,img, author) {
       db = firebase.firestore(app);
       var data = {
         title: title,
         body: body,
         created_at: firebase.firestore.FieldValue.serverTimestamp(),
-        img: img
+        img: img,
+        author: author
       };
-      db.collection(PORTFOLIOS)
+      return db.collection(PORTFOLIOS)
         .doc(id)
         .set(data);
       },
