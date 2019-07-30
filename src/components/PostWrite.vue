@@ -43,6 +43,7 @@ export default{
         title : "",
         body : "",
         dialog: false,
+        rank: 0,
       }
    },
    components: {

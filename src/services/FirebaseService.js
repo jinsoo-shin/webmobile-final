@@ -31,19 +31,19 @@ db.enablePersistence({ experimentalTabSynchronization: true })
 const firestore = firebase.firestore();
 
 export default {
-    getMember: function(email) {
-        db = firebase.firestore(app);
-        var docRef = db.collection(MEMBER).doc(email);
-        return docRef
-            .get()
-            .then(doc => {
-                sessionStorage.setItem("name", doc.data().name);
-                sessionStorage.setItem("rank", doc.data().rank);
-                return doc.data();
-            })
-            .catch(function(error) {
-                console.log("Error getting document:", error);
-            });
+  getMember: function(email) {
+      db = firebase.firestore(app);
+      var docRef = db.collection(MEMBER).doc(email);
+      return docRef
+          .get()
+          .then(doc => {
+              sessionStorage.setItem("name", doc.data().name);
+              sessionStorage.setItem("rank", doc.data().rank);
+              return doc.data();
+          })
+          .catch(function(error) {
+              console.log("Error getting document:", error);
+          });
     },
     postMember(name, password, email, album, age) {
         firebase
@@ -106,6 +106,23 @@ export default {
             })
             .catch(function(error) {});
     },
+    editPost(id,title,body) {
+        db = firebase.firestore(app);
+        var data = {
+          title: title,
+          body: body,
+          created_at: firebase.firestore.FieldValue.serverTimestamp()
+        };
+        db.collection(POSTS)
+          .doc(id)
+          .set(data);
+        },
+    deletePost(id) {
+        return firestore
+            .collection(POSTS)
+            .doc(id)
+            .delete();
+    },
     getPortfolios() {
         const postsCollection = firestore.collection(PORTFOLIOS);
         return postsCollection
@@ -138,15 +155,21 @@ export default {
             })
             .catch(function(error) {});
     },
+    editPortfolio(id,title,body,img) {
+      db = firebase.firestore(app);
+      var data = {
+        title: title,
+        body: body,
+        created_at: firebase.firestore.FieldValue.serverTimestamp(),
+        img: img
+      };
+      db.collection(PORTFOLIOS)
+        .doc(id)
+        .set(data);
+      },
     deletePortfolio(id) {
         return firestore
             .collection(PORTFOLIOS)
-            .doc(id)
-            .delete();
-    },
-    deletePost(id) {
-        return firestore
-            .collection(POSTS)
             .doc(id)
             .delete();
     },
@@ -201,28 +224,28 @@ export default {
     },
     loginService(e, email, pw) {
         e.preventDefault();
-        var tmp = email;
-        firebase
-            .auth()
-            .signInWithEmailAndPassword(email, pw)
-            .then(
-                function(user) {
-                    store.state.accessToken = tmp;
-                    swal("Login Success!", "You are ready to start!", "success", {
-                        buttons: false,
-                        timer: 2000
-                    });
-                    var signInWithEmailLog = firebase
-                        .functions()
-                        .httpsCallable("signInWithEmailLog");
-                    signInWithEmailLog({ access: "Email", email: email })
-                        .then(function(result) {})
-                        .catch(function(error) {});
-                    firebase
-                        .auth()
-                        .signOut()
-                        .then(function() {});
+        var tmp = email
+        firebase.auth().signInWithEmailAndPassword(email, pw).then(
+            function(user) {
+                store.state.accessToken = tmp;
+                swal("Login Success!", "You are ready to start!", "success", {
+                    buttons: false,
+                    timer: 2000,
                 })
+                var signInWithEmailLog = firebase.functions().httpsCallable('signInWithEmailLog');
+                signInWithEmailLog({ access: "Email", email: email }).then(function(result) {}).catch(function(error) {});
+                setTimeout(() => {
+                    window.location.href = "/"
+                }, 2000)
+            },
+            function(err) {
+                swal("Login Failed!", "Please Check your E-mail or Password!", "warning", {
+                    buttons: false,
+                    timer: 1500,
+                })
+            }
+        )
+        e.preventDefault();
     },
     logOut() {
         var email = sessionStorage.getItem('email');
