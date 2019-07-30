@@ -5,7 +5,6 @@ self.addEventListener('install', function(event) {
                 './',
                 './index.html',
                 './src/css/style.css',
-                './app.js',
                 './assets/icon/facebook.svg',
                 './assets/icon/github.svg',
                 './assets/icon/google.svg'
