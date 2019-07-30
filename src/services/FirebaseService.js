@@ -106,7 +106,7 @@ export default {
             })
             .catch(function(error) {});
     },
-    changePost(id,title,body) {
+    editPost(id,title,body) {
         db = firebase.firestore(app);
         var data = {
           title: title,
@@ -155,7 +155,7 @@ export default {
             })
             .catch(function(error) {});
     },
-    changePortfolio(id,title,body,img) {
+    editPortfolio(id,title,body,img) {
       db = firebase.firestore(app);
       var data = {
         title: title,

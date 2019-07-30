@@ -24,25 +24,25 @@
       <p class="mb-2 color-666 font-weight-light subheading" id="post_sub">{{body}}</p>
 
       <v-dialog v-model="dialog" max-width="800px">
-          <v-card class="px-3 py-3">
-            <v-icon style="float:right" large flat @click="dialog = false"> close</v-icon>
-            <v-layout>
-              <v-flex class="px-3 py-1">
+        <v-card class="px-3 py-3">
+          <v-icon style="float:right" large flat @click="dialog = false"> close</v-icon>
+          <v-layout>
+            <v-flex class="px-3 py-1">
               <h2>{{title}}</h2>
               <v-textarea v-model="body" v-if="flag" full-width height="160px" no-resize readonly></v-textarea>
-              <v-textarea v-model="changebody" v-if="!flag" full-width height="160px" no-resize></v-textarea>
+              <v-textarea v-model="editbody" v-if="!flag" full-width height="160px" no-resize></v-textarea>
               작성자 : {{author}} <br>
               작성일 : {{formatedDate}}
-              <div v-if="chk">
-                <v-btn style="float:right" v-if="flag" @click="change()" class="primary">수정</v-btn>
-                <v-btn style="float:right" v-if="!flag" @click="changePost(doc, title, changebody)" class="primary">수정완료</v-btn>
-                <v-btn style="float:right" @click="deletePost()" class="warning">삭제</v-btn>
+              <div v-if="chkauthor">
+                <v-btn style="float:right" v-if="flag" @click="onclickeditbtn()" class="primary">수정</v-btn>
+                <v-btn style="float:right" v-if="!flag" @click="editPost(doc, title, editbody)" class="primary">수정완료</v-btn>
+                <v-btn style="float:right" @click="deletePost(doc)" class="warning">삭제</v-btn>
               </div>
-              </v-flex>
-            </v-layout>
-            댓글란
-          </v-card>
-        </v-dialog>
+            </v-flex>
+          </v-layout>
+          댓글란
+        </v-card>
+      </v-dialog>
 
     </v-flex>
   </v-layout>
@@ -56,9 +56,9 @@ export default {
   data () {
       return {
         dialog: false,
-        changebody: "",
+        editbody: '',
         flag: true,
-        name: "",
+        name: '',
       }
     },
 	props: {
@@ -74,22 +74,24 @@ export default {
       this.dialog = false
       location.reload(true)
     },
-    change(){
-      this.changebody = this.body;
+    onclickeditbtn(){
+      this.editbody = this.body;
       this.flag = false;
     },
-    changePost(doc, title, body){
-      FirebaseService.changePost(doc, title, body)
+    editPost(doc, title, body){
+      FirebaseService.editPost(doc, title, body)
+      this.dialog = false
+      location.reload(true)
     }
   },
   computed: {
 		formatedDate() {
 			return `${this.date.getFullYear()}년 ${this.date.getMonth()}월 ${this.date.getDate()}일`
     },
-    chk(){
+    chkauthor(){
       this.name = sessionStorage.getItem("name");
       if ( this.name == this.author){
-        return true;
+        return true
       }
       else{
         return false;
