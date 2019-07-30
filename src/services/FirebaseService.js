@@ -106,6 +106,23 @@ export default {
             })
             .catch(function(error) {});
     },
+    changePost(id,title,body) {
+        db = firebase.firestore(app);
+        var data = {
+          title: title,
+          body: body,
+          created_at: firebase.firestore.FieldValue.serverTimestamp()
+        };
+        db.collection(POSTS)
+          .doc(id)
+          .set(data);
+        },
+    deletePost(id) {
+        return firestore
+            .collection(POSTS)
+            .doc(id)
+            .delete();
+    },
     getPortfolios() {
         const postsCollection = firestore.collection(PORTFOLIOS);
         return postsCollection
@@ -153,12 +170,6 @@ export default {
     deletePortfolio(id) {
         return firestore
             .collection(PORTFOLIOS)
-            .doc(id)
-            .delete();
-    },
-    deletePost(id) {
-        return firestore
-            .collection(POSTS)
             .doc(id)
             .delete();
     },

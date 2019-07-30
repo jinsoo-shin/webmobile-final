@@ -67,8 +67,8 @@ export default {
       drawer: null,
       right: null,
       items: [
-        { title: 'Post', url: 'post' },
         { title: 'Portpolio', url: 'portfolio' },
+        { title: 'Post', url: 'post' },
         { title: 'Login', url: 'login'},
         { title: 'QnA', url: '/'},
         { title: 'Admin', url: 'admin'}
