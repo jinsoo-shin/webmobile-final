@@ -17,11 +17,11 @@
 </style>
 
 <template>
-  <v-layout py-4 h-100 @click.stop="dialog = true">
+  <v-layout px-4 py-4 h-100 @click.stop="dialog = true">
     <v-flex row>
-      <div class="caption">{{formatedDate}}</div>
-      <h2 class="color-333 headline font-weight-light" id="post_title">{{title}}</h2>
-      <p class="mb-1 color-666 font-weight-light subheading" id="post_sub">{{body}}</p>
+      <div class="mb-2 caption">{{formatedDate}}</div>
+      <h2 class="mb-2 color-333 headline font-weight-light" id="post_title">{{title}}</h2>
+      <p class="mb-2 color-666 font-weight-light subheading" id="post_sub">{{body}}</p>
 
       <v-dialog v-model="dialog" max-width="800px">
           <v-card class="px-3 py-3">
@@ -33,9 +33,11 @@
               <v-textarea v-model="changebody" v-if="!flag" full-width height="160px" no-resize></v-textarea>
               작성자 : {{author}} <br>
               작성일 : {{formatedDate}}
-            <v-btn style="float:right" v-if="flag" @click="change()" class="primary">수정</v-btn>
-            <v-btn style="float:right" v-if="!flag" @click="changePost(doc, title, changebody)" class="primary">수정완료</v-btn>
-            <v-btn style="float:right" @click="deletePost()" class="warning">삭제</v-btn>
+              <div v-if="chk">
+                <v-btn style="float:right" v-if="flag" @click="change()" class="primary">수정</v-btn>
+                <v-btn style="float:right" v-if="!flag" @click="changePost(doc, title, changebody)" class="primary">수정완료</v-btn>
+                <v-btn style="float:right" @click="deletePost()" class="warning">삭제</v-btn>
+              </div>
               </v-flex>
             </v-layout>
             댓글란
@@ -56,6 +58,7 @@ export default {
         dialog: false,
         changebody: "",
         flag: true,
+        name: "",
       }
     },
 	props: {
@@ -82,6 +85,15 @@ export default {
   computed: {
 		formatedDate() {
 			return `${this.date.getFullYear()}년 ${this.date.getMonth()}월 ${this.date.getDate()}일`
+    },
+    chk(){
+      this.name = sessionStorage.getItem("name");
+      if ( this.name == this.author){
+        return true;
+      }
+      else{
+        return false;
+      }
     }
   }
 }
