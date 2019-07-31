@@ -46,6 +46,8 @@
               </v-flex>
             </v-layout>
             댓글란
+             <div id="disqus_thread"></div>
+     
           </v-card>
         </v-dialog>
 
@@ -53,8 +55,13 @@
     </v-card-title>
   </v-card>
 </template>
+                            
 <script>
+import Vue from 'vue'
+import VueDisqus from 'vue-disqus'
 import FirebaseService from '@/services/FirebaseService'
+
+
 
 export default {
 	name: 'Portfolio',
@@ -99,6 +106,24 @@ export default {
         return false
       }
     }
-  }
+  },
+  mounted() {
+                console.log("Hello!")
+                try {
+                    let disqus_config = function () {
+                        this.page.url = location.origin;
+                        this.page.identifier = location.pathname;
+                    };
+                    (function () {
+                        let d = document, s = d.createElement('script');
+                        s.src = 'https://happylovetkd.disqus.com/embed.js';
+                        s.setAttribute('data-timestamp', +new Date());
+                        (d.head || d.body).appendChild(s);
+                    })();
+                } catch (e) {
+                    // some error
+                }
+        }
 }
 </script>
+
