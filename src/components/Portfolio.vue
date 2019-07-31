@@ -31,14 +31,18 @@
             <v-icon style="float:right" large flat @click="dialog = false"> close</v-icon>
             <v-layout>
               <v-flex md5 lg5>
-            <v-img :src="imgSrc" width="100%" height="300px"></v-img>
+                <v-img :src="imgSrc" width="100%" height="300px"></v-img>
               </v-flex>
               <v-flex md6 lg6 class="px-3 py-1">
-            <h2>{{title}}</h2><br>
-            <v-textarea v-model="body" full-width height="160px" no-resize readonly></v-textarea>
-            작성자 : {{author}}
-            <v-btn class="primary">수정</v-btn>
-            <v-btn @click="deletePortfolio(doc)" class="warning">삭제</v-btn>
+                <h2>{{title}}</h2><br>
+                <v-textarea v-model="body" v-if="flag" full-width height="160px" no-resize readonly></v-textarea>
+                <v-textarea v-model="editbody" v-if="!flag" full-width height="160px" no-resize></v-textarea>
+                작성자 : {{author}}
+                <div v-if="chkauthor">
+                  <v-btn @click="onclickeditbtn()" v-if="flag" class="primary">수정</v-btn>
+                  <v-btn @click="editPortfolio(doc, title, editbody, imgSrc, author)" v-if="!flag" class="primary">수정완료</v-btn>
+                  <v-btn @click="deletePortfolio(doc)" class="warning">삭제</v-btn>
+                </div>
               </v-flex>
             </v-layout>
             댓글란
@@ -57,6 +61,9 @@ export default {
   data () {
       return {
         dialog: false,
+        editbody: '',
+        flag: true,
+        name: '',
       }
     },
 	props: {
@@ -72,6 +79,25 @@ export default {
       await FirebaseService.deletePortfolio(id)
       this.dialog = false
       location.reload(true)
+    },
+    onclickeditbtn(){
+      this.editbody = this.body;
+      this.flag = false;
+    },
+    async editPortfolio(doc, title, body, img, auth){
+      await FirebaseService.editPortfolio(doc, title, body, img, auth)
+      this.dialog = false
+      location.reload(true)
+    }
+  },
+  computed: {
+    chkauthor(){
+      this.name = sessionStorage.getItem('name')
+      if(this.name==this.author){
+        return true
+      }else{
+        return false
+      }
     }
   }
 }
