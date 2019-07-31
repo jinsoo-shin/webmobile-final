@@ -25,7 +25,6 @@
       <div class="text-truncate">
         <div class="headline" id="portfolio_title">{{title}}</div>
         <span class="grey--text" id="portfolio_body">{{body}}</span>
-
         <v-dialog v-model="dialog" max-width="800px">
           <v-card class="px-3 py-3">
             <v-icon style="float:right" large flat @click="dialog = false"> close</v-icon>
@@ -46,8 +45,7 @@
               </v-flex>
             </v-layout>
             댓글란
-             <div id="disqus_thread"></div>
-     
+            <Comment></Comment>
           </v-card>
         </v-dialog>
 
@@ -60,9 +58,7 @@
 import Vue from 'vue'
 import VueDisqus from 'vue-disqus'
 import FirebaseService from '@/services/FirebaseService'
-
-
-
+import Comment from './Comment.vue'
 export default {
 	name: 'Portfolio',
   data () {
@@ -73,6 +69,9 @@ export default {
         name: '',
       }
     },
+  components: {
+    Comment
+  },
 	props: {
     doc: '',
 		date: {type: String},
@@ -108,22 +107,22 @@ export default {
     }
   },
   mounted() {
-                console.log("Hello!")
-                try {
-                    let disqus_config = function () {
-                        this.page.url = location.origin;
-                        this.page.identifier = location.pathname;
-                    };
-                    (function () {
-                        let d = document, s = d.createElement('script');
-                        s.src = 'https://happylovetkd.disqus.com/embed.js';
-                        s.setAttribute('data-timestamp', +new Date());
-                        (d.head || d.body).appendChild(s);
-                    })();
-                } catch (e) {
-                    // some error
-                }
-        }
+    console.log("Hello!")
+    try {
+        let disqus_config = function () {
+            this.page.url = location.origin;
+            this.page.identifier = location.pathname;
+        };
+        (function () {
+            let d = document, s = d.createElement('script');
+            s.src = 'https://happylovetkd.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    } catch (e) {
+        // some error
+    }
+  }
 }
 </script>
 
