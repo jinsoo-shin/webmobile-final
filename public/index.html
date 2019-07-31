@@ -21,7 +21,6 @@
     </noscript>
     <div id="app">
     </div>
-    <!-- built files will be auto injected -->
 </body>
 
 </html>
@@ -34,13 +33,10 @@
     }
     $('.goog-logo-link').css('display', 'none');
     $('.goog-te-gadget').css('font-size', '0');
-
-    // register service worker
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/sw.js', {
             scope: '/'
         }).then(function(reg) {
-
             if (reg.installing) {
                 console.log('Service worker installing');
             } else if (reg.waiting) {
@@ -51,6 +47,41 @@
         }).catch(function(error) {
             console.log('Registration failed with ' + error);
         });
+    }
+
+
+    var setCookie = function(name, value, exp) {
+        var date = new Date();
+        date.setTime(date.getTime() + exp * 24 * 60 * 60 * 1000);
+        document.cookie = name + '=' + value + ';expires=' + date.toUTCString() + ';path=/';
+    };
+    var getCookie = function(name) {
+        var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+        return value ? value[2] : null;
+    };
+    var isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
+
+    window.onload = function() {
+        if (window.Notification) {
+            Notification.requestPermission();
+        }
+        notify();
+    }
+
+    function notify() {
+        if (Notification.permission !== 'granted') {} else {
+            var cookie = getCookie("notifiation-permission")
+            if (!cookie) {
+                setCookie("notifiation-permission", "true", 100);
+            }
+            if (!isChrome) {
+                alert('해당 사이트는 크롬에 최적화 되어 있습니다.');
+                var notification = new Notification('해당 사이트는 크롬에 최적화 되어 있습니다.', {
+                    icon: './chrome.png'
+                });
+            }
+
+        }
     }
 </script>
 
