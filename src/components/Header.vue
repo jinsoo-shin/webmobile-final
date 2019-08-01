@@ -3,7 +3,7 @@
     <v-toolbar dark color="#FBC02D" fixed>
       <!-- <router-link to ="/"><v-icon>home</v-icon></router-link> -->
       <v-btn flat icon v-on:click='go("home")'><v-icon>home</v-icon></v-btn>
-      <v-toolbar-title style="font-family: 'Jua', sans-serif;">5G는5조</v-toolbar-title>
+      <v-toolbar-title style="font-family: 'Jua', sans-serif;">CARPE DIEM</v-toolbar-title>
       <v-spacer></v-spacer>
 
       <div id="google_translate_element"></div> 
