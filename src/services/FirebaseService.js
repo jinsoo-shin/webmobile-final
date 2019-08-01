@@ -35,14 +35,14 @@ const firestore = firebase.firestore();
 
 
 const messaging = firebase.messaging();
-messaging.requestPermission()
-    .then(function() {
-        console.log('Have permission');
-        console.log(messaging.getToken());
-    })
-    .catch(function(err) {
-        console.log('Error Occured.')
-    })
+// messaging.requestPermission()
+//     .then(function() {
+//         console.log('Have permission');
+//         console.log(messaging.getToken());
+//     })
+//     .catch(function(err) {
+//         console.log('Error Occured.')
+//     })
 
 export default {
     getMember: function(email) {
@@ -241,6 +241,22 @@ export default {
     loginService(e, email, pw) {
         e.preventDefault();
         var tmp = email
+            //////////테스트용//
+        var token = "";
+        messaging.requestPermission()
+            .then(function() {
+                console.log('Have permission');
+                console.log(messaging.getToken());
+                messaging.getToken().then((currentToken) => {
+                        token = currentToken;
+                        console.log(token)
+                    })
+                    //토큰받은것 DB에 저장하기
+            })
+            .catch(function(err) {
+                console.log('Error Occured.')
+            })
+            //////////
         firebase.auth().signInWithEmailAndPassword(email, pw).then(
             function(user) {
                 store.state.accessToken = tmp;
@@ -250,10 +266,13 @@ export default {
                 })
                 var signInWithEmailLog = firebase.functions().httpsCallable('signInWithEmailLog');
                 signInWithEmailLog({ access: "Email", email: email }).then(function(result) {}).catch(function(error) {});
+                var sendNewPostNotification = firebase.functions().httpsCallable('sendNewPostNotification');
+                sendNewPostNotification({ access: "Email", email: email, token: token }).then(function(result) {}).catch(function(error) {});
                 setTimeout(() => {
                     window.location.href = "/"
                 }, 2000);
-                //로그인 성공시 토큰을 받아온다. select ? update : insert
+                console.log("로그인했어")
+                console.log("토큰", token)
             },
             function(err) {
                 swal("Login Failed!", "Please Check your E-mail or Password!", "warning", {
