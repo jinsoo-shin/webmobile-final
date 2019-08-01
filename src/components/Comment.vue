@@ -8,7 +8,6 @@
 <script>
     export default {
         mounted() {
-            console.log("Hello!")
             try {
                 let disqus_config = function () {
                     this.page.url = location.origin;

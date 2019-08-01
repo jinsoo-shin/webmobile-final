@@ -128,7 +128,7 @@ export default {
             created_at: firebase.firestore.FieldValue.serverTimestamp(),
             author: author
         };
-        db.collection(POSTS)
+        return db.collection(POSTS)
             .doc(id)
             .set(data);
     },
