@@ -3,7 +3,7 @@
     <Header>
     </Header>
     <ImgBanner imgSrc="https://source.unsplash.com/random">
-      <div style="margin-bottom:20vw; line-height:1.2em; font-family: 'Fascinate', cursive; font-size:calc(30px + 2.5vw) " slot="text">5G는 5조</div>
+      <div style="margin-bottom:20vw; line-height:1.2em; font-family: 'Fascinate', cursive; font-size:calc(30px + 2.5vw) " slot="text">CARPE DIEM</div>
     </ImgBanner>
     <v-container>
       <!-- About Me -->

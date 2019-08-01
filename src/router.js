@@ -4,6 +4,7 @@ import HomePage from "./views/HomePage.vue";
 import PostPage from "./views/PostPage.vue";
 import PortfolioPage from "./views/PortfolioPage.vue";
 import LoginPage from "./views/LoginPage.vue";
+import Admin from "./components/Admin.vue";
 
 Vue.use(Router);
 
@@ -32,6 +33,11 @@ export default new Router({
             path: "/login",
             name: "login",
             component: LoginPage
+        },
+        {
+            path: "/admin",
+            name: "admin",
+            component: Admin
         }
     ]
 });
