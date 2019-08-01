@@ -20,7 +20,7 @@
   <v-layout px-4 py-4 h-100 @click.stop="dialog = true">
     <v-flex row>
       <div class="mb-2 caption">{{formatedDate}}</div>
-      <h2 class="mb-2 color-333 headline font-weight-light" id="post_title">{{title}}</h2>
+      <h2 class="mb-2 color-333 headline " id="post_title">{{title}}</h2>
       <p class="mb-2 color-666 font-weight-light subheading" id="post_sub">{{body}}</p>
 
       <v-dialog v-model="dialog" max-width="800px">
@@ -28,7 +28,7 @@
           <v-icon style="float:right" large flat @click="dialog = false"> close</v-icon>
           <v-layout>
             <v-flex class="px-3 py-1">
-              <h2>{{title}}</h2>
+              <h2 class="py-1">{{title}}</h2>
               <v-textarea v-model="body" v-if="flag" full-width height="160px" no-resize readonly></v-textarea>
               <v-textarea v-model="editbody" v-if="!flag" full-width height="160px" no-resize></v-textarea>
               작성자 : {{author}} <br>
