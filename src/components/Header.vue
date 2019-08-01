@@ -19,7 +19,7 @@
     </v-toolbar>
 
     <div class="hidden-sm-and-up">
-      <v-navigation-drawer v-model="drawer" fixed hide-overlay disable-resize-watcher>
+      <v-navigation-drawer v-model="drawer" fixed right hide-overlay disable-resize-watcher>
         <v-list class="pa-1">
           <v-list-tile avatar>
             <v-list-tile-avatar>
@@ -63,7 +63,7 @@ export default {
   data () {
     return {
       email:"5G는5조",
-      name : "",
+      name : "5G는5조",
       drawer: null,
       right: null,
       items: [
@@ -129,7 +129,7 @@ export default {
         if(!this.login){
           this.items[2].title="Login";
           this.items[2].url="login";
-          this.email="5G는5조";
+          this.name="5G는5조";
         }
       },
       go(item){
