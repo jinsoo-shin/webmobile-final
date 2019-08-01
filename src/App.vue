@@ -6,7 +6,6 @@
     </v-content>
 	<Footer></Footer>
 	<TopButton></TopButton>
-	<Notification></Notification>
   </v-app>
 </template>
 <script>
@@ -22,7 +21,6 @@ import 'aos/dist/aos.css';
 import Header from './components/Header'
 import Footer from './components/Footer'
 import TopButton from './components/TopButton'
-import Notification from './components/Notification.vue'
 
 Vue.prototype.$axios = axios
 Vue.use(Vuetify)

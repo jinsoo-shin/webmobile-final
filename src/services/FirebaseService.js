@@ -3,6 +3,9 @@ import "firebase/firestore";
 import "firebase/database";
 import "firebase/auth";
 import "firebase/functions";
+
+import "firebase/messaging";
+
 import store from "../store.js";
 import { Eventbus } from "../main.js";
 import VueSwal from "vue-swal";
@@ -30,20 +33,31 @@ let db = firebase.firestore(app);
 db.enablePersistence({ experimentalTabSynchronization: true })
 const firestore = firebase.firestore();
 
+
+const messaging = firebase.messaging();
+messaging.requestPermission()
+    .then(function() {
+        console.log('Have permission');
+        console.log(messaging.getToken());
+    })
+    .catch(function(err) {
+        console.log('Error Occured.')
+    })
+
 export default {
-  getMember: function(email) {
-      db = firebase.firestore(app);
-      var docRef = db.collection(MEMBER).doc(email);
-      return docRef
-          .get()
-          .then(doc => {
-              sessionStorage.setItem("name", doc.data().name);
-              sessionStorage.setItem("rank", doc.data().rank);
-              return doc.data();
-          })
-          .catch(function(error) {
-              console.log("Error getting document:", error);
-          });
+    getMember: function(email) {
+        db = firebase.firestore(app);
+        var docRef = db.collection(MEMBER).doc(email);
+        return docRef
+            .get()
+            .then(doc => {
+                sessionStorage.setItem("name", doc.data().name);
+                sessionStorage.setItem("rank", doc.data().rank);
+                return doc.data();
+            })
+            .catch(function(error) {
+                console.log("Error getting document:", error);
+            });
     },
     postMember(name, password, email, album, age) {
         firebase
@@ -106,18 +120,18 @@ export default {
             })
             .catch(function(error) {});
     },
-    editPost(id,title,body,author) {
+    editPost(id, title, body, author) {
         db = firebase.firestore(app);
         var data = {
-          title: title,
-          body: body,
-          created_at: firebase.firestore.FieldValue.serverTimestamp(),
-          author : author
+            title: title,
+            body: body,
+            created_at: firebase.firestore.FieldValue.serverTimestamp(),
+            author: author
         };
         db.collection(POSTS)
-          .doc(id)
-          .set(data);
-        },
+            .doc(id)
+            .set(data);
+    },
     deletePost(id) {
         return firestore
             .collection(POSTS)
@@ -156,19 +170,19 @@ export default {
             })
             .catch(function(error) {});
     },
-    editPortfolio(id,title,body,img, author) {
-      db = firebase.firestore(app);
-      var data = {
-        title: title,
-        body: body,
-        created_at: firebase.firestore.FieldValue.serverTimestamp(),
-        img: img,
-        author: author
-      };
-      return db.collection(PORTFOLIOS)
-        .doc(id)
-        .set(data);
-      },
+    editPortfolio(id, title, body, img, author) {
+        db = firebase.firestore(app);
+        var data = {
+            title: title,
+            body: body,
+            created_at: firebase.firestore.FieldValue.serverTimestamp(),
+            img: img,
+            author: author
+        };
+        return db.collection(PORTFOLIOS)
+            .doc(id)
+            .set(data);
+    },
     deletePortfolio(id) {
         return firestore
             .collection(PORTFOLIOS)
@@ -238,7 +252,8 @@ export default {
                 signInWithEmailLog({ access: "Email", email: email }).then(function(result) {}).catch(function(error) {});
                 setTimeout(() => {
                     window.location.href = "/"
-                }, 2000)
+                }, 2000);
+                //로그인 성공시 토큰을 받아온다. select ? update : insert
             },
             function(err) {
                 swal("Login Failed!", "Please Check your E-mail or Password!", "warning", {
@@ -252,7 +267,7 @@ export default {
     logOut() {
         var email = sessionStorage.getItem('email');
         var signOutLog = firebase.functions().httpsCallable('signOutLog');
-        signOutLog({ email: email }).then(function(result) {}).catch(function(error) {});
+        signOutLog({ email: email }).then(function() {}).catch(function(error) {});
         firebase.auth().signOut().then(function() {})
     }
 }
