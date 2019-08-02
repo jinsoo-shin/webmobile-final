@@ -8,5 +8,6 @@ export default new Vuex.Store({
 		accessToken: '',
     user: '',
     login : true,
+    repositories : []
   }
 })

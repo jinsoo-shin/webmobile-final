@@ -1,10 +1,11 @@
 <template>
-<div id="wirtePage_div">
+<div id="wirtePage_div" v-if="chk" >
     <v-container>
     <v-form>
       <v-layout>
         <v-flex xs12 md4>
           <v-text-field
+            :rules="[(v) => v.length <= 20 || 'Max 20 characters']"
             v-model="title"
             :counter="20"
             label="Title"
@@ -48,7 +49,7 @@
 <script>
 import Portfolio from '@/components/Portfolio'
 import FirebaseService from '@/services/FirebaseService'
-import 'v-markdown-editor/dist/index.css';
+import 'v-markdown-editor/dist/index.css'
 import Vue from 'vue'
 import Editor from 'v-markdown-editor'
 import PortfolioList from '../components/PortfolioList'
@@ -59,45 +60,62 @@ export default{
   name : "PortfolioWrite",
    data() {
       return {
-         title : "",
-         body : "",
-         img : "https://source.unsplash.com/random",
+        title : "",
+        body : "",
+        img : "https://source.unsplash.com/random",
         img_title: "Image Upload",
         dialog: false,
         imageName: '',
         imageUrl: '',
         imageFile: '',
-        imgurUserName:''
+        imgurUserName:'',
+        rank: 0
       }
    },
    components: {
       Portfolio
    },
+   computed: {
+       chk(){
+         this.rank = sessionStorage.getItem("rank");
+         if ( this.rank !=0 && this.rank != 1 && this.rank != null){
+           return true;
+         }
+         else{
+           return false;
+         }
+       }
+   },
    methods: {
     pickFile () {
             this.$refs.image.click ()
         },
-      onFilePicked (e) {
-         const files = e.target.files
-         if(files[0] !== undefined) {
-            this.imageName = files[0].name
-            if(this.imageName.lastIndexOf('.') <= 0) {
-               return
-            }
-            const fr = new FileReader ()
-            fr.readAsDataURL(files[0])
-            fr.addEventListener('load', () => {
-               this.imageUrl = fr.result
-               this.imageFile = files[0]
-            })
-         } else {
-            this.imageName = ''
-            this.imageFile = ''
-            this.imageUrl = ''
-         }
-      },
+    onFilePicked (e) {
+        const files = e.target.files
+        if(files[0] !== undefined) {
+          this.imageName = files[0].name
+          if(this.imageName.lastIndexOf('.') <= 0) {
+              return
+          }
+          const fr = new FileReader ()
+          fr.readAsDataURL(files[0])
+          fr.addEventListener('load', () => {
+              this.imageUrl = fr.result
+              this.imageFile = files[0]
+          })
+        } else {
+          this.imageName = ''
+          this.imageFile = ''
+          this.imageUrl = ''
+        }
+    },
     writePortfolio() {
-      let msg = FirebaseService.postPortfolio(this.title, this.body, this.imageUrl);
+      if(this.title.length>20){
+        alert("제목은 최대 20자까지 입력가능합니다.")
+      }
+      else{
+        let msg = FirebaseService.postPortfolio(this.title, this.body, this.imageUrl);
+      }
     },
     random_unsplash(){
       this.imageUrl = 'https://source.unsplash.com/random';

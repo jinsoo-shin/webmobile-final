@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <v-toolbar dark color="#FBC02D" fixed>
-      <router-link to ="/"><v-icon>home</v-icon></router-link>
+      <!-- <router-link to ="/"><v-icon>home</v-icon></router-link> -->
+      <v-btn flat icon v-on:click='go("home")'><v-icon>home</v-icon></v-btn>
       <v-toolbar-title style="font-family: 'Jua', sans-serif;">5G는5조</v-toolbar-title>
       <v-spacer></v-spacer>
 
@@ -18,7 +19,7 @@
     </v-toolbar>
 
     <div class="hidden-sm-and-up">
-      <v-navigation-drawer v-model="drawer" fixed hide-overlay disable-resize-watcher>
+      <v-navigation-drawer v-model="drawer" fixed right hide-overlay disable-resize-watcher>
         <v-list class="pa-1">
           <v-list-tile avatar>
             <v-list-tile-avatar>
@@ -26,7 +27,7 @@
             </v-list-tile-avatar>
 
             <v-list-tile-content>
-              <v-list-tile-title style="font-family: 'Jua', sans-serif;">{{email}}</v-list-tile-title>
+              <v-list-tile-title style="font-family: 'Jua', sans-serif;">{{name}}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
@@ -62,12 +63,15 @@ export default {
   data () {
     return {
       email:"5G는5조",
+      name : "5G는5조",
       drawer: null,
       right: null,
       items: [
-        { title: 'Post', url: 'post' },
         { title: 'Portpolio', url: 'portfolio' },
-        { title: 'Login', url: 'login'}
+        { title: 'Post', url: 'post' },
+        { title: 'Login', url: 'login'},
+        { title: 'QnA', url: '/'},
+        { title: 'Admin', url: 'admin'}
       ],
       login: false
     }
@@ -77,6 +81,7 @@ export default {
       this.login=true;
       sessionStorage.setItem('email',getEmail)
       this.email=getEmail;
+      this.name=sessionStorage.getItem('name');
       this.changeTitle();
     });
     FirebaseService.loginChk();
@@ -104,6 +109,8 @@ export default {
         FirebaseService.logOut();
         this.login=false;
         sessionStorage.removeItem('email');
+        sessionStorage.removeItem('name');
+        sessionStorage.removeItem('rank');
         this.$swal("LOGOUT!", "Good Bye!", "success",{
           buttons: false,
                     timer: 2000,
@@ -122,17 +129,25 @@ export default {
         if(!this.login){
           this.items[2].title="Login";
           this.items[2].url="login";
-          this.email="5G는5조";
+          this.name="5G는5조";
         }
       },
       go(item){
-        if(item.title=="Logout"){
-          this.logout();
-        }else{
-          if(this.$router.currentRoute.path==("/"+item.url)){
-            window.location.href=item.url
+        if(item=="home"){
+          if(this.$router.currentRoute.path==("/")){
+            window.location.href="/"
           }else{
-            this.$router.push(item.url);
+            this.$router.push("/");
+          }
+        }else{
+          if(item.title=="Logout"){
+            this.logout();
+          }else{
+            if(this.$router.currentRoute.path==("/"+item.url)){
+              window.location.href=item.url
+            }else{
+              this.$router.push(item.url);
+            }
           }
         }
       }

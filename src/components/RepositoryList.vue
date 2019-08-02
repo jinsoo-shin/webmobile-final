@@ -40,8 +40,8 @@ export default {
 			if(response.status !== 200) {
 				return
 			}
-
 			this.repositories = response.data
+			
 		},
 		loadMoreReposistories() {
 			this.limits+=2;
