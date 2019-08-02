@@ -72,7 +72,7 @@
       <!-- Github -->
       <v-layout my-5>
         <v-flex xs12>
-          <h2 class="headline my-5 text-xs-center">PROJECT</h2>
+          <h2 class="headline my-5 text-xs-center">Projects</h2>
           <RepositoryList></RepositoryList>
         </v-flex>
       </v-layout>
