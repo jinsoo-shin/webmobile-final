@@ -20,7 +20,7 @@
   <v-layout px-4 py-4 h-100 @click.stop="dialog = true">
     <v-flex row>
       <div class="mb-2 caption">{{formatedDate}}</div>
-      <h2 class="mb-2 color-333 headline font-weight-light" id="post_title">{{title}}</h2>
+      <h2 class="mb-2 color-333 headline " id="post_title">{{title}}</h2>
       <p class="mb-2 color-666 font-weight-light subheading" id="post_sub">{{body}}</p>
 
       <v-dialog v-model="dialog" max-width="800px">
@@ -28,14 +28,15 @@
           <v-icon style="float:right" large flat @click="dialog = false"> close</v-icon>
           <v-layout>
             <v-flex class="px-3 py-1">
-              <h2>{{title}}</h2>
+              <h2 class="py-1">{{title}}</h2>
               <v-textarea v-model="body" v-if="flag" full-width height="160px" no-resize readonly></v-textarea>
               <v-textarea v-model="editbody" v-if="!flag" full-width height="160px" no-resize></v-textarea>
-              작성자 : {{author}} <br>
-              작성일 : {{formatedDate}}
+                작성자 : {{author}} <br>
+                작성일 : {{formatedDate}}
               <div v-if="chkauthor">
                 <v-btn style="float:right" v-if="flag" @click="onclickeditbtn()" class="primary">수정</v-btn>
-                <v-btn style="float:right" v-if="!flag" @click="editPost(doc, title, editbody,author)" class="primary">수정완료</v-btn>
+                <v-btn style="float:right" v-if="!flag" @click="editPost(doc, title, editbody, author)" class="primary">
+                  <v-icon size="25" class="mr-2">done</v-icon>수정완료</v-btn>
                 <v-btn style="float:right" @click="deletePost(doc)" class="warning">삭제</v-btn>
               </div>
             </v-flex>
@@ -75,11 +76,11 @@ export default {
       location.reload(true)
     },
     onclickeditbtn(){
-      this.editbody = this.body;
-      this.flag = false;
+      this.editbody = this.body
+      this.flag = false
     },
-    editPost(doc, title, body, author){
-      FirebaseService.editPost(doc, title, body,author)
+    async editPost(doc, title, body, author){
+      await FirebaseService.editPost(doc, title, body, author)
       this.dialog = false
       location.reload(true)
     }

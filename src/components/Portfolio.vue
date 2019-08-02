@@ -27,20 +27,21 @@
         <span class="grey--text" id="portfolio_body">{{body}}</span>
         <v-dialog v-model="dialog" max-width="800px">
           <v-card class="px-3 py-3">
-            <v-icon style="float:right" large flat @click="dialog = false"> close</v-icon>
-            <v-layout>
-              <v-flex md5 lg5>
-                <v-img :src="imgSrc" width="100%" height="300px"></v-img>
+            <v-icon style="position:absolute; left:765px;" flat @click="dialog = false">close</v-icon>
+            <v-layout wrap>
+              <v-flex xs12 md5 lg5>
+                <v-img :src="imgSrc" width="100%" height="50px + 5vw"></v-img>
               </v-flex>
-              <v-flex md6 lg6 class="px-3 py-1">
-                <h2>{{title}}</h2><br>
+              <v-flex xs12 md7 lg7 class="px-4 py-1">
+                <h2 id="portfolio_title">{{title}}</h2><br>
                 <v-textarea v-model="body" v-if="flag" full-width height="160px" no-resize readonly></v-textarea>
                 <v-textarea v-model="editbody" v-if="!flag" full-width height="160px" no-resize></v-textarea>
-                작성자 : {{author}}
+                  작성자 : {{author}}
                 <div v-if="chkauthor">
-                  <v-btn @click="onclickeditbtn()" v-if="flag" class="primary">수정</v-btn>
-                  <v-btn @click="editPortfolio(doc, title, editbody, imgSrc, author)" v-if="!flag" class="primary">수정완료</v-btn>
-                  <v-btn @click="deletePortfolio(doc)" class="warning">삭제</v-btn>
+                  <v-btn @click="onclickeditbtn()" v-if="flag" class="primary" style="float:right">수정</v-btn>
+                  <v-btn @click="editPortfolio(doc, title, editbody, imgSrc, author)" v-if="!flag" class="primary" style="float:right">
+                    <v-icon size="25" class="mr-2">done</v-icon>수정완료</v-btn>
+                  <v-btn @click="deletePortfolio(doc)" class="warning" style="float:right">삭제</v-btn>
                 </div>
               </v-flex>
             </v-layout>

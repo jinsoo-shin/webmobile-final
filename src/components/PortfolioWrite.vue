@@ -5,6 +5,7 @@
       <v-layout>
         <v-flex xs12 md4>
           <v-text-field
+            :rules="[(v) => v.length <= 20 || 'Max 20 characters']"
             v-model="title"
             :counter="20"
             label="Title"
@@ -109,7 +110,12 @@ export default{
          }
       },
     writePortfolio() {
-      let msg = FirebaseService.postPortfolio(this.title, this.body, this.imageUrl);
+      if(this.title.length>20){
+        alert("제목은 최대 20자까지 입력가능합니다.")
+      }
+      else{
+        let msg = FirebaseService.postPortfolio(this.title, this.body, this.imageUrl);
+      }
     },
     random_unsplash(){
       this.imageUrl = 'https://source.unsplash.com/random';
