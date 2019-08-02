@@ -4,14 +4,6 @@ firebase.initializeApp({
     'messagingSenderId': '527574403487'
 });
 const messaging = firebase.messaging();
-messaging.onMessage(function(payload) {
-    var options = {
-        body: payload.notification.body
-    }
-    var notification = new Notification(payload.notification.title, options);
-});
-
-
 messaging.setBackgroundMessageHandler(function(payload) {
     console.log("message", payload)
     var notificationTitle = payload.notification.title;
