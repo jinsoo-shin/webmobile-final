@@ -19,7 +19,7 @@
 
 </style>
 <template>
-  <v-card @click.stop="dialog = true" style="cursor : pointer">
+  <v-card @click.stop="dialog = true" style="cursor : pointer" hover>
     <v-img :src="imgSrc" height="200px"></v-img>
     <v-card-title primary-title>
       <div class="text-truncate">
@@ -33,7 +33,7 @@
                 <v-img :src="imgSrc" width="100%" height="50px + 5vw"></v-img>
               </v-flex>
               <v-flex xs12 md7 lg7 class="px-4 py-1">
-                <h2 id="portfolio_title">{{title}}</h2><br>
+                <h2>{{title}}</h2><br>
                 <v-textarea v-model="body" v-if="flag" full-width height="160px" no-resize readonly></v-textarea>
                 <v-textarea v-model="editbody" v-if="!flag" full-width height="160px" no-resize></v-textarea>
                   작성자 : {{author}}
@@ -45,7 +45,7 @@
                 </div>
               </v-flex>
             </v-layout>
-            댓글란
+            <br>
             <Comment></Comment>
           </v-card>
         </v-dialog>
@@ -57,9 +57,9 @@
                             
 <script>
 import Vue from 'vue'
-import VueDisqus from 'vue-disqus'
 import FirebaseService from '@/services/FirebaseService'
 import Comment from './Comment.vue'
+
 export default {
 	name: 'Portfolio',
   data () {
