@@ -20,17 +20,17 @@ public class PortfolioServiceImpl implements PortfolioService {
 
     @Override
     public List<Portfolio> getAllPortfolio() throws Exception {
-        return (List<Portfolio>)portfolioRepository.findAll();
+        return portfolioRepository.findAll();
     }
 
     @Override
-    public Portfolio getPortfolio(String email) throws Exception {
-        return portfolioRepository.findById(email).get();
+    public Portfolio getPortfolio(String author) throws Exception {
+        return portfolioRepository.findByAuthor(author);
     }
 
     @Override
     public void updatePortfolio(Portfolio portfolio) throws Exception {
-        Portfolio p = portfolioRepository.findById(portfolio.getAuthor()).get();
+        Portfolio p = portfolioRepository.findByAuthor(portfolio.getAuthor());
         if(p != null) {
             p.setBody(portfolio.getBody());
             p.setImg(portfolio.getImg());
@@ -40,7 +40,7 @@ public class PortfolioServiceImpl implements PortfolioService {
     }
 
     @Override
-    public void deletePortfolio(String email) throws Exception {
-        portfolioRepository.deleteById(email);
+    public void deletePortfolio(String author) throws Exception {
+        portfolioRepository.deleteByAuthor(author);
     }
 }
