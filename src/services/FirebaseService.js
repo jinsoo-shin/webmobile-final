@@ -262,13 +262,15 @@ export default {
                     Vue.$http.post(
                             'http://192.168.100.90:8000/api/tokens/update', { email: email, ranks: ranks, token: token }
                         )
-                        .then(response => { console.log("토큰 DB 업데이트") });
+                        .then(response => {
+                            //  console.log("토큰 DB 업데이트") 
+                        });
                 } else {
                     Vue.$http.post(
                             'http://192.168.100.90:8000/api/tokens/insert', { email: email, ranks: ranks, token: token }
                         )
                         .then(response => {
-                            console.log("토큰 DB 생성")
+                            // console.log("토큰 DB 생성")
                         });
                 }
             });
@@ -285,10 +287,10 @@ export default {
                 Vue.$http.post(
                         'http://192.168.100.90:8000/api/tokens/getAll/0')
                     .then(response => {
-                        console.log("모든 토큰 가져오기")
+                        // console.log("모든 토큰 가져오기")
                         var members = response.data;
-                        var sendNewPostNotification = firebase.functions().httpsCallable('sendNewPostNotification');
-                        sendNewPostNotification({ access: "Email", members: members, token: token }).then(function(result) {}).catch(function(error) {});
+                        // var sendNewPostNotification = firebase.functions().httpsCallable('sendNewPostNotification');
+                        // sendNewPostNotification({ access: "Email", members: members, token: token }).then(function(result) {}).catch(function(error) {});
                     });
                 setTimeout(() => {
                     window.location.href = "/"
