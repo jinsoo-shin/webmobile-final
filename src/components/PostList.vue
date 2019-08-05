@@ -40,7 +40,7 @@ export default {
             'http://192.168.100.90:8000/api/posts/getAll'
 			)
 			.then(response => {
-				this.posts= response.data
+				this.posts = response.data
 			});
 		},
 		loadMorePosts() {
