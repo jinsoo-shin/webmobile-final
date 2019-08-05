@@ -41,7 +41,8 @@
               </div>
             </v-flex>
           </v-layout>
-          댓글란
+          <br>
+          <Comment></Comment>
         </v-card>
       </v-dialog>
 
@@ -51,6 +52,7 @@
 
 <script>
 import FirebaseService from '@/services/FirebaseService'
+import Comment from './Comment.vue'
 
 export default {
 	name: 'Post',

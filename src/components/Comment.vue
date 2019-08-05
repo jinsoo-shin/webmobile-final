@@ -1,28 +1,41 @@
 <template>
-    <div>
-        <div id="disqus_thread"></div>
-        Hello
-    </div>
+    <v-form v-model="valid">
+    <v-container grid-list-xl>
+      <v-layout wrap>
+      <v-flex xs2 md1>
+        <h3 class="pl-2 pt-3" >{{username}}</h3>
+      </v-flex>
+        <v-flex xs7 md9>
+          <v-text-field
+            v-model="content"
+            label="Comment Content"
+            required
+          ></v-text-field>
+        </v-flex>
+        <v-btn xs1 md2 class="pt-4" color="primary" flat small dark>
+            <v-icon>edit</v-icon>
+        </v-btn>
+
+      </v-layout>
+    </v-container>
+  </v-form>
 </template>
 
 <script>
-    export default {
-        mounted() {
-            try {
-                let disqus_config = function () {
-                    this.page.url = location.origin;
-                    this.page.identifier = location.pathname;
-                    console.log(this.page.url)
-                };
-                (function () {
-                    let d = document, s = d.createElement('script');
-                    s.src = 'https://happylovetkd.disqus.com/embed.js';
-                    s.setAttribute('data-timestamp', +new Date());
-                    (d.head || d.body).appendChild(s);
-                })();
-            } catch (e) {
-                // some error
-            }
+import FirebaseService from '@/services/FirebaseService'
+import store from '../store.js'
+
+export default {
+    name: "Comment",
+    data: () => ({
+      valid: false,
+      content: '',
+      username: sessionStorage.getItem('name')
+    }),
+    methods: {
+        writeComment(){
+
         }
     }
+  }
 </script>
