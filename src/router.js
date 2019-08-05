@@ -5,7 +5,7 @@ import PostPage from "./views/PostPage.vue";
 import PortfolioPage from "./views/PortfolioPage.vue";
 import LoginPage from "./views/LoginPage.vue";
 import AdminPage from "./views/AdminPage.vue";
-import Repository from "./views/Repository.vue"
+import RepositoryPage from "./views/RepositoryPage.vue"
 
 Vue.use(Router);
 
@@ -43,7 +43,7 @@ export default new Router({
         {
             path: "/repository",
             name: "repository",
-            component: Repository
+            component: RepositoryPage
         }
     ]
 });
