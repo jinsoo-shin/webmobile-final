@@ -1,14 +1,10 @@
 package com.seongmo.springboot.entity;
 
-
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
@@ -17,6 +13,8 @@ import java.sql.Timestamp;
 @Setter
 public class Portfolio {
     @Id
+    @GeneratedValue
+    private @Column(name = "bno") Long bno;
     private @Column(name = "author") String author;
     private @Column(name = "body") String body;
     @CreationTimestamp
