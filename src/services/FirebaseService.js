@@ -240,41 +240,45 @@ export default {
             .then(function() {
                 console.log('Have permission');
                 console.log(messaging.getToken());
-                messaging.getToken().then((currentToken) => {
-                    token = currentToken;
-                    console.log(token)
+                messaging.onTokenRefresh(() => {
+                    messaging.getToken().then((currentToken) => {
+                        token = currentToken;
+                        console.log("갱신된 토큰 : ", token)
+                        Vue.$http.post(
+                                'http://192.168.100.90:8000/api/tokens/get/' + email
+                            )
+                            .then(response => {
+                                var ranks = "";
+                                Vue.$http.post(
+                                        'http://192.168.100.90:8000/api/members/get/' + email
+                                    )
+                                    .then(response => {
+                                        ranks = response.data.ranks;
+                                    });
+                                if (response) {
+                                    Vue.$http.post(
+                                            'http://192.168.100.90:8000/api/tokens/update', { email: email, ranks: ranks, token: token }
+                                        )
+                                        .then(response => {
+                                            //  console.log("토큰 DB 업데이트") 
+                                        });
+                                } else {
+                                    Vue.$http.post(
+                                            'http://192.168.100.90:8000/api/tokens/insert', { email: email, ranks: ranks, token: token }
+                                        )
+                                        .then(response => {
+                                            // console.log("토큰 DB 생성")
+                                        });
+                                }
+                            });
+                    })
                 })
             })
             .catch(function(err) {
                 console.log('Error Occured.')
-            })
-        Vue.$http.post(
-                'http://192.168.100.90:8000/api/tokens/get/' + email
-            )
-            .then(response => {
-                var ranks = "";
-                Vue.$http.post(
-                        'http://192.168.100.90:8000/api/members/get/' + email
-                    )
-                    .then(response => {
-                        ranks = response.data.ranks;
-                    });
-                if (response) {
-                    Vue.$http.post(
-                            'http://192.168.100.90:8000/api/tokens/update', { email: email, ranks: ranks, token: token }
-                        )
-                        .then(response => {
-                            //  console.log("토큰 DB 업데이트") 
-                        });
-                } else {
-                    Vue.$http.post(
-                            'http://192.168.100.90:8000/api/tokens/insert', { email: email, ranks: ranks, token: token }
-                        )
-                        .then(response => {
-                            // console.log("토큰 DB 생성")
-                        });
-                }
             });
+
+
         firebase.auth().signInWithEmailAndPassword(email, pw).then(
             function(user) {
                 store.state.accessToken = tmp;
@@ -285,14 +289,6 @@ export default {
                 var signInWithEmailLog = firebase.functions().httpsCallable('signInWithEmailLog');
                 signInWithEmailLog({ access: "Email", email: email }).then(function(result) {}).catch(function(error) {});
 
-                Vue.$http.post(
-                        'http://192.168.100.90:8000/api/tokens/getAll/0')
-                    .then(response => {
-                        // console.log("모든 토큰 가져오기")
-                        var members = response.data;
-                        // var sendNewPostNotification = firebase.functions().httpsCallable('sendNewPostNotification');
-                        // sendNewPostNotification({ access: "Email", members: members, token: token }).then(function(result) {}).catch(function(error) {});
-                    });
                 setTimeout(() => {
                     window.location.href = "/"
                 }, 2000);
