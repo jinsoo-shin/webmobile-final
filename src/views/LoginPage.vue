@@ -8,6 +8,8 @@
 }
 </style>
 <template>
+<div>
+	<Header></Header>
   <v-layout align-center justify-center row fill-height class="mt-2">
     <v-flex hidden-xs-only sm8 lg4 text-xs-center>
       <v-layout md12 justify-center column fill-height elevation-5 style="min-height:500px;" white pa-5>
@@ -159,13 +161,19 @@
       </v-layout>
     </v-flex>
   </v-layout>
+</div>
 </template>
 <script>
 import FirebaseService from '@/services/FirebaseService'
 import store from '../store.js'
 import firebase, { database } from 'firebase/app'
+import Header from '../components/Header'
+
 export default {
 	name: 'LoginPage',
+	components :{
+		Header
+	},
 	data() {
 		return {
 			drawer: null,
