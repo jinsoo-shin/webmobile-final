@@ -10,15 +10,12 @@
           </v-toolbar>
           <v-sheet dark height="100vh">
             
-            <v-list>
+            <v-list subheader>
             <template v-for="(item, index) in drawitem">
-              <v-list-tile :key="index" avatar ripple>
-                <v-list-tile-content>
-                  <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+              <v-list-tile :key="index" @click="">
+                <v-list-tile-content @click="tmp(item.title)">
+                  <v-list-tile-title><i class="material-icons">{{item.icon}}</i>{{ item.title }}</v-list-tile-title>
                 </v-list-tile-content>
-                <v-list-tile-action>
-                  <v-list-tile-action-text>{{ item.action }}</v-list-tile-action-text>
-                </v-list-tile-action>
               </v-list-tile>
             </template>
           </v-list>
@@ -72,9 +69,9 @@
             </div>
 
                 <!-- 이 부분은 데이터를 나타내는 곳이다. -->
-                <v-card>
+                <v-card v-if="select">
                 <v-card-title>
-                Nutrition
+                {{data_title}}
                 <v-spacer></v-spacer>
                 <v-text-field
                     v-model="search"
@@ -124,6 +121,8 @@ export default {
     return {
       search: '',
             data: [],
+            data_title: '',
+            select : false,
             headers: [
           {
             text: 'Dessert (100g serving)',
@@ -232,11 +231,11 @@ export default {
         { title: 'Admin', url: 'admin'}
       ],
       drawitem: [
-          { action: '더보기', title: 'USERS'},
-          { action: '더보기', title: 'PORTFOLIOS'},
-          { action: '더보기', title: 'POSTS' },
-          { action: '더보기', title: 'REPOSITORY' },
-          { action: '더보기', title: 'ETC'}
+          { icon : 'face', action: '더보기', title: 'USERS'},
+          { icon : 'art_track', action: '더보기', title: 'PORTFOLIOS'},
+          { icon : 'favorite', action: '더보기', title: 'POSTS' },
+          { icon : 'dns', action: '더보기', title: 'REPOSITORY' },
+          { icon : 'help', action: '더보기', title: 'ETC'}
         ],
       login: false
     }
@@ -338,6 +337,11 @@ export default {
             {
                 this.text=[]
             }
+        },
+
+        tmp(str){
+          this.data_title = str;
+          this.select = true;
         }
     }
 }
@@ -361,5 +365,11 @@ export default {
 .fixed {
     position: fixed;
     top:0; left:0;
-    width: 100%; }
+    width: 100%; 
+}
+.material-icons{
+  vertical-align: text-bottom;
+  margin-right: 3px;
+}
+
 </style>
