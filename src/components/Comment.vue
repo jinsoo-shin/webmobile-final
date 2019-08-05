@@ -2,9 +2,9 @@
     <v-form v-model="valid">
     <v-container grid-list-xl>
       <v-layout wrap>
-      <v-flex xs2 md1>
-        <h3 class="pl-2 pt-3" >{{username}}</h3>
-      </v-flex>
+        <v-flex xs2 md1>
+          <h3 class="pl-2 pt-3" >{{username}}</h3>
+        </v-flex>
         <v-flex xs7 md9>
           <v-text-field
             v-model="content"
@@ -12,10 +12,7 @@
             required
           ></v-text-field>
         </v-flex>
-        <v-btn xs1 md2 class="pt-4" color="primary" flat small dark>
-            <v-icon>edit</v-icon>
-        </v-btn>
-
+        <v-icon xs1 md2 color="primary" >edit</v-icon>
       </v-layout>
     </v-container>
   </v-form>
