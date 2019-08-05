@@ -13,6 +13,7 @@
         </v-flex>
       </v-layout>
     </v-container>
+    <Footer></Footer>
   </div>
 </template>
 
@@ -22,6 +23,8 @@ import PostList from '../components/PostList'
 import PostWrite from '../components/PostWrite'
 import PortfolioListVue from '../components/PostList.vue'
 import Header from '../components/Header'
+import Footer from '../components/Footer'
+import Repository from '../components/Repository'
 
 export default {
 	name: 'PostPage',
@@ -33,7 +36,9 @@ export default {
 		ImgBanner,
     PostList,
     PostWrite,
-    Header
+    Header,
+    Footer,
+    Repository
 	}
 }
 </script>

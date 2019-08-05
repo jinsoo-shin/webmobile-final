@@ -88,6 +88,7 @@ import PostList from '../components/PostList'
 import RepositoryList from '../components/RepositoryList'
 import Graph from '../components/Graph'
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 export default {
   name: 'HomePage',
@@ -97,7 +98,8 @@ export default {
 		PostList,
     RepositoryList,
     Graph,
-    Header
+    Header,
+    Footer
 	},
   data () {
       return {

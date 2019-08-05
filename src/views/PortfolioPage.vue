@@ -14,6 +14,7 @@
       </v-layout>
     </v-container>
 <PortfolioWrite></PortfolioWrite>
+<Footer></Footer>
   </div>
 </template>
 
@@ -23,6 +24,7 @@ import PortfolioList from '../components/PortfolioList'
 import PortfolioWrite from '../components/PortfolioWrite'
 import PortfolioListVue from '../components/PortfolioList.vue'
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 export default {
   name: 'PortfolioPage',
@@ -34,7 +36,8 @@ export default {
 		ImgBanner,
     PortfolioList,
     PortfolioWrite,
-    Header
+    Header,
+    Footer
     }
   }
 </script>

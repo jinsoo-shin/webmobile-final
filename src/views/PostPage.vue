@@ -14,6 +14,7 @@
       </v-layout>
       <PostWrite></PostWrite>
     </v-container>
+    <Footer></Footer>
   </div>
 </template>
 
@@ -23,6 +24,7 @@ import PostList from '../components/PostList'
 import PostWrite from '../components/PostWrite'
 import PortfolioListVue from '../components/PostList.vue'
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 export default {
 	name: 'PostPage',
@@ -34,7 +36,8 @@ export default {
 		ImgBanner,
     PostList,
     PostWrite,
-    Header
+    Header,
+    Footer
 	}
 }
 </script>

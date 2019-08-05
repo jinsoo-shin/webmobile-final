@@ -161,6 +161,7 @@
       </v-layout>
     </v-flex>
   </v-layout>
+  <Footer></Footer>
 </div>
 </template>
 <script>
@@ -168,11 +169,13 @@ import FirebaseService from '@/services/FirebaseService'
 import store from '../store.js'
 import firebase, { database } from 'firebase/app'
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 export default {
 	name: 'LoginPage',
 	components :{
-		Header
+		Header,
+		Footer
 	},
 	data() {
 		return {

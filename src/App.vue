@@ -3,7 +3,6 @@
     <v-content>
       <router-view/>
     </v-content>
-	<Footer></Footer>
 	<TopButton></TopButton>
   </v-app>
 </template>
@@ -18,7 +17,6 @@ import './css/style.css'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Header from './components/Header'
-import Footer from './components/Footer'
 import TopButton from './components/TopButton'
 
 Vue.prototype.$axios = axios
@@ -30,7 +28,6 @@ export default {
 	name: 'App',
 	components: {
 		Header,
-		Footer,
 		TopButton,
 		Notification
 	},
