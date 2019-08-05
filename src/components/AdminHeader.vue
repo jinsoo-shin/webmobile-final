@@ -38,9 +38,6 @@
             <v-btn flat icon v-on:click='go("home")'><v-icon>home</v-icon></v-btn>
             <v-toolbar-title style="font-family: 'Jua', sans-serif;">5G는5조</v-toolbar-title>
             <v-spacer></v-spacer>
-
-            <div id="google_translate_element"></div> 
-
             <v-toolbar-items class="hidden-xs-only">
                 <v-btn flat v-for="item in items" :key="item.title" v-on:click='go(item)'>{{item.title}}</v-btn>
             </v-toolbar-items>
@@ -89,7 +86,7 @@ import store from '../store.js'
 import {Eventbus} from '../main.js'
 
 export default {
-  name: 'Header',
+  name: 'AdminHeader',
 	props: {
 		imgSrc: {type: String},
 		text: {type: String}
@@ -103,6 +100,7 @@ export default {
       items: [
         { title: 'Portpolio', url: 'portfolio' },
         { title: 'Post', url: 'post' },
+        { title: 'Repository', url: 'repository' },
         { title: 'Login', url: 'login'},
         { title: 'QnA', url: '/'},
         { title: 'Admin', url: 'admin'}
@@ -164,12 +162,12 @@ export default {
       },
       changeTitle(){
         if(this.login){
-          this.items[2].title="Logout";
-          this.items[2].url="/";
+          this.items[3].title="Logout";
+          this.items[3].url="/";
         }
         if(!this.login){
-          this.items[2].title="Login";
-          this.items[2].url="login";
+          this.items[3].title="Login";
+          this.items[3].url="login";
           this.name="5G는5조";
         }
       },
