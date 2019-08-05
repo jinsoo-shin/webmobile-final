@@ -315,33 +315,36 @@ export default {
           }
         }
       },
-
-      show(str){
-            if(str === "Users")
-            {
-                this.$axios.post('http://192.168.100.90:8000/api/members/getAll')
-                .then(response => {
-                    this.data=response.data
-                this.text=this.data
-                });
-            }
-            else if(str === "Portfolios")
-            {
-                this.$axios.post('http://192.168.100.90:8000/api/portfolios/getAll')
-                .then(response => {
-                    this.data=response.data
-                this.text=this.data
-                });
-            }
-            else if(str === "Posts")
-            {
-                this.text=[]
-            }
-        },
-
         tmp(str){
           this.data_title = str;
           this.select = true;
+          if(str === "USERS")
+          {
+            this.$axios.post('http://192.168.100.90:8000/api/members/getAll')
+                .then(response => {
+                  alert("user 불러 옴")
+                })
+                .catch(error => {
+                  console.log("failed")
+                  console.log(error)
+                });
+          }
+          else if(str === "PORTFOLIOS")
+          {
+            this.$axios.post('http://192.168.100.90:8000/api/portfolios/getAll')
+                .then(response => {
+                  alert("PORTFO 불러 옴")
+                })
+                .catch(error => {
+                  console.log("failed")
+                });
+          }
+          else if(str === "POSTS")
+          {
+            console.log(str)
+          }
+                
+                
         }
     }
 }
