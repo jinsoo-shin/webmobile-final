@@ -45,8 +45,13 @@
 </template>
 
 <script>
+import AdminHeader from './AdminHeader.vue'
+
 export default{
     name: 'Admin',
+    components:{
+      AdminHeader
+    },
     data () {
         return {
             search: '',

@@ -124,12 +124,12 @@ export default {
       },
       changeTitle(){
         if(this.login){
-          this.items[2].title="Logout";
-          this.items[2].url="/";
+          this.items[3].title="Logout";
+          this.items[3].url="/";
         }
         if(!this.login){
-          this.items[2].title="Login";
-          this.items[2].url="login";
+          this.items[3].title="Login";
+          this.items[3].url="login";
           this.name="5G는5조";
         }
       },
