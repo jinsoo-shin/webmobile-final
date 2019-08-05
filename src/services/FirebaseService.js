@@ -233,7 +233,6 @@ export default {
     loginService(e, email, pw) {
         e.preventDefault();
         var tmp = email
-            //////////테스트용//
         var token = "";
         messaging.requestPermission()
             .then(function() {
