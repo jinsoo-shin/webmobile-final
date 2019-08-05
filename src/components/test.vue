@@ -79,13 +79,11 @@
     </v-layout>
   </div>
 </template>
-
 <script>
 
 import RepositoryGraph from "@/components/RepositoryGraph";
 import Repository from "@/components/Repository";
 import GitlabService from "@/services/GitlabService";
-
 
 export default {
   name: "RepositoryList",
@@ -105,7 +103,7 @@ export default {
       loadingPanel: [true],
       repositories: [],
       members: [],
-      selecteduser: "ClearRoot",
+      selecteduser: "Leejiseon",
       loading: false,
       loadingRepo: {
         path_with_namespace: "로딩중",
@@ -120,10 +118,10 @@ export default {
     Repository,
     RepositoryGraph
   },
-	mounted() {
-    this.getGitlabRepos("clearroot");
+  mounted() {
+    this.getGitlabRepos("Leejiseon");
     this.getGitlabMembers();
-	},
+  },
   methods: {
     isMobile() {
       if (window.innerWidth > 600) this.show = true;
@@ -153,4 +151,10 @@ export default {
   }
 };
 
+
 </script>
+<style>
+.noPadding {
+  padding: 0 0px;
+}
+</style>

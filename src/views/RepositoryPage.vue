@@ -15,6 +15,16 @@
         </v-flex>
       </v-layout>
 
+
+    <!-- Repository -->
+      <v-layout my-5>
+        <v-flex xs12>
+          <h2 class="headline my-5 text-xs-center">Projects</h2>
+          <test></test>
+        </v-flex>
+      </v-layout>
+    </v-container>
+
     <!-- Repository -->
       <v-layout my-5>
         <v-flex xs12>
@@ -35,6 +45,7 @@ import RepositoryList from '../components/RepositoryList'
 import Graph from '../components/Graph.vue'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import test from '../components/test'
 
 export default {
 	name: 'RepositoryPage',
@@ -44,7 +55,8 @@ export default {
     Footer,
     Repository,
     RepositoryList,
-    Graph
+    Graph,
+    test
 	}
 }
 </script>
