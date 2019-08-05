@@ -55,7 +55,10 @@ import FirebaseService from '@/services/FirebaseService'
 import Comment from './Comment.vue'
 
 export default {
-	name: 'Post',
+  name: 'Post',
+  components:{
+    Comment
+  },
   data () {
       return {
         dialog: false,
