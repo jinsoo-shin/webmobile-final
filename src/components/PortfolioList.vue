@@ -2,12 +2,12 @@
   <v-layout mt-5 wrap>
     <v-flex v-bind:key="i" xs12 sm6 md4 v-for="i in portfolios.length > limits ? limits : portfolios.length">
       <Portfolio class="ma-3"
-	  		  :doc="portfolios[i - 1][1].id"
-              :date="portfolios[i - 1][0].created_at.toString()"
-              :title="portfolios[i - 1][0].title"
-              :body="portfolios[i - 1][0].body"
-              :imgSrc="portfolios[i - 1][0].img"
-			  :author="portfolios[i - 1][0].author"
+	  		  :bno="portfolios[i-1].bno"
+              :create_at="portfolios[i-1].create_at"
+              :title="portfolios[i-1].title"
+              :content="portfolios[i-1].content"
+			  :img="portfolios[i-1].img"
+			  :author="portfolios[i-1].author"
       ></Portfolio>
     </v-flex>
 
@@ -20,7 +20,6 @@
 import Portfolio from '@/components/Portfolio'
 import FirebaseService from '@/services/FirebaseService'
 
-
 export default {
 	name: 'PortfoliosList',
 	data() {
@@ -32,14 +31,18 @@ export default {
 	},
 	components: {
 		Portfolio
-		
 	},
 	mounted() {
 		this.getPortfolios()
 	},
 	methods: {
 		async getPortfolios() {
-			this.portfolios = await FirebaseService.getPortfolios()
+			await this.$axios.post(
+            'http://192.168.100.90:8000/api/portfolios/getAll'
+			)
+			.then(response => {
+				this.portfolios = response.data
+			});
 		},
 		loadMorePortfolios() {
 			this.limits+=6;

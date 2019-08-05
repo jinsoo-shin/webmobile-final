@@ -6,7 +6,7 @@
   width: 40vw;
   text-overflow: ellipsis;
  }
- #portfolio_body{
+ #portfolio_sub{
    overflow: hidden;
    display: -webkit-box;
    -webkit-line-clamp: 3 ;
@@ -20,26 +20,26 @@
 </style>
 <template>
   <v-card @click.stop="dialog = true" style="cursor : pointer" hover>
-    <v-img :src="imgSrc" height="200px"></v-img>
+    <v-img :src="img" height="200px"></v-img>
     <v-card-title primary-title>
       <div class="text-truncate">
         <div class="headline" id="portfolio_title">{{title}}</div>
-        <span class="grey--text" id="portfolio_body">{{body}}</span>
+        <span class="grey--text" id="portfolio_sub">{{content}}</span>
         <v-dialog v-model="dialog" max-width="800px">
           <v-card class="px-3 py-3">
             <v-icon style="position:absolute; left:765px;" flat @click="dialog = false">close</v-icon>
             <v-layout wrap>
               <v-flex xs12 md5 lg5>
-                <v-img :src="imgSrc" width="100%" height="50px + 5vw"></v-img>
+                <v-img :src="img" width="100%" height="50px + 5vw"></v-img>
               </v-flex>
               <v-flex xs12 md7 lg7 class="px-4 py-1">
                 <h2>{{title}}</h2><br>
-                <v-textarea v-model="body" v-if="flag" full-width height="160px" no-resize readonly></v-textarea>
-                <v-textarea v-model="editbody" v-if="!flag" full-width height="160px" no-resize></v-textarea>
+                <v-textarea v-model="content" v-if="flag" full-width height="160px" no-resize readonly></v-textarea>
+                <v-textarea v-model="editcontent" v-if="!flag" full-width height="160px" no-resize></v-textarea>
                   작성자 : {{author}}
                 <div v-if="chkauthor">
                   <v-btn @click="onclickeditbtn()" v-if="flag" class="primary" style="float:right">수정</v-btn>
-                  <v-btn @click="editPortfolio(doc, title, editbody, imgSrc, author)" v-if="!flag" class="primary" style="float:right">
+                  <v-btn @click="editPortfolio(doc, title, editcontent, img, author)" v-if="!flag" class="primary" style="float:right">
                     <v-icon size="25" class="mr-2">done</v-icon>수정완료</v-btn>
                   <v-btn @click="deletePortfolio(doc)" class="warning" style="float:right">삭제</v-btn>
                 </div>
@@ -62,25 +62,25 @@ import Comment from './Comment.vue'
 
 export default {
 	name: 'Portfolio',
+  components:{
+    Comment
+  },
   data () {
       return {
         dialog: false,
-        editbody: '',
+        editcontent: '',
         flag: true,
         name: '',
       }
     },
-  components: {
-    Comment
-  },
 	props: {
-    doc: '',
-		date: {type: String},
-		title: {type: String},
-		body: {type: String},
-    imgSrc: {type: String},
-    author: {type: String}
-	},
+    bno: {type:Number},
+    author: {type: String},
+		content: {type: String},
+		create_at: {type: String},
+    img: {type: String},
+		title: {type: String}
+  },
   methods: {
     async deletePortfolio(id){
       await FirebaseService.deletePortfolio(id)
@@ -88,11 +88,11 @@ export default {
       location.reload(true)
     },
     onclickeditbtn(){
-      this.editbody = this.body;
+      this.editcontent = this.content;
       this.flag = false;
     },
-    async editPortfolio(doc, title, body, img, auth){
-      await FirebaseService.editPortfolio(doc, title, body, img, auth)
+    async editPortfolio(doc, title, content, img, author){
+      await FirebaseService.editPortfolio(doc, title, content, img, author)
       this.dialog = false
       location.reload(true)
     }
