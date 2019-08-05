@@ -3,7 +3,6 @@ import "firebase/firestore";
 import "firebase/database";
 import "firebase/auth";
 import "firebase/functions";
-
 import "firebase/messaging";
 
 import store from "../store.js";
@@ -12,6 +11,8 @@ import VueSwal from "vue-swal";
 import Vue from "vue";
 import { SSL_OP_NO_SESSION_RESUMPTION_ON_RENEGOTIATION } from "constants";
 Vue.use(VueSwal);
+import axios from 'axios'
+Vue.$http = axios;
 
 const MEMBER = "members";
 const POSTS = "posts";
@@ -32,21 +33,12 @@ let db = firebase.firestore(app);
 
 db.enablePersistence({ experimentalTabSynchronization: true })
 const firestore = firebase.firestore();
-
-
 const messaging = firebase.messaging();
-messaging.requestPermission()
-    .then(function() {
-        console.log('Have permission');
-        console.log(messaging.getToken());
-    })
-    .catch(function(err) {
-        console.log('Error Occured.')
-    })
+
 
 export default {
     getMember: function(email) {
-        db = firebase.firestore(app);
+        // db = firebase.firestore(app);
         var docRef = db.collection(MEMBER).doc(email);
         return docRef
             .get()
@@ -75,7 +67,7 @@ export default {
                     alert("실패" + err.message);
                 }
             );
-        db = firebase.firestore(app);
+        // db = firebase.firestore(app);
         var data = {
             age: age,
             album: album,
@@ -114,14 +106,14 @@ export default {
             .then(function(result) {
                 swal("Post Success!", "", "success", {
                     buttons: false,
-                    timer: 2000
+                    timer: 4000
                 });
                 window.location.href = "/post";
             })
             .catch(function(error) {});
     },
     editPost(id, title, body, author) {
-        db = firebase.firestore(app);
+        // db = firebase.firestore(app);
         var data = {
             title: title,
             body: body,
@@ -171,7 +163,7 @@ export default {
             .catch(function(error) {});
     },
     editPortfolio(id, title, body, img, author) {
-        db = firebase.firestore(app);
+        // db = firebase.firestore(app);
         var data = {
             title: title,
             body: body,
@@ -241,6 +233,46 @@ export default {
     loginService(e, email, pw) {
         e.preventDefault();
         var tmp = email
+        var token = "";
+        messaging.requestPermission()
+            .then(function() {
+                console.log('Have permission');
+                console.log(messaging.getToken());
+                messaging.getToken().then((currentToken) => {
+                    token = currentToken;
+                    console.log(token)
+                })
+            })
+            .catch(function(err) {
+                console.log('Error Occured.')
+            })
+        Vue.$http.post(
+                'http://192.168.100.90:8000/api/tokens/get/' + email
+            )
+            .then(response => {
+                var ranks = "";
+                Vue.$http.post(
+                        'http://192.168.100.90:8000/api/members/get/' + email
+                    )
+                    .then(response => {
+                        ranks = response.data.ranks;
+                    });
+                if (response) {
+                    Vue.$http.post(
+                            'http://192.168.100.90:8000/api/tokens/update', { email: email, ranks: ranks, token: token }
+                        )
+                        .then(response => {
+                            //  console.log("토큰 DB 업데이트") 
+                        });
+                } else {
+                    Vue.$http.post(
+                            'http://192.168.100.90:8000/api/tokens/insert', { email: email, ranks: ranks, token: token }
+                        )
+                        .then(response => {
+                            // console.log("토큰 DB 생성")
+                        });
+                }
+            });
         firebase.auth().signInWithEmailAndPassword(email, pw).then(
             function(user) {
                 store.state.accessToken = tmp;
@@ -250,10 +282,18 @@ export default {
                 })
                 var signInWithEmailLog = firebase.functions().httpsCallable('signInWithEmailLog');
                 signInWithEmailLog({ access: "Email", email: email }).then(function(result) {}).catch(function(error) {});
+
+                Vue.$http.post(
+                        'http://192.168.100.90:8000/api/tokens/getAll/0')
+                    .then(response => {
+                        // console.log("모든 토큰 가져오기")
+                        var members = response.data;
+                        // var sendNewPostNotification = firebase.functions().httpsCallable('sendNewPostNotification');
+                        // sendNewPostNotification({ access: "Email", members: members, token: token }).then(function(result) {}).catch(function(error) {});
+                    });
                 setTimeout(() => {
                     window.location.href = "/"
                 }, 2000);
-                //로그인 성공시 토큰을 받아온다. select ? update : insert
             },
             function(err) {
                 swal("Login Failed!", "Please Check your E-mail or Password!", "warning", {
