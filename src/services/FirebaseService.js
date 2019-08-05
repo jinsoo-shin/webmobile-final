@@ -104,6 +104,8 @@ export default {
                 author: sessionStorage.getItem("name")
             })
             .then(function(result) {
+                var sendNewPostNotification = firebase.functions().httpsCallable('sendNewPostNotification');
+                sendNewPostNotification({}).then(function(result) {}).catch(function(error) {});
                 swal("Post Success!", "", "success", {
                     buttons: false,
                     timer: 4000
