@@ -11,5 +11,5 @@ import java.util.List;
 @Repository
 public interface TokenRepository extends JpaRepository<Token, String> {
     @Query("SELECT t from Token t WHERE ranks= :ranks")
-    public List<Token> getTokenByRank(@Param("ranks") int ranks) throws Exception;
+    List<Token> getTokenByRank(@Param("ranks") int ranks) throws Exception;
 }

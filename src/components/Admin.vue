@@ -9,7 +9,6 @@
 </style>
 <template>
 <div>
-    <br><br><br>
     <v-card>
     <v-card-title>
       Nutrition
