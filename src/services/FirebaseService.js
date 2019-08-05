@@ -238,35 +238,35 @@ export default {
         var token = "";
         messaging.requestPermission()
             .then(function() {
-                console.log('Have permission');
-                console.log(messaging.getToken());
                 messaging.getToken().then((currentToken) => {
                     token = currentToken;
                     console.log("갱신된 토큰 : ", token)
+                    var ranks = "";
+                    Vue.$http.post(
+                            'http://192.168.100.90:8000/api/members/get/' + email
+                        )
+                        .then(response => {
+                            ranks = response.data.ranks;
+                            console.log("랭크", ranks)
+                        });
                     Vue.$http.post(
                             'http://192.168.100.90:8000/api/tokens/get/' + email
                         )
                         .then(response => {
-                            var ranks = "";
-                            Vue.$http.post(
-                                    'http://192.168.100.90:8000/api/members/get/' + email
-                                )
-                                .then(response => {
-                                    ranks = response.data.ranks;
-                                });
-                            if (response) {
+                            console.log("response", response)
+                            if (response.data) {
                                 Vue.$http.post(
                                         'http://192.168.100.90:8000/api/tokens/update', { email: email, ranks: ranks, token: token }
                                     )
                                     .then(response => {
-                                        //  console.log("토큰 DB 업데이트") 
+                                        console.log("토큰 DB 업데이트")
                                     });
                             } else {
                                 Vue.$http.post(
                                         'http://192.168.100.90:8000/api/tokens/insert', { email: email, ranks: ranks, token: token }
                                     )
                                     .then(response => {
-                                        // console.log("토큰 DB 생성")
+                                        console.log("토큰 DB 생성")
                                     });
                             }
                         });
