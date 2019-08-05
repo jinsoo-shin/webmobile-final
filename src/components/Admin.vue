@@ -3,12 +3,12 @@
     <v-layout row wrap>
       <v-flex md2 lg2>
         <v-card>
-          <v-toolbar>
-            <v-toolbar-side-icon></v-toolbar-side-icon>
+          <v-toolbar color="#fc4103" dark>
+            <img src="https://cdn2.iconfinder.com/data/icons/poke-ball-set-free/150/Poke_Ball-512.png" style="width:20px; height:20px"/>
             <v-toolbar-title>5G Admin</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
-          <v-sheet dark height="100vh">
+          <v-sheet dark height="90vh">
             
             <v-list subheader>
             <template v-for="(item, index) in drawitem">
@@ -25,10 +25,11 @@
         </v-card>
       </v-flex>
       <v-flex md10 lg10>
-            <v-toolbar dark>
+        <v-flex column>
+            <v-toolbar>
             <!-- <router-link to ="/"><v-icon>home</v-icon></router-link> -->
             <v-btn flat icon v-on:click='go("home")'><v-icon>home</v-icon></v-btn>
-            <v-toolbar-title style="font-family: 'Jua', sans-serif;">5G는5조</v-toolbar-title>
+            <v-toolbar-title style=""></v-toolbar-title>
             <v-spacer></v-spacer>
             <v-toolbar-items class="hidden-xs-only">
                 <v-btn flat v-for="item in items" :key="item.title" v-on:click='go(item)'>{{item.title}}</v-btn>
@@ -38,38 +39,11 @@
                 <v-toolbar-side-icon dark @click.stop="drawer = !drawer"></v-toolbar-side-icon>
             </div>
             </v-toolbar>
-
-            <div class="hidden-sm-and-up">
-            <v-navigation-drawer v-model="drawer" fixed right hide-overlay disable-resize-watcher>
-                <v-list class="pa-1">
-                <v-list-tile avatar>
-                    <v-list-tile-avatar>
-                    <img src="../assets/mokuro.gif">
-                    </v-list-tile-avatar>
-
-                    <v-list-tile-content>
-                    <v-list-tile-title style="font-family: 'Jua', sans-serif;">{{name}}</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-                </v-list>
-
-                <v-list class="pt-0">
-                <v-divider></v-divider>
-                <v-list-tile
-                    v-for="item in items" :key="item.title">
-                    <v-list-tile-action>
-                    <v-icon> keyboard_arrow_right</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                    <v-btn flat style="color:black" v-on:click='go(item)'>{{ item.title }}</v-btn>
-                    </v-list-tile-content>
-                </v-list-tile>
-                </v-list>
-            </v-navigation-drawer>
-            </div>
-
-                <!-- 이 부분은 데이터를 나타내는 곳이다. -->
-                <v-card v-if="select">
+            <v-sheet white height="90vh" class="pa-3">
+              <img v-if="!select" src="../../public/img/admin_page_wallpaper.jpg" 
+              style="z-index:-1; width:auto; height:100%;">
+            
+            <v-card v-if="select">
                 <v-card-title>
                 {{data_title}}
                 <v-spacer></v-spacer>
@@ -93,6 +67,15 @@
                     <td class="text-xs-right">{{ props.item.carbs }}</td>
                     <td class="text-xs-right">{{ props.item.protein }}</td>
                     <td class="text-xs-right">{{ props.item.iron }}</td>
+                    <td class="text-xs-right">
+                      <v-icon small class="mr-2" @click="editItem(props.item)">
+                        edit
+                      </v-icon>
+                      <v-icon small @click="deleteItem(props.item)">
+                        delete
+                      </v-icon>
+                    </td>
+            
                 </template>
                 <template v-slot:no-results>
                     <v-alert :value="true" color="error" icon="warning">
@@ -101,6 +84,40 @@
                 </template>
                 </v-data-table>
             </v-card>
+            </v-sheet>
+            
+        </v-flex>
+<!-- 
+            <div class="hidden-sm-and-up">
+            <v-navigation-drawer v-model="drawer" fixed right hide-overlay disable-resize-watcher>
+                <v-list class="pa-1">
+                <v-list-tile avatar>
+                    <v-list-tile-avatar>
+                    <img src="../assets/mokuro.gif">
+                    </v-list-tile-avatar>
+
+                    <v-list-tile-content>
+                    <v-list-tile-title style="font-family: 'Jua', sans-serif;">{{name}}</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+                </v-list>
+
+                <v-list class="pt-0">
+                <v-divider></v-divider>
+                <v-list-tile
+                    v-for="item in items" :key="item.title">
+                    <v-list-tile-action>
+                    <v-icon> keyboard_arrow_right</v-icon>
+                    </v-list-tile-action>
+                    <v-list-tile-content>
+                    <v-btn flat style="color:black; font-family: 'Jua', sans-serif;" v-on:click='go(item)'>{{ item.title }}</v-btn>
+                    </v-list-tile-content>
+                </v-list-tile>
+                </v-list>
+            </v-navigation-drawer>
+            </div> -->
+                <!-- 이 부분은 데이터를 나타내는 곳이다. -->
+                
       </v-flex>
     </v-layout>
   </div>
@@ -135,6 +152,7 @@ export default {
           { text: 'Carbs (g)', value: 'carbs' },
           { text: 'Protein (g)', value: 'protein' },
           { text: 'Iron (%)', value: 'iron' },
+          { text: 'Action', value: 'name', sortable: false }
         ],
         desserts: [
           {
@@ -227,15 +245,14 @@ export default {
         { title: 'Post', url: 'post' },
         { title: 'Repository', url: 'repository' },
         { title: 'Login', url: 'login'},
-        { title: 'QnA', url: '/'},
-        { title: 'Admin', url: 'admin'}
+        { title: 'QnA', url: '/'}
       ],
       drawitem: [
-          { icon : 'face', action: '더보기', title: 'USERS'},
-          { icon : 'art_track', action: '더보기', title: 'PORTFOLIOS'},
-          { icon : 'favorite', action: '더보기', title: 'POSTS' },
-          { icon : 'dns', action: '더보기', title: 'REPOSITORY' },
-          { icon : 'help', action: '더보기', title: 'ETC'}
+          { icon : 'face', title: 'USERS'},
+          { icon : 'art_track', title: 'PORTFOLIOS'},
+          { icon : 'favorite', title: 'POSTS' },
+          { icon : 'dns', title: 'REPOSITORY' },
+          { icon : 'help', title: 'ETC'}
         ],
       login: false
     }
@@ -343,8 +360,12 @@ export default {
           {
             console.log(str)
           }
-                
-                
+        },
+        editItem(item){
+          alert(item)
+        },
+        deleteItem(item){
+          alert(item)
         }
     }
 }
