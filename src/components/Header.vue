@@ -69,6 +69,7 @@ export default {
       items: [
         { title: 'Portpolio', url: 'portfolio' },
         { title: 'Post', url: 'post' },
+        { title: 'Repository', url: 'repository' },
         { title: 'Login', url: 'login'},
         { title: 'QnA', url: '/'},
         { title: 'Admin', url: 'admin'}

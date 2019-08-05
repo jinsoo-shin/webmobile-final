@@ -5,6 +5,7 @@ import PostPage from "./views/PostPage.vue";
 import PortfolioPage from "./views/PortfolioPage.vue";
 import LoginPage from "./views/LoginPage.vue";
 import AdminPage from "./views/AdminPage.vue";
+import Repository from "./views/Repository.vue"
 
 Vue.use(Router);
 
@@ -38,6 +39,11 @@ export default new Router({
             path: "/admin",
             name: "admin",
             component: AdminPage
+        },
+        {
+            path: "/repository",
+            name: "repository",
+            component: Repository
         }
     ]
 });
