@@ -2,9 +2,11 @@ package com.seongmo.springboot.controller;
 
 import com.seongmo.springboot.entity.Member;
 import com.seongmo.springboot.entity.Portfolio;
+import com.seongmo.springboot.entity.Post;
 import com.seongmo.springboot.entity.Token;
 import com.seongmo.springboot.service.MemberService;
 import com.seongmo.springboot.service.PortfolioService;
+import com.seongmo.springboot.service.PostService;
 import com.seongmo.springboot.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,8 @@ public class PortfolioController {
     private TokenService tokenService;
     @Autowired
     private PortfolioService portfolioService;
+    @Autowired
+    private PostService postService;
 
     @PostMapping("members/get/{email}")
     @ResponseBody
@@ -174,6 +178,58 @@ public class PortfolioController {
     public void deletePortfolio(@PathVariable("author") String author) throws Exception {
         try {
             portfolioService.deletePortfolio(author);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @PostMapping("posts/get/{author}")
+    @ResponseBody
+    public Post getPost(@PathVariable("author") String author) throws Exception {
+        try {
+            return postService.getPost(author);
+        }catch (Exception e) {
+            System.out.println("존재하지 않는 포스트 조회 message: " + e);
+            return null;
+        }
+    }
+
+    @PostMapping("posts/getAll")
+    @ResponseBody
+    public List<Post> getAllPost() throws Exception {
+        try {
+            return postService.getAllPost();
+        }catch (Exception e) {
+            System.out.println("존재하지 않는 포스트 조회 message: " + e);
+            return null;
+        }
+    }
+
+    @PostMapping("posts/insert")
+    @ResponseBody
+    public void insertPost(@RequestBody Post post) throws Exception {
+        try {
+            postService.insertPost(post);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @PostMapping("posts/update")
+    @ResponseBody
+    public void updatePost(@RequestBody Post post) throws Exception {
+        try {
+            postService.updatePost(post);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @PostMapping("posts/delete/{author}")
+    @ResponseBody
+    public void deletePost(@PathVariable("author") String author) throws Exception {
+        try {
+            postService.deletePost(author);
         } catch (Exception e) {
             e.printStackTrace();
         }

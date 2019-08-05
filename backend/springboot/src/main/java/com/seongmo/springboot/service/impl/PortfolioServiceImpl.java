@@ -32,7 +32,7 @@ public class PortfolioServiceImpl implements PortfolioService {
     public void updatePortfolio(Portfolio portfolio) throws Exception {
         Portfolio p = portfolioRepository.findByAuthor(portfolio.getAuthor());
         if(p != null) {
-            p.setBody(portfolio.getBody());
+            p.setContent(portfolio.getContent());
             p.setImg(portfolio.getImg());
             p.setTitle(portfolio.getTitle());
             portfolioRepository.save(p);
