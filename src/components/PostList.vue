@@ -2,11 +2,11 @@
   <v-layout row wrap mw-1000>
     <v-flex xs12 sm6 md4 v-bind:key="i" v-for="i in posts.length > limits ? limits : posts.length">
       <Post
-			  :doc="posts[i - 1][1].id"		
-              :date="posts[i - 1][0].created_at"
-              :title="posts[i - 1][0].title"
-              :body="posts[i - 1][0].body"
-			  :author="posts[i - 1][0].author"
+              :bno="posts[i-1].bno"
+              :create_at="posts[i-1].create_at"
+              :title="posts[i-1].title"
+              :content="posts[i-1].content"
+			  :author="posts[i-1].author"
 	  ></Post>
       <v-divider></v-divider>
     </v-flex>
@@ -36,7 +36,12 @@ export default {
 	},
 	methods: {
 		async getPosts() {
-			this.posts = await FirebaseService.getPosts()
+			await this.$axios.post(
+            'http://192.168.100.90:8000/api/posts/getAll'
+			)
+			.then(response => {
+				this.posts= response.data
+			});
 		},
 		loadMorePosts() {
 			this.limits+=6;
