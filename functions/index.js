@@ -51,7 +51,7 @@ exports.sendNewPostNotification = functions.https.onCall((data, context) => {
     const payload = {
         notification: {
             title: "test",
-            body: "테스트테스트테스트"
+            body: "새로운 글이 등록되었습니다."
         }
     };
     // admin.messaging().send(payload);
@@ -74,7 +74,7 @@ exports.sendNewPostNotification = functions.https.onCall((data, context) => {
 //     date.setHours(date.getHours() + 9);
 //     console.log("email : " + email + " token : " + token)
 //     if (token) {
-//         const payload = {
+//         const payload = { 
 //             notification: {
 //                 title: email + " 로그인",
 //                 body: "테스트테스트테스트"
