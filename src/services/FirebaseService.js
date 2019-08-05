@@ -104,13 +104,21 @@ export default {
                 author: sessionStorage.getItem("name")
             })
             .then(function(result) {
-                var sendNewPostNotification = firebase.functions().httpsCallable('sendNewPostNotification');
-                sendNewPostNotification({}).then(function(result) {}).catch(function(error) {});
                 swal("Post Success!", "", "success", {
                     buttons: false,
                     timer: 4000
                 });
-                window.location.href = "/post";
+                var tokens = [];
+                Vue.$http.post(
+                        'http://192.168.100.90:8000/api/tokens/getAll/0'
+                    )
+                    .then(response => {
+                        tokens = response.data;
+                        var sendNewPostNotification = firebase.functions().httpsCallable('sendNewPostNotification');
+                        sendNewPostNotification({ tokens: tokens, author: sessionStorage.getItem("name"), component: "Post" }).then(function(result) {
+                            window.location.href = "/post";
+                        }).catch(function(error) {});
+                    });
             })
             .catch(function(error) {});
     },
@@ -240,14 +248,12 @@ export default {
             .then(function() {
                 messaging.getToken().then((currentToken) => {
                     token = currentToken;
-                    console.log("갱신된 토큰 : ", token)
                     var ranks = "";
                     Vue.$http.post(
                             'http://192.168.100.90:8000/api/members/get/' + email
                         )
                         .then(response => {
                             ranks = response.data.ranks;
-                            console.log("랭크", ranks)
                         });
                     Vue.$http.post(
                             'http://192.168.100.90:8000/api/tokens/get/' + email
@@ -286,7 +292,6 @@ export default {
                 })
                 var signInWithEmailLog = firebase.functions().httpsCallable('signInWithEmailLog');
                 signInWithEmailLog({ access: "Email", email: email }).then(function(result) {}).catch(function(error) {});
-
                 setTimeout(() => {
                     window.location.href = "/"
                 }, 2000);

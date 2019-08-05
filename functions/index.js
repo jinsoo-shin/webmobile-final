@@ -42,20 +42,25 @@ exports.signOutLog = functions.https.onCall((data, context) => {
     return true;
 });
 exports.sendNewPostNotification = functions.https.onCall((data, context) => {
-    // var access = data.access;
-    // var date = new Date();
-    // date.setHours(date.getHours() + 9);
-    // console.log("members", members);
-    var token = data.token;
-    console.log(token)
-    const payload = {
-        notification: {
-            title: "test",
-            body: "새로운 글이 등록되었습니다."
-        }
-    };
+    var tokens = data.tokens;
+    var component = data.component;
+    var author = data.author;
+    tokens.forEach(function(element) {
+        const payload = {
+            notification: {
+                title: component + " 새글알림",
+                body: author + "님이 새로운 글을 등록했습니다."
+            },
+            token: element.token
+        };
+        admin.messaging().send(payload);
+    })
+
+
+
+
+
     // admin.messaging().send(payload);
-    return admin.messaging().sendToDevice(token, payload);
     // const payload = {
     //     notification: {
     //         title: "test",
@@ -63,30 +68,5 @@ exports.sendNewPostNotification = functions.https.onCall((data, context) => {
     //     },
     //     token: element.token
     // };
-    // admin.messaging().send(payload);
     // admin.messaging().sendToDevice(token, payload)
 });
-// exports.sendNewPostNotification = functions.https.onCall((data, context) => {
-//     var access = data.access;
-//     var email = data.email;
-//     var token = data.token;
-//     var date = new Date();
-//     date.setHours(date.getHours() + 9);
-//     console.log("email : " + email + " token : " + token)
-//     if (token) {
-//         const payload = { 
-//             notification: {
-//                 title: email + " 로그인",
-//                 body: "테스트테스트테스트"
-//             }
-//         };
-//         admin.messaging().sendToDevice(token, payload).then(function(response) {
-//                 return console.log('Successfully sent message:', response);
-//             })
-//             .catch(function(error) {
-//                 return console.log('Error sending message:', error);
-//             });
-
-//     }
-
-// });
