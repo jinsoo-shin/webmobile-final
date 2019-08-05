@@ -7,6 +7,7 @@ import com.seongmo.springboot.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -15,13 +16,14 @@ public class PostServiceImpl implements PostService {
     PostRepository postRepository;
 
     @Override
-    public void insertPost(Post Post) throws Exception {
-        postRepository.save(Post);
+    public void insertPost(Post post) throws Exception {
+        post.setCreate_at(LocalDate.now());
+        postRepository.save(post);
     }
 
     @Override
     public List<Post> getAllPost() throws Exception {
-        return postRepository.findAll();
+        return postRepository.getAllPost();
     }
 
     @Override
@@ -30,11 +32,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void updatePost(Post Post) throws Exception {
-        Post p = postRepository.findByAuthor(Post.getAuthor());
+    public void updatePost(Post post) throws Exception {
+        Post p = postRepository.findByAuthor(post.getAuthor());
         if(p != null) {
-            p.setContent(Post.getContent());
-            p.setTitle(Post.getTitle());
+            p.setContent(post.getContent());
+            p.setTitle(post.getTitle());
             postRepository.save(p);
         }
     }

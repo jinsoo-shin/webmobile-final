@@ -1,13 +1,7 @@
 package com.seongmo.springboot.controller;
 
-import com.seongmo.springboot.entity.Member;
-import com.seongmo.springboot.entity.Portfolio;
-import com.seongmo.springboot.entity.Post;
-import com.seongmo.springboot.entity.Token;
-import com.seongmo.springboot.service.MemberService;
-import com.seongmo.springboot.service.PortfolioService;
-import com.seongmo.springboot.service.PostService;
-import com.seongmo.springboot.service.TokenService;
+import com.seongmo.springboot.entity.*;
+import com.seongmo.springboot.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +20,10 @@ public class PortfolioController {
     private PortfolioService portfolioService;
     @Autowired
     private PostService postService;
+    @Autowired
+    private PortfolioCommentService portfolioCommentService;
+    @Autowired
+    private  PostCommentService postCommentService;
 
     @PostMapping("members/get/{email}")
     @ResponseBody
@@ -230,6 +228,110 @@ public class PortfolioController {
     public void deletePost(@PathVariable("author") String author) throws Exception {
         try {
             postService.deletePost(author);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @PostMapping("portcomment/get/{cno}")
+    @ResponseBody
+    public PortfolioComment getPortfolioComment(@PathVariable("cno") Long cno) throws Exception {
+        try {
+            return portfolioCommentService.getPortfolioComment(cno);
+        }catch (Exception e) {
+            System.out.println("존재하지 않는 포트폴리오 댓글 조회 message: " + e);
+            return null;
+        }
+    }
+
+    @PostMapping("portcomment/getAll/{bno}")
+    @ResponseBody
+    public List<PortfolioComment> getAllPortfolioComment(@PathVariable("bno") Long bno) throws Exception {
+        try {
+            return portfolioCommentService.getAllPortfolioComment(bno);
+        }catch (Exception e) {
+            System.out.println("존재하지 않는 포트폴리오 댓글 조회 message: " + e);
+            return null;
+        }
+    }
+
+    @PostMapping("portcomment/insert")
+    @ResponseBody
+    public void insertPortfolioComment(@RequestBody PortfolioComment p) throws Exception {
+        try {
+            portfolioCommentService.insertPortfolioComment(p);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @PostMapping("portcomment/update")
+    @ResponseBody
+    public void updatePortfolioComment(@RequestBody PortfolioComment p) throws Exception {
+        try {
+            portfolioCommentService.updatePortfolioComment(p);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @PostMapping("portcomment/delete/{cno}")
+    @ResponseBody
+    public void deletePortfolioComment(@PathVariable("cno") Long cno) throws Exception {
+        try {
+            portfolioCommentService.deletePortfolioComment(cno);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @PostMapping("postcomment/get/{cno}")
+    @ResponseBody
+    public PostComment getPostComment(@PathVariable("cno") Long cno) throws Exception {
+        try {
+            return postCommentService.getPostComment(cno);
+        }catch (Exception e) {
+            System.out.println("존재하지 않는 포트폴리오 댓글 조회 message: " + e);
+            return null;
+        }
+    }
+
+    @PostMapping("postcomment/getAll/{bno}")
+    @ResponseBody
+    public List<PostComment> getAllPostComment(@PathVariable("bno") Long bno) throws Exception {
+        try {
+            return postCommentService.getAllPostComment(bno);
+        }catch (Exception e) {
+            System.out.println("존재하지 않는 포트폴리오 댓글 조회 message: " + e);
+            return null;
+        }
+    }
+
+    @PostMapping("postcomment/insert")
+    @ResponseBody
+    public void insertPostComment(@RequestBody PostComment p) throws Exception {
+        try {
+            postCommentService.insertPostComment(p);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @PostMapping("postcomment/update")
+    @ResponseBody
+    public void updatePostComment(@RequestBody PostComment p) throws Exception {
+        try {
+            postCommentService.updatePostComment(p);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @PostMapping("postcomment/delete/{cno}")
+    @ResponseBody
+    public void deletePostComment(@PathVariable("cno") Long cno) throws Exception {
+        try {
+            postCommentService.deletePostComment(cno);
         } catch (Exception e) {
             e.printStackTrace();
         }
