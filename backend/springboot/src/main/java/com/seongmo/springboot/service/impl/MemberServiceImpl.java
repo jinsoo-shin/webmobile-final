@@ -6,6 +6,7 @@ import com.seongmo.springboot.entity.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -15,6 +16,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void insertMember(Member member) throws Exception {
+        member.setCreate_at(LocalDate.now());
         memberRepository.save(member);
     }
 

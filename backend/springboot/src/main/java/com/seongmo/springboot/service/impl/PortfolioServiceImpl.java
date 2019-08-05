@@ -6,6 +6,7 @@ import com.seongmo.springboot.service.PortfolioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -14,8 +15,9 @@ public class PortfolioServiceImpl implements PortfolioService {
     PortfolioRepository portfolioRepository;
 
     @Override
-    public void insertPortfolio(Portfolio Portfolio) throws Exception {
-        portfolioRepository.save(Portfolio);
+    public void insertPortfolio(Portfolio portfolio) throws Exception {
+        portfolio.setCreate_at(LocalDate.now());
+        portfolioRepository.save(portfolio);
     }
 
     @Override

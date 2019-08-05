@@ -8,7 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.sql.Timestamp;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "members")
@@ -20,8 +20,7 @@ public class Member{
     private @Column(name = "email") String email;
     private @Column(name = "age") int age;
     private @Column(name = "album") String album;
-    @CreationTimestamp
-    private @Column(name = "created_at") Timestamp create_at;
+    private @Column(name = "created_at") LocalDate create_at;
     private @Column(name = "name") String name;
     private @Column(name = "password") String password;
     private @Column(name = "ranks") int ranks;

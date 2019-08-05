@@ -2,10 +2,8 @@ package com.seongmo.springboot.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "portfolios")
@@ -17,8 +15,7 @@ public class Portfolio {
     private @Column(name = "bno") Long bno;
     private @Column(name = "author") String author;
     private @Column(name = "content") String content;
-    @CreationTimestamp
-    private @Column(name = "created_at") Timestamp create_at;
+    private @Column(name = "created_at") LocalDate create_at;
     private @Column(name = "img") String img;
     private @Column(name = "title") String title;
 }
