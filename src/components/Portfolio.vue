@@ -19,12 +19,13 @@
 
 </style>
 <template>
-  <v-card @click.stop="dialog = true" style="cursor : pointer" hover>
+  <v-card @click="getComments" @click.stop="dialog = true" style="cursor : pointer" hover>
     <v-img :src="img" height="200px"></v-img>
     <v-card-title primary-title>
       <div class="text-truncate">
         <div class="headline" id="portfolio_title">{{title}}</div>
         <span class="grey--text" id="portfolio_sub">{{content}}</span>
+
         <v-dialog v-model="dialog" max-width="800px">
           <v-card class="px-3 py-3">
             <v-icon style="position:absolute; left:765px;" flat @click="dialog = false">close</v-icon>
@@ -47,6 +48,7 @@
             </v-layout>
             <br>
             <Comment></Comment>
+
           </v-card>
         </v-dialog>
 
@@ -71,6 +73,7 @@ export default {
         editcontent: '',
         flag: true,
         name: '',
+        comments: []
       }
     },
 	props: {
@@ -105,23 +108,6 @@ export default {
       }else{
         return false
       }
-    }
-  },
-  mounted() {
-    console.log("Hello!")
-    try {
-        let disqus_config = function () {
-            this.page.url = location.origin;
-            this.page.identifier = location.pathname;
-        };
-        (function () {
-            let d = document, s = d.createElement('script');
-            s.src = 'https://happylovetkd.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-        })();
-    } catch (e) {
-        // some error
     }
   }
 }
