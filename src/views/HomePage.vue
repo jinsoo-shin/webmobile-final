@@ -73,7 +73,7 @@
       <v-layout my-5>
         <v-flex xs12>
           <h2 class="headline my-5 text-xs-center">Projects</h2>
-          <RepositoryList></RepositoryList>
+          <test></test>
         </v-flex>
       </v-layout>
     </v-container>
@@ -89,6 +89,7 @@ import RepositoryList from '../components/RepositoryList'
 import Graph from '../components/Graph'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import test from '../components/test'
 
 export default {
   name: 'HomePage',
@@ -99,7 +100,8 @@ export default {
     RepositoryList,
     Graph,
     Header,
-    Footer
+    Footer,
+    test
 	},
   data () {
       return {

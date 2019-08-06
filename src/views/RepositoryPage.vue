@@ -25,14 +25,6 @@
       </v-layout>
     </v-container>
 
-    <!-- Repository -->
-      <v-layout my-5>
-        <v-flex xs12>
-          <h2 class="headline my-5 text-xs-center">Projects</h2>
-          <RepositoryList></RepositoryList>
-        </v-flex>
-      </v-layout>
-    </v-container>
 
     <Footer></Footer>
   </div>
