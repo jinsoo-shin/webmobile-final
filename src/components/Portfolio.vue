@@ -16,10 +16,9 @@
  #app{
    height: auto;
  }
-
 </style>
 <template>
-  <v-card @click="getComments" @click.stop="dialog = true" style="cursor : pointer" hover>
+  <v-card @click.stop="dialog = true" style="cursor : pointer" hover>
     <v-img :src="img" height="200px"></v-img>
     <v-card-title primary-title>
       <div class="text-truncate">
@@ -39,41 +38,15 @@
                 <v-textarea v-model="editcontent" v-if="!flag" full-width height="160px" no-resize></v-textarea>
                   작성자 : {{author}}
                 <div v-if="chkauthor">
-                  <v-btn @click="onclickeditbtn()" v-if="flag" class="primary" style="float:right">수정</v-btn>
-                  <v-btn @click="editPortfolio(doc, title, editcontent, img, author)" v-if="!flag" class="primary" style="float:right">
+                  <v-btn @click="onclickupdatebtn()" v-if="flag" class="primary" style="float:right">수정</v-btn>
+                  <v-btn @click="updatePortfolio(doc, title, editcontent, img, author)" v-if="!flag" class="primary" style="float:right">
                     <v-icon size="25" class="mr-2">done</v-icon>수정완료</v-btn>
-                  <v-btn @click="deletePortfolio(doc)" class="warning" style="float:right">삭제</v-btn>
+                  <v-btn @click="deletePortfolio()" class="warning" style="float:right">삭제</v-btn>
                 </div>
               </v-flex>
             </v-layout>
             <br>
-            <Comment></Comment>
-
-            <v-layout row>
-              <v-flex xs12 >
-                <v-card>
-                  <v-toolbar color="white">
-                    <v-toolbar-title>Comment</v-toolbar-title>
-                    <v-spacer></v-spacer>
-                  </v-toolbar>
-
-                  <v-list three-line>
-                    <template v-for="(item, index) in comments">
-                      <v-divider v-if="item.divider" :key="index" :inset="item.inset"</v-divider>
-                      <v-list-tile v-if :key="item.title" avatar>
-                 
-                        <v-list-tile-content>
-                          <v-list-tile-title>{{item.create_at}}</v-list-tile-title>
-                          <v-list-tile-sub-title>{{item.author}} - {{item.content}}</v-list-tile-sub-title>
-                        </v-list-tile-content>
-                      </v-list-tile>
-                    </template>
-                  </v-list>
-                
-                </v-card>
-              </v-flex>
-            </v-layout>
-
+            <Comment :bno="bno" :dialog="dialog"></Comment>
           </v-card>
         </v-dialog>
 
@@ -98,7 +71,8 @@ export default {
         editcontent: '',
         flag: true,
         name: '',
-        comments: []
+        comments: [],
+        commentcontent: ''
       }
     },
 	props: {
@@ -110,27 +84,32 @@ export default {
 		title: {type: String}
   },
   methods: {
-    async deletePortfolio(id){
-      await FirebaseService.deletePortfolio(id)
-      this.dialog = false
-      location.reload(true)
-    },
-    onclickeditbtn(){
+    async deletePortfolio(){
+      await this.$axios.post(
+          'http://192.168.100.90:8000/api/portfolios/delete/'+this.author)
+			.then(response => {
+				this.dialog = false
+        location.reload(true)
+			})
+		},
+    onclickupdatebtn(){
       this.editcontent = this.content;
       this.flag = false;
-    },
-    async editPortfolio(doc, title, content, img, author){
-      await FirebaseService.editPortfolio(doc, title, content, img, author)
-      this.dialog = false
-      location.reload(true)
     },
     async getComments() {
 			await this.$axios.post(
           'http://192.168.100.90:8000/api/portcomment/getAll/'+this.bno)
 			.then(response => {
 				this.comments = response.data
-        console.log(this.comments)
 			})
+		},
+    async deleteComment(item) {
+      console.log(this.comments.indexOf(item))
+			await this.$axios.post(
+          'http://192.168.100.90:8000/api/portcomment/delete/'+item.cno)
+			.then(
+        this.comments.splice(this.comments.indexOf(item),1)
+      )
 		}
   },
   computed: {
