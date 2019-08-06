@@ -156,6 +156,9 @@ export default {
                     store.state.login = false;
                 }
                 let user = result.user;
+                sessionStorage.setItem("name", "visitor");
+                sessionStorage.setItem("rank", 1);
+                sessionStorage.setItem("email", user.email);
                 var signInLog = firebase.functions().httpsCallable("signInLog");
                 signInLog({ access: "Facebook" })
                     .then(function(result) {})
