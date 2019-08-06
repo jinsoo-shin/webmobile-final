@@ -1,14 +1,14 @@
 <template>
   <div>
     <v-layout row wrap>
-      <v-flex md2 lg2>
+      <v-flex xs2 md2 lg2>
         <v-card>
           <v-toolbar color="#fcbe03" dark>
             <img src="https://cdn2.iconfinder.com/data/icons/poke-ball-set-free/150/Poke_Ball-512.png" style="width:20px; height:20px"/>
             <v-toolbar-title>5G Admin</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
-          <v-sheet dark height="90vh">
+          <v-sheet dark height="90.5vh">
             
             <v-list subheader>
             <template v-for="(item, index) in drawitem">
@@ -24,7 +24,7 @@
           
         </v-card>
       </v-flex>
-      <v-flex md10 lg10>
+      <v-flex xs10 md10 lg10>
         <v-flex column>
             <v-toolbar>
             <!-- <router-link to ="/"><v-icon>home</v-icon></router-link> -->
@@ -39,9 +39,9 @@
                 <v-toolbar-side-icon dark @click.stop="drawer = !drawer"></v-toolbar-side-icon>
             </div>
             </v-toolbar>
-            <v-sheet white height="90vh" class="pa-3">
-              <img v-if="!select" src="../../public/img/admin_page_wallpaper.jpg" 
-              style="z-index:-1; width:auto; height:100%;">
+            <v-sheet white height="90.5vh" class="pa-3" style="text-align:center">
+              <img v-if="!select" src="../../public/img/admin_page_wallpaper.jpg"
+              style="z-index:-1; width:100%; height:auto;">
             
             <!--User-->
             <v-card v-if="Usershow">
@@ -62,14 +62,14 @@
                 :search="search"
                 >
                 <template v-slot:items="props">
-                    <td>{{ props.item.name }}</td>
-                    <td class="text-xs-right">{{ props.item.email }}</td>
-                    <td class="text-xs-right"><v-text-field type="number" max="3" min="1" v-model="props.item.ranks"></v-text-field></td>
-                    <td class="text-xs-right">
-                      <v-icon small class="mr-2" @click="editItem(props.item)">
+                    <td class="text-xs-left">{{ props.item.name }}</td>
+                    <td class="text-xs-left">{{ props.item.email }}</td>
+                    <td class="text-xs-left"><v-text-field type="number" max="3" min="1" v-model="props.item.ranks"></v-text-field></td>
+                    <td class="text-xs-left">
+                      <v-icon small class="mr-2" @click="editItem(props.item, data_title)">
                         edit
                       </v-icon>
-                      <v-icon small @click="deleteItem(props.item)">
+                      <v-icon small @click="deleteItem(props.item, data_title)">
                         delete
                       </v-icon>
                     </td>
@@ -102,12 +102,12 @@
                 :search="search"
                 >
                 <template v-slot:items="props">
-                    <td>{{ props.item.title }}</td>
-                    <td class="text-xs-right">{{ props.item.content }}</td>
-                    <td class="text-xs-right">{{ props.item.author }}</td>
-                    <td class="text-xs-right">{{ props.item.create_at }}</td>
-                    <td class="text-xs-right">
-                      <v-icon small @click="deleteItem(props.item)">
+                    <td class="text-xs-left">{{ props.item.title }}</td>
+                    <td class="text-xs-left">{{ props.item.content }}</td>
+                    <td class="text-xs-left">{{ props.item.author }}</td>
+                    <td class="text-xs-left">{{ props.item.create_at }}</td>
+                    <td class="text-xs-left">
+                      <v-icon small @click="deleteItem(props.item, data_title)">
                         delete
                       </v-icon>
                     </td>
@@ -140,12 +140,12 @@
                 :search="search"
                 >
                 <template v-slot:items="props">
-                    <td>{{ props.item.title }}</td>
-                    <td class="text-xs-right">{{ props.item.content }}</td>
-                    <td class="text-xs-right">{{ props.item.author }}</td>
-                    <td class="text-xs-right">{{ props.item.create_at }}</td>
-                    <td class="text-xs-right">
-                      <v-icon small @click="deleteItem(props.item)">
+                    <td class="text-xs-left">{{ props.item.title }}</td>
+                    <td class="text-xs-left">{{ props.item.content }}</td>
+                    <td class="text-xs-left">{{ props.item.author }}</td>
+                    <td class="text-xs-left">{{ props.item.create_at }}</td>
+                    <td class="text-xs-left">
+                      <v-icon small @click="deleteItem(props.item, data_title)">
                         delete
                       </v-icon>
                     </td>
@@ -231,7 +231,7 @@ export default {
             },
             { text: 'E-mail', value: 'email' },
             { text: 'Rank', value: 'rank' },
-            { text: 'Action', value: 'name', sortable: false }
+            { text: '', value: 'name', sortable: false }
             ],
             Portfolioheaders: [
             {
@@ -243,7 +243,7 @@ export default {
             { text: 'Content', value: 'content' },
             { text: 'Author', value: 'author' },
             { text: 'Date', value: 'create_at' },
-            { text: 'Action', value: 'title', sortable: false }
+            { text: '', value: 'title', sortable: false }
             ],
             Postheaders: [
             {
@@ -255,7 +255,7 @@ export default {
             { text: 'Content', value: 'content' },
             { text: 'Author', value: 'author' },
             { text: 'Date', value: 'create_at' },
-            { text: 'Action', value: 'title', sortable: false }
+            { text: '', value: 'title', sortable: false }
             ],
       email:"5G는5조",
       name : "5G는5조",
@@ -393,14 +393,38 @@ export default {
           if(str === "USERS")
           {
             this.Usershow = true;
+            this.$axios.post('http://192.168.100.90:8000/api/members/getAll')
+                .then(response => {
+                  this.Users = response.data;
+                  console.log("User", this.Users);
+                })
+                .catch(error => {
+                  console.log("failed")
+                }); 
           }
           else if(str === "PORTFOLIOS")
           {
             this.Portfolioshow = true;
+            this.$axios.post('http://192.168.100.90:8000/api/portfolios/getAll')
+                .then(response => {
+                  this.Portfoilos = response.data;
+                  console.log("portfolio", this.Portfoilos);
+                })
+                .catch(error => {
+                  console.log("failed")
+                });
           }
           else if(str === "POSTS")
           {
             this.Postshow = true;
+            this.$axios.post('http://192.168.100.90:8000/api/posts/getAll')
+                .then(response => {
+                  this.Posts = response.data;
+                  console.log("posts", this.Posts);
+                })
+                .catch(error => {
+                  console.log("failed")
+                });
           }
           else if(str === "REPOSITORY")
           {
@@ -414,30 +438,61 @@ export default {
         editItem(item, str){
           if(str === "USERS")
           {
-          }
-          else if(str === "PORTFOLIOS")
-          {
-          }
-          else if(str === "POSTS")
-          {
-          }
-          else if(str === "REPOSITORY")
-          {
-          }
-          else if(str === "ETC")
-          {
+            var data = {
+            email: item.email,
+            ranks: item.ranks
+            };
+            this.$axios.post('http://192.168.100.90:8000/api/members/update',data).then(response => {
+            }).catch(error => {
+              console.log(error)
+            })
           }
         },
         deleteItem(item, str){
-          
           if(str === "USERS")
           {
+            var data =item.email;
+            this.$axios.post('http://192.168.100.90:8000/api/members/delete/'+data).then(response => {
+              this.$axios.post('http://192.168.100.90:8000/api/members/getAll')
+                .then(response => {
+                  this.Users = response.data;
+                })
+                .catch(error => {
+                  console.log("failed")
+                }); 
+            }).catch(error => {
+              console.log(error)
+            })
           }
           else if(str === "PORTFOLIOS")
           {
+            var data =item.bno;
+            this.$axios.post('http://192.168.100.90:8000/api/portfolios/delete/'+data).then(response => {
+              this.$axios.post('http://192.168.100.90:8000/api/portfolios/getAll')
+                .then(response => {
+                  this.Portfoilos = response.data;
+                })
+                .catch(error => {
+                  console.log("failed")
+                }); 
+            }).catch(error => {
+              console.log(error)
+            })
           }
           else if(str === "POSTS")
           {
+            var data =item.bno;
+            this.$axios.post('http://192.168.100.90:8000/api/posts/delete/'+data).then(response => {
+              this.$axios.post('http://192.168.100.90:8000/api/posts/getAll')
+                .then(response => {
+                  this.Posts = response.data;
+                })
+                .catch(error => {
+                  console.log("failed")
+                }); 
+            }).catch(error => {
+              console.log(error)
+            })
           }
           else if(str === "REPOSITORY")
           {
