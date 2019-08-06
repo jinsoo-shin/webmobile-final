@@ -16,7 +16,7 @@ public class PortfolioServiceImpl implements PortfolioService {
 
     @Override
     public void insertPortfolio(Portfolio portfolio) throws Exception {
-        portfolio.setCreate_at(LocalDate.now());
+        portfolio.setCreate_at(LocalDate.now().plusDays(1));
         portfolioRepository.save(portfolio);
     }
 
@@ -26,13 +26,13 @@ public class PortfolioServiceImpl implements PortfolioService {
     }
 
     @Override
-    public Portfolio getPortfolio(String author) throws Exception {
-        return portfolioRepository.findByAuthor(author);
+    public Portfolio getPortfolio(Long bno) throws Exception {
+        return portfolioRepository.findById(bno).get();
     }
 
     @Override
     public void updatePortfolio(Portfolio portfolio) throws Exception {
-        Portfolio p = portfolioRepository.findByAuthor(portfolio.getAuthor());
+        Portfolio p = portfolioRepository.findById(portfolio.getBno()).get();
         if(p != null) {
             p.setContent(portfolio.getContent());
             p.setImg(portfolio.getImg());
@@ -42,7 +42,7 @@ public class PortfolioServiceImpl implements PortfolioService {
     }
 
     @Override
-    public void deletePortfolio(String author) throws Exception {
-        portfolioRepository.deleteByAuthor(author);
+    public void deletePortfolio(Long bno) throws Exception {
+        portfolioRepository.deleteById(bno);
     }
 }
