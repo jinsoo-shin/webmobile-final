@@ -223,6 +223,7 @@ export default {
                     store.state.login = false;
                 }
                 let user = result.user;
+                console.log(firebase.auth.token.email)
                 var signInLog = firebase.functions().httpsCallable("signInLog");
                 signInLog({ access: "Facebook" })
                     .then(function(result) {})

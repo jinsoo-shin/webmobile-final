@@ -1,15 +1,16 @@
 <template>
   <div id="app">
     <v-toolbar dark color="#FBC02D" fixed>
-      <!-- <router-link to ="/"><v-icon>home</v-icon></router-link> -->
       <v-btn flat icon v-on:click='go("home")'><v-icon>home</v-icon></v-btn>
-      <v-toolbar-title style="font-family: 'Jua', sans-serif;">5G는5조</v-toolbar-title>
+      <v-toolbar-title v-if="!login" style="font-family: 'Jua', sans-serif;">{{email}}</v-toolbar-title>
+      <v-toolbar-title class="hidden-xs-only" v-if="login" style="font-family: 'Jua', sans-serif;">{{name}}님 어서오세요</v-toolbar-title>
       <v-spacer></v-spacer>
 
       <div id="google_translate_element"></div> 
 
       <v-toolbar-items class="hidden-xs-only">
-        <v-btn flat v-for="item in items" :key="item.title" v-on:click='go(item)'>{{item.title}}</v-btn>
+        <v-btn flat v-for="item in userHeader" :key="item.title" v-on:click='go(item)'>{{item.title}}</v-btn>
+        <v-btn flat v-for="item in adminHeader" :key="item.title" v-on:click='go(item)'>{{item.title}}</v-btn>
       </v-toolbar-items>
       <v-btn flat icon v-on:click="favorite"><v-icon color="yellow">bookmark</v-icon></v-btn>
           
@@ -27,7 +28,8 @@
             </v-list-tile-avatar>
 
             <v-list-tile-content>
-              <v-list-tile-title style="font-family: 'Jua', sans-serif;">{{name}}</v-list-tile-title>
+              <v-list-tile-title v-if="login" style="font-family: 'Jua', sans-serif;">{{name}} 님 어서오세요</v-list-tile-title>
+              <v-list-tile-title v-if="!login" style="font-family: 'Jua', sans-serif;">{{name}}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
@@ -35,12 +37,25 @@
         <v-list class="pt-0">
           <v-divider></v-divider>
           <v-list-tile
-            v-for="item in items" :key="item.title">
+            v-for="item in userHeader" :key="item.title">
             <v-list-tile-action>
-              <v-icon> keyboard_arrow_right</v-icon>
+                  <v-icon> keyboard_arrow_right</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
-              <v-btn flat style="color:black" v-on:click='go(item)'>{{ item.title }}</v-btn>
+             <v-btn flat style="color:black" v-on:click='go(item)'>
+                 {{ item.title }}
+              </v-btn>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile
+            v-for="item in adminHeader" :key="item.title">
+            <v-list-tile-action>
+                  <v-icon> keyboard_arrow_right</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+             <v-btn flat style="color:black" v-on:click='go(item)'>
+                 {{ item.title }}
+              </v-btn>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
@@ -51,6 +66,7 @@
 
 <script>
 import FirebaseService from '@/services/FirebaseService'
+import LoginService from '@/services/LoginService'
 import store from '../store.js'
 import {Eventbus} from '../main.js'
 
@@ -62,8 +78,9 @@ export default {
   },
   data () {
     return {
+      rank:0,
       email:"5G는5조",
-      name : "5G는5조",
+      name : "로그인을 해주세요",
       drawer: null,
       right: null,
       items: [
@@ -78,20 +95,27 @@ export default {
     }
   },
   created(){
-    Eventbus.$on('getUserEmail',getEmail=>{
+    Eventbus.$on('getUserEmail',()=>{
       this.login=true;
-      sessionStorage.setItem('email',getEmail)
-      this.email=getEmail;
+      this.email=sessionStorage.getItem('email');
       this.name=sessionStorage.getItem('name');
+      this.rank=sessionStorage.getItem('rank');
       this.changeTitle();
     });
-    FirebaseService.loginChk();
+    LoginService.loginChk();
+  },
+  computed:{
+    userHeader: function () {
+    	return this.items.filter(item => item.title !== 'Admin')
+    },
+    adminHeader: function () {
+    	return this.items.filter(item => item.title === 'Admin'&&this.rank==='3')
+    }
   },
 	methods: {
       favorite:function(){
         var title = document.title;
         var url = location.href;
-      
         if (window.sidebar && window.sidebar.addPanel) {
             window.sidebar.addPanel(title, url, "");
         } else if (window.opera && window.print) {
@@ -107,11 +131,12 @@ export default {
         }
       },
       logout(){
-        FirebaseService.logOut();
+        LoginService.logOut();
         this.login=false;
-        sessionStorage.removeItem('email');
-        sessionStorage.removeItem('name');
-        sessionStorage.removeItem('rank');
+        // sessionStorage.removeItem('email');
+        // sessionStorage.removeItem('name');
+        // sessionStorage.removeItem('rank');
+        sessionStorage.clear();
         this.$swal("LOGOUT!", "Good Bye!", "success",{
           buttons: false,
                     timer: 2000,
@@ -130,7 +155,9 @@ export default {
         if(!this.login){
           this.items[3].title="Login";
           this.items[3].url="login";
-          this.name="5G는5조";
+          this.name="로그인을 해주세요";
+          this.email="5G는5조";
+          this.rank=0;
         }
       },
       go(item){
