@@ -19,12 +19,13 @@
 
 </style>
 <template>
-  <v-card @click.stop="dialog = true" style="cursor : pointer" hover>
+  <v-card @click="getComments" @click.stop="dialog = true" style="cursor : pointer" hover>
     <v-img :src="img" height="200px"></v-img>
     <v-card-title primary-title>
       <div class="text-truncate">
         <div class="headline" id="portfolio_title">{{title}}</div>
         <span class="grey--text" id="portfolio_sub">{{content}}</span>
+
         <v-dialog v-model="dialog" max-width="800px">
           <v-card class="px-3 py-3">
             <v-icon style="position:absolute; left:765px;" flat @click="dialog = false">close</v-icon>
@@ -47,6 +48,32 @@
             </v-layout>
             <br>
             <Comment></Comment>
+
+            <v-layout row>
+              <v-flex xs12 >
+                <v-card>
+                  <v-toolbar color="white">
+                    <v-toolbar-title>Comment</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                  </v-toolbar>
+
+                  <v-list three-line>
+                    <template v-for="(item, index) in comments">
+                      <v-divider v-if="item.divider" :key="index" :inset="item.inset"</v-divider>
+                      <v-list-tile v-if :key="item.title" avatar>
+                 
+                        <v-list-tile-content>
+                          <v-list-tile-title>{{item.create_at}}</v-list-tile-title>
+                          <v-list-tile-sub-title>{{item.author}} - {{item.content}}</v-list-tile-sub-title>
+                        </v-list-tile-content>
+                      </v-list-tile>
+                    </template>
+                  </v-list>
+                
+                </v-card>
+              </v-flex>
+            </v-layout>
+
           </v-card>
         </v-dialog>
 
@@ -71,6 +98,7 @@ export default {
         editcontent: '',
         flag: true,
         name: '',
+        comments: []
       }
     },
 	props: {
@@ -95,7 +123,15 @@ export default {
       await FirebaseService.editPortfolio(doc, title, content, img, author)
       this.dialog = false
       location.reload(true)
-    }
+    },
+    async getComments() {
+			await this.$axios.post(
+          'http://192.168.100.90:8000/api/portcomment/getAll/'+this.bno)
+			.then(response => {
+				this.comments = response.data
+        console.log(this.comments)
+			})
+		}
   },
   computed: {
     chkauthor(){
@@ -105,23 +141,6 @@ export default {
       }else{
         return false
       }
-    }
-  },
-  mounted() {
-    console.log("Hello!")
-    try {
-        let disqus_config = function () {
-            this.page.url = location.origin;
-            this.page.identifier = location.pathname;
-        };
-        (function () {
-            let d = document, s = d.createElement('script');
-            s.src = 'https://happylovetkd.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-        })();
-    } catch (e) {
-        // some error
     }
   }
 }
