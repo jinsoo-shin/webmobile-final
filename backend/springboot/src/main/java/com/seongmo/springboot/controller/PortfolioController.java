@@ -131,9 +131,9 @@ public class PortfolioController {
 
     @PostMapping("portfolios/get/{author}")
     @ResponseBody
-    public Portfolio getPortfolio(@PathVariable("author") String author) throws Exception {
+    public Portfolio getPortfolio(@PathVariable("bno") Long bno) throws Exception {
         try {
-            return portfolioService.getPortfolio(author);
+            return portfolioService.getPortfolio(bno);
         }catch (Exception e) {
             System.out.println("존재하지 않는 포트폴리오 조회 message: " + e);
             return null;
@@ -171,21 +171,21 @@ public class PortfolioController {
         }
     }
 
-    @PostMapping("portfolios/delete/{author}")
+    @PostMapping("portfolios/delete/{bno}")
     @ResponseBody
-    public void deletePortfolio(@PathVariable("author") String author) throws Exception {
+    public void deletePortfolio(@PathVariable("bno") Long bno) throws Exception {
         try {
-            portfolioService.deletePortfolio(author);
+            portfolioService.deletePortfolio(bno);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    @PostMapping("posts/get/{author}")
+    @PostMapping("posts/get/{bno}")
     @ResponseBody
-    public Post getPost(@PathVariable("author") String author) throws Exception {
+    public Post getPost(@PathVariable("bno") Long bno) throws Exception {
         try {
-            return postService.getPost(author);
+            return postService.getPost(bno);
         }catch (Exception e) {
             System.out.println("존재하지 않는 포스트 조회 message: " + e);
             return null;
@@ -223,11 +223,11 @@ public class PortfolioController {
         }
     }
 
-    @PostMapping("posts/delete/{author}")
+    @PostMapping("posts/delete/{bno}")
     @ResponseBody
-    public void deletePost(@PathVariable("author") String author) throws Exception {
+    public void deletePost(@PathVariable("bno") Long bno) throws Exception {
         try {
-            postService.deletePost(author);
+            postService.deletePost(bno);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -16,7 +16,7 @@ public class PostCommentServiceImpl implements PostCommentService {
 
     @Override
     public void insertPostComment(PostComment postComment) throws Exception {
-        postComment.setCreate_at(LocalDate.now());
+        postComment.setCreate_at(LocalDate.now().plusDays(1));
         postCommentRepository.save(postComment);
     }
 
