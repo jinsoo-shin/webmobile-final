@@ -166,6 +166,7 @@
 </template>
 <script>
 import FirebaseService from '@/services/FirebaseService'
+import LoginService from '@/services/LoginService'
 import store from '../store.js'
 import firebase, { database } from 'firebase/app'
 import Header from '../components/Header'
@@ -194,21 +195,21 @@ export default {
 	methods: {
 		async loginWithGoogle() {
 			const self = this;
-			const result = await FirebaseService.loginWithGoogle()
+			const result = await LoginService.loginWithGoogle()
 			this.$store.state.accessToken = result.credential.accessToken
 			this.$store.state.user = result.user
 			self.$router.push('/')
 		},
 		async loginWithFacebook() {
 			const self = this;
-			const result = await FirebaseService.loginWithFacebook()
+			const result = await LoginService.loginWithFacebook()
 			this.$store.state.accessToken = result.credential.accessToken
 			this.$store.state.user = result.user
 			self.$router.push('/')
 		},
 		loginWithEmail(e) {
-			const result = FirebaseService.loginService(e, this.email, this.password)
-			FirebaseService.getMember(this.email);
+			const result = LoginService.loginService(e, this.email, this.password)
+			LoginService.getMember(this.email);
 		},
 		close() {
 			this.name= ''
