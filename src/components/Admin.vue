@@ -1,14 +1,14 @@
 <template>
   <div>
     <v-layout row wrap>
-      <v-flex md2 lg2>
+      <v-flex xs2 md2 lg2>
         <v-card>
           <v-toolbar color="#fcbe03" dark>
             <img src="https://cdn2.iconfinder.com/data/icons/poke-ball-set-free/150/Poke_Ball-512.png" style="width:20px; height:20px"/>
             <v-toolbar-title>5G Admin</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
-          <v-sheet dark height="90vh">
+          <v-sheet dark height="90.5vh">
             
             <v-list subheader>
             <template v-for="(item, index) in drawitem">
@@ -24,7 +24,7 @@
           
         </v-card>
       </v-flex>
-      <v-flex md10 lg10>
+      <v-flex xs10 md10 lg10>
         <v-flex column>
             <v-toolbar>
             <!-- <router-link to ="/"><v-icon>home</v-icon></router-link> -->
@@ -39,9 +39,9 @@
                 <v-toolbar-side-icon dark @click.stop="drawer = !drawer"></v-toolbar-side-icon>
             </div>
             </v-toolbar>
-            <v-sheet white height="90vh" class="pa-3">
-              <img v-if="!select" src="../../public/img/admin_page_wallpaper.jpg" 
-              style="z-index:-1; width:auto; height:100%;">
+            <v-sheet white height="90.5vh" class="pa-3" style="text-align:center">
+              <img v-if="!select" src="../../public/img/admin_page_wallpaper.jpg"
+              style="z-index:-1; width:100%; height:auto;">
             
             <!--User-->
             <v-card v-if="Usershow">
