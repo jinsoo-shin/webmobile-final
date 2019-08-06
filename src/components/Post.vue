@@ -101,11 +101,14 @@ export default {
     author: {type: String}
   },
   methods: {
-    async deletePost(id){
-      await FirebaseService.deletePost(id)
-      this.dialog = false
-      location.reload(true)
-    },
+    async deletePortfolio(){
+      await this.$axios.post(
+          'http://192.168.100.90:8000/api/posts/delete/'+this.author)
+			.then(response => {
+				this.dialog = false
+        location.reload(true)
+			})
+		},
     onclickeditbtn(){
       this.editcontent = this.content
       this.flag = false
@@ -120,7 +123,7 @@ export default {
           'http://192.168.100.90:8000/api/postcomment/getAll/'+this.bno)
 			.then(response => {
 				this.comments = response.data
-        console.log(comments)
+        console.log(this.comments)
 			})
 		}
   },
