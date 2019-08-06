@@ -1,6 +1,5 @@
 package com.seongmo.springboot.repository;
 
-import com.seongmo.springboot.entity.Portfolio;
 import com.seongmo.springboot.entity.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
