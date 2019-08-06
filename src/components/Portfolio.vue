@@ -49,6 +49,31 @@
             <br>
             <Comment></Comment>
 
+            <v-layout row>
+              <v-flex xs12 >
+                <v-card>
+                  <v-toolbar color="white">
+                    <v-toolbar-title>Comment</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                  </v-toolbar>
+
+                  <v-list three-line>
+                    <template v-for="(item, index) in comments">
+                      <v-divider v-if="item.divider" :key="index" :inset="item.inset"</v-divider>
+                      <v-list-tile v-if :key="item.title" avatar>
+                 
+                        <v-list-tile-content>
+                          <v-list-tile-title>{{item.create_at}}</v-list-tile-title>
+                          <v-list-tile-sub-title>{{item.author}} - {{item.content}}</v-list-tile-sub-title>
+                        </v-list-tile-content>
+                      </v-list-tile>
+                    </template>
+                  </v-list>
+                
+                </v-card>
+              </v-flex>
+            </v-layout>
+
           </v-card>
         </v-dialog>
 
@@ -98,7 +123,15 @@ export default {
       await FirebaseService.editPortfolio(doc, title, content, img, author)
       this.dialog = false
       location.reload(true)
-    }
+    },
+    async getComments() {
+			await this.$axios.post(
+          'http://192.168.100.90:8000/api/portcomment/getAll/'+this.bno)
+			.then(response => {
+				this.comments = response.data
+        console.log(this.comments)
+			})
+		}
   },
   computed: {
     chkauthor(){
