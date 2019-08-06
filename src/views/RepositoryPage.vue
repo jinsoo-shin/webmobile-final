@@ -15,6 +15,15 @@
         </v-flex>
       </v-layout>
 
+      <!-- btn -->
+      <v-layout hidden-xs-only mx-3 mb-5 row align-center justify-space-around>
+          <a target = "_blank" href="https://lab.ssafy.com/SeongHaPark"><v-icon size="25" class="mb-5 pb-5">fa-gitlab</v-icon></a>
+          <a target = "_blank" href="https://lab.ssafy.com/jinsoo"><v-icon size="25" class="mb-5 pb-5">fa-gitlab</v-icon></a>
+          <a target = "_blank" href="https://lab.ssafy.com/ahnhyunsang"><v-icon size="25" class="mb-5 pb-5">fa-gitlab</v-icon></a>
+          <a target = "_blank" href="https://lab.ssafy.com/wiahawm"><v-icon size="25" class="mb-5 pb-5">fa-gitlab</v-icon></a>
+          <a target = "_blank" href="https://lab.ssafy.com/chosm10"><v-icon size="25" class="mb-5 pb-5">fa-gitlab</v-icon></a>
+      </v-layout>
+
 
     <!-- Repository -->
       <v-layout my-5>

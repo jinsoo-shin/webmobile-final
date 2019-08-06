@@ -31,22 +31,6 @@
           </v-tab-item>
         </v-tabs-items>
       </div>
-      <!-- graph -->
-      <v-layout my-5>
-        <v-flex hidden-xs-only>
-          <h2 class="headline text-xs-center mb-3">Commit Counts</h2>
-            <Graph></Graph>
-        </v-flex>
-      </v-layout>
-
-      <!-- btn -->
-      <v-layout hidden-xs-only mx-3 mb-5 row align-center justify-space-around>
-          <a target = "_blank" href="https://lab.ssafy.com/SeongHaPark"><v-icon size="25" class="mb-5 pb-5">fa-gitlab</v-icon></a>
-          <a target = "_blank" href="https://lab.ssafy.com/jinsoo"><v-icon size="25" class="mb-5 pb-5">fa-gitlab</v-icon></a>
-          <a target = "_blank" href="https://lab.ssafy.com/ahnhyunsang"><v-icon size="25" class="mb-5 pb-5">fa-gitlab</v-icon></a>
-          <a target = "_blank" href="https://lab.ssafy.com/wiahawm"><v-icon size="25" class="mb-5 pb-5">fa-gitlab</v-icon></a>
-          <a target = "_blank" href="https://lab.ssafy.com/chosm10"><v-icon size="25" class="mb-5 pb-5">fa-gitlab</v-icon></a>
-      </v-layout>
 
       <!-- Portfolio -->
       <v-layout my-5>
@@ -65,15 +49,6 @@
             <v-btn flat to="post"><h2 class="headline my-5 text-xs-center">Post</h2><v-icon large class="mr-2">chevron_right</v-icon></v-btn>
           </v-flex>
           <PostList :column="2"></PostList>
-        </v-flex>
-      </v-layout>
-
-
-      <!-- Github -->
-      <v-layout my-5>
-        <v-flex xs12>
-          <h2 class="headline my-5 text-xs-center">Projects</h2>
-          <test></test>
         </v-flex>
       </v-layout>
     </v-container>
