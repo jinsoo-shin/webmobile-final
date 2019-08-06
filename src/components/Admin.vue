@@ -3,7 +3,7 @@
     <v-layout row wrap>
       <v-flex md2 lg2>
         <v-card>
-          <v-toolbar color="#fc4103" dark>
+          <v-toolbar color="#fcbe03" dark>
             <img src="https://cdn2.iconfinder.com/data/icons/poke-ball-set-free/150/Poke_Ball-512.png" style="width:20px; height:20px"/>
             <v-toolbar-title>5G Admin</v-toolbar-title>
             <v-spacer></v-spacer>
@@ -13,7 +13,7 @@
             <v-list subheader>
             <template v-for="(item, index) in drawitem">
               <v-list-tile :key="index" @click="">
-                <v-list-tile-content @click="tmp(item.title)">
+                <v-list-tile-content @click="show(item.title)">
                   <v-list-tile-title><i class="material-icons">{{item.icon}}</i>{{ item.title }}</v-list-tile-title>
                 </v-list-tile-content>
               </v-list-tile>
@@ -43,7 +43,8 @@
               <img v-if="!select" src="../../public/img/admin_page_wallpaper.jpg" 
               style="z-index:-1; width:auto; height:100%;">
             
-            <v-card v-if="select">
+            <!--User-->
+            <v-card v-if="Usershow">
                 <v-card-title>
                 {{data_title}}
                 <v-spacer></v-spacer>
@@ -56,21 +57,94 @@
                 ></v-text-field>
                 </v-card-title>
                 <v-data-table
-                :headers="headers"
-                :items="desserts"
+                :headers="Userheaders"
+                :items="Users"
                 :search="search"
                 >
                 <template v-slot:items="props">
                     <td>{{ props.item.name }}</td>
-                    <td class="text-xs-right">{{ props.item.calories }}</td>
-                    <td class="text-xs-right">{{ props.item.fat }}</td>
-                    <td class="text-xs-right">{{ props.item.carbs }}</td>
-                    <td class="text-xs-right">{{ props.item.protein }}</td>
-                    <td class="text-xs-right">{{ props.item.iron }}</td>
+                    <td class="text-xs-right">{{ props.item.email }}</td>
+                    <td class="text-xs-right"><v-text-field type="number" max="3" min="1" v-model="props.item.ranks"></v-text-field></td>
                     <td class="text-xs-right">
                       <v-icon small class="mr-2" @click="editItem(props.item)">
                         edit
                       </v-icon>
+                      <v-icon small @click="deleteItem(props.item)">
+                        delete
+                      </v-icon>
+                    </td>
+            
+                </template>
+                <template v-slot:no-results>
+                    <v-alert :value="true" color="error" icon="warning">
+                    Your search for "{{ search }}" found no results.
+                    </v-alert>
+                </template>
+                </v-data-table>
+            </v-card>
+
+            <!--PF-->
+            <v-card v-if="Portfolioshow">
+                <v-card-title>
+                {{data_title}}
+                <v-spacer></v-spacer>
+                <v-text-field
+                    v-model="search"
+                    append-icon="search"
+                    label="Search"
+                    single-line
+                    hide-details
+                ></v-text-field>
+                </v-card-title>
+                <v-data-table
+                :headers="Portfolioheaders"
+                :items="Portfoilos"
+                :search="search"
+                >
+                <template v-slot:items="props">
+                    <td>{{ props.item.title }}</td>
+                    <td class="text-xs-right">{{ props.item.content }}</td>
+                    <td class="text-xs-right">{{ props.item.author }}</td>
+                    <td class="text-xs-right">{{ props.item.create_at }}</td>
+                    <td class="text-xs-right">
+                      <v-icon small @click="deleteItem(props.item)">
+                        delete
+                      </v-icon>
+                    </td>
+            
+                </template>
+                <template v-slot:no-results>
+                    <v-alert :value="true" color="error" icon="warning">
+                    Your search for "{{ search }}" found no results.
+                    </v-alert>
+                </template>
+                </v-data-table>
+            </v-card>
+
+            <!--PF-->
+            <v-card v-if="Postshow">
+                <v-card-title>
+                {{data_title}}
+                <v-spacer></v-spacer>
+                <v-text-field
+                    v-model="search"
+                    append-icon="search"
+                    label="Search"
+                    single-line
+                    hide-details
+                ></v-text-field>
+                </v-card-title>
+                <v-data-table
+                :headers="Postheaders"
+                :items="Posts"
+                :search="search"
+                >
+                <template v-slot:items="props">
+                    <td>{{ props.item.title }}</td>
+                    <td class="text-xs-right">{{ props.item.content }}</td>
+                    <td class="text-xs-right">{{ props.item.author }}</td>
+                    <td class="text-xs-right">{{ props.item.create_at }}</td>
+                    <td class="text-xs-right">
                       <v-icon small @click="deleteItem(props.item)">
                         delete
                       </v-icon>
@@ -137,105 +211,52 @@ export default {
   data () {
     return {
       search: '',
-            data: [],
             data_title: '',
             select : false,
-            headers: [
-          {
-            text: 'Dessert (100g serving)',
-            align: 'left',
-            sortable: false,
-            value: 'name',
-          },
-          { text: 'Calories', value: 'calories' },
-          { text: 'Fat (g)', value: 'fat' },
-          { text: 'Carbs (g)', value: 'carbs' },
-          { text: 'Protein (g)', value: 'protein' },
-          { text: 'Iron (%)', value: 'iron' },
-          { text: 'Action', value: 'name', sortable: false }
-        ],
-        desserts: [
-          {
-            name: 'Frozen Yogurt',
-            calories: 159,
-            fat: 6.0,
-            carbs: 24,
-            protein: 4.0,
-            iron: '1%',
-          },
-          {
-            name: 'Ice cream sandwich',
-            calories: 237,
-            fat: 9.0,
-            carbs: 37,
-            protein: 4.3,
-            iron: '1%',
-          },
-          {
-            name: 'Eclair',
-            calories: 262,
-            fat: 16.0,
-            carbs: 23,
-            protein: 6.0,
-            iron: '7%',
-          },
-          {
-            name: 'Cupcake',
-            calories: 305,
-            fat: 3.7,
-            carbs: 67,
-            protein: 4.3,
-            iron: '8%',
-          },
-          {
-            name: 'Gingerbread',
-            calories: 356,
-            fat: 16.0,
-            carbs: 49,
-            protein: 3.9,
-            iron: '16%',
-          },
-          {
-            name: 'Jelly bean',
-            calories: 375,
-            fat: 0.0,
-            carbs: 94,
-            protein: 0.0,
-            iron: '0%',
-          },
-          {
-            name: 'Lollipop',
-            calories: 392,
-            fat: 0.2,
-            carbs: 98,
-            protein: 0,
-            iron: '2%',
-          },
-          {
-            name: 'Honeycomb',
-            calories: 408,
-            fat: 3.2,
-            carbs: 87,
-            protein: 6.5,
-            iron: '45%',
-          },
-          {
-            name: 'Donut',
-            calories: 452,
-            fat: 25.0,
-            carbs: 51,
-            protein: 4.9,
-            iron: '22%',
-          },
-          {
-            name: 'KitKat',
-            calories: 518,
-            fat: 26.0,
-            carbs: 65,
-            protein: 7,
-            iron: '6%',
-          },
-        ],
+            data: [],
+            Users:[],
+            Portfoilos:[],
+            Posts : [],
+            Usershow : false,
+            Portfolioshow : false,
+            Postshow : false,
+            Repositoryshow : false,
+            Etcshow : false,
+            Userheaders: [
+            {
+              text: 'Name',
+              align: 'left',
+              sortable: false,
+              value: 'name',
+            },
+            { text: 'E-mail', value: 'email' },
+            { text: 'Rank', value: 'rank' },
+            { text: 'Action', value: 'name', sortable: false }
+            ],
+            Portfolioheaders: [
+            {
+              text: 'Title',
+              align: 'left',
+              sortable: false,
+              value: 'title',
+            },
+            { text: 'Content', value: 'content' },
+            { text: 'Author', value: 'author' },
+            { text: 'Date', value: 'create_at' },
+            { text: 'Action', value: 'title', sortable: false }
+            ],
+            Postheaders: [
+            {
+              text: 'Title',
+              align: 'left',
+              sortable: false,
+              value: 'title',
+            },
+            { text: 'Content', value: 'content' },
+            { text: 'Author', value: 'author' },
+            { text: 'Date', value: 'create_at' },
+            { text: 'Action', value: 'title', sortable: false }
+            ],
       email:"5G는5조",
       name : "5G는5조",
       drawer: null,
@@ -266,6 +287,33 @@ export default {
       this.changeTitle();
     });
     FirebaseService.loginChk();
+  },
+  mounted() {
+      this.$axios.post('http://192.168.100.90:8000/api/members/getAll')
+                .then(response => {
+                  this.Users = response.data;
+                  console.log("User", this.Users);
+                })
+                .catch(error => {
+                  console.log("failed")
+                }); 
+      
+      this.$axios.post('http://192.168.100.90:8000/api/portfolios/getAll')
+                .then(response => {
+                  this.Portfoilos = response.data;
+                  console.log("portfolio", this.Portfoilos);
+                })
+                .catch(error => {
+                  console.log("failed")
+                });
+      this.$axios.post('http://192.168.100.90:8000/api/posts/getAll')
+                .then(response => {
+                  this.Posts = response.data;
+                  console.log("posts", this.Posts);
+                })
+                .catch(error => {
+                  console.log("failed")
+                });
   },
 	methods: {
       favorite:function(){
@@ -332,40 +380,71 @@ export default {
           }
         }
       },
-        tmp(str){
+      show(str){
           this.data_title = str;
           this.select = true;
+
+          this.Usershow = false;
+          this.Portfolioshow = false;
+          this.Postshow = false;
+          this.Repositoryshow = false;
+          this.Etcshow = false;
+
           if(str === "USERS")
           {
-            this.$axios.post('http://192.168.100.90:8000/api/members/getAll')
-                .then(response => {
-                  alert("user 불러 옴")
-                })
-                .catch(error => {
-                  console.log("failed")
-                  console.log(error)
-                });
+            this.Usershow = true;
           }
           else if(str === "PORTFOLIOS")
           {
-            this.$axios.post('http://192.168.100.90:8000/api/portfolios/getAll')
-                .then(response => {
-                  alert("PORTFO 불러 옴")
-                })
-                .catch(error => {
-                  console.log("failed")
-                });
+            this.Portfolioshow = true;
           }
           else if(str === "POSTS")
           {
-            console.log(str)
+            this.Postshow = true;
+          }
+          else if(str === "REPOSITORY")
+          {
+            this.Repositoryshow = true;
+          }
+          else if(str === "ETC")
+          {
+            this.Etcshow = true;
           }
         },
-        editItem(item){
-          alert(item)
+        editItem(item, str){
+          if(str === "USERS")
+          {
+          }
+          else if(str === "PORTFOLIOS")
+          {
+          }
+          else if(str === "POSTS")
+          {
+          }
+          else if(str === "REPOSITORY")
+          {
+          }
+          else if(str === "ETC")
+          {
+          }
         },
-        deleteItem(item){
-          alert(item)
+        deleteItem(item, str){
+          
+          if(str === "USERS")
+          {
+          }
+          else if(str === "PORTFOLIOS")
+          {
+          }
+          else if(str === "POSTS")
+          {
+          }
+          else if(str === "REPOSITORY")
+          {
+          }
+          else if(str === "ETC")
+          {
+          }
         }
     }
 }
@@ -392,7 +471,7 @@ export default {
     width: 100%; 
 }
 .material-icons{
-  vertical-align: text-bottom;
+  vertical-align: bottom;
   margin-right: 3px;
 }
 
