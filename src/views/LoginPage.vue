@@ -222,7 +222,7 @@ export default {
 		registMember() {
 			if(this.auth == this.myauth) {
 				alert('회원가입이 완료 되었습니다!');
-				let msg = FirebaseService.postMember(this.name, this.password, this.email, this.album, this.age);
+				let msg = LoginService.postMember(this.name, this.password, this.email, this.album, this.age);
 			} else {
 				alert(this.auth +"&" + this.myauth +'인증 번호가 일치하지 않습니다, 확인 후 재입력 부탁드립니다!')
 			}

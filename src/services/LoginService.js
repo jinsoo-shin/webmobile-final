@@ -32,10 +32,11 @@ export default {
             });
     },
     postMember(name, password, email, album, age) {
+        var currentDate = new Date();
+        var currentDay = currentDate.toISOString().substr(0, 10);
         var data = {
             age: age,
             album: album,
-            created_at: new Date().format("yyyy-MM-dd"),
             email: email,
             name: name,
             password: password,
