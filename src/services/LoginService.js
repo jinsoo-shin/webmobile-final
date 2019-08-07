@@ -21,7 +21,7 @@ const messaging = firebase.messaging();
 export default {
     getMember(email) {
         Vue.$http.post(
-                'http://192.168.100.90:8000/api/members/get/' + email
+                'https://192.168.100.90:8000/api/members/get/' + email
             )
             .then(response => {
                 console.log("response", response.data)
@@ -42,7 +42,7 @@ export default {
             ranks: 1
         };
         Vue.$http.post(
-                'http://192.168.100.90:8000/api/members/insert', data
+                'https://192.168.100.90:8000/api/members/insert', data
             )
             .then(response => {});
     },
@@ -62,7 +62,7 @@ export default {
                     token = currentToken;
                     var ranks = "";
                     Vue.$http.post(
-                            'http://192.168.100.90:8000/api/members/get/' + email
+                            'https://192.168.100.90:8000/api/members/get/' + email
                         )
                         .then(response => {
                             member = response.data;
@@ -86,20 +86,20 @@ export default {
                             }
                         });
                     Vue.$http.post(
-                            'http://192.168.100.90:8000/api/tokens/get/' + email
+                            'https://192.168.100.90:8000/api/tokens/get/' + email
                         )
                         .then(response => {
                             console.log("response", response)
                             if (response.data) {
                                 Vue.$http.post(
-                                        'http://192.168.100.90:8000/api/tokens/update', { email: email, ranks: ranks, token: token }
+                                        'https://192.168.100.90:8000/api/tokens/update', { email: email, ranks: ranks, token: token }
                                     )
                                     .then(response => {
                                         console.log("토큰 DB 업데이트")
                                     });
                             } else {
                                 Vue.$http.post(
-                                        'http://192.168.100.90:8000/api/tokens/insert', { email: email, ranks: ranks, token: token }
+                                        'https://192.168.100.90:8000/api/tokens/insert', { email: email, ranks: ranks, token: token }
                                     )
                                     .then(response => {
                                         console.log("토큰 DB 생성")

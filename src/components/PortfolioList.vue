@@ -8,6 +8,7 @@
               :content="portfolios[i-1].content"
 			  :img="portfolios[i-1].img"
 			  :author="portfolios[i-1].author"
+			  :email="portfolios[i-1].email"
       ></Portfolio>
     </v-flex>
 
@@ -38,7 +39,7 @@ export default {
 	methods: {
 		async getPortfolios() {
 			await this.$axios.post(
-            'http://192.168.100.90:8000/api/portfolios/getAll'
+            'https://192.168.100.90:8000/api/portfolios/getAll'
 			)
 			.then(response => {
 				this.portfolios = response.data

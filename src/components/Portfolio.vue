@@ -81,12 +81,29 @@ export default {
 		content: {type: String},
 		create_at: {type: String},
     img: {type: String},
-		title: {type: String}
+		title: {type: String},
+    email: {type: String}
   },
   methods: {
     async deletePortfolio(){
       await this.$axios.post(
-          'http://192.168.100.90:8000/api/portfolios/delete/'+this.author)
+          'https://192.168.100.90:8000/api/portfolios/delete/'+this.bno)
+			.then(response => {
+				this.dialog = false
+        location.reload(true)
+			})
+		},
+    async updatePortfolio(){
+      var data = {
+        bno: this.bno,
+        author: this.author,
+        email: this.email,
+        content: this.editcontent,
+        title: this.title,
+        img: this.img
+      }
+      await this.$axios.post(
+          'https://192.168.100.90:8000/api/portfolios/update', data)
 			.then(response => {
 				this.dialog = false
         location.reload(true)
@@ -98,7 +115,7 @@ export default {
     },
     async getComments() {
 			await this.$axios.post(
-          'http://192.168.100.90:8000/api/portcomment/getAll/'+this.bno)
+          'https://192.168.100.90:8000/api/portcomment/getAll/'+this.bno)
 			.then(response => {
 				this.comments = response.data
 			})
@@ -106,7 +123,7 @@ export default {
     async deleteComment(item) {
       console.log(this.comments.indexOf(item))
 			await this.$axios.post(
-          'http://192.168.100.90:8000/api/portcomment/delete/'+item.cno)
+          'https://192.168.100.90:8000/api/portcomment/delete/'+item.cno)
 			.then(
         this.comments.splice(this.comments.indexOf(item),1)
       )

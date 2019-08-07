@@ -103,7 +103,7 @@ export default {
   methods: {
     async deletePortfolio(){
       await this.$axios.post(
-          'http://192.168.100.90:8000/api/posts/delete/'+this.author)
+          'https://192.168.100.90:8000/api/posts/delete/'+this.author)
 			.then(response => {
 				this.dialog = false
         location.reload(true)
@@ -120,7 +120,7 @@ export default {
     },
     async getComments() {
 			await this.$axios.post(
-          'http://192.168.100.90:8000/api/postcomment/getAll/'+this.bno)
+          'https://192.168.100.90:8000/api/postcomment/getAll/'+this.bno)
 			.then(response => {
 				this.comments = response.data
         console.log(this.comments)
