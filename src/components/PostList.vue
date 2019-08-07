@@ -37,7 +37,7 @@ export default {
 	methods: {
 		async getPosts() {
 			await this.$axios.post(
-            'http://192.168.100.90:8000/api/posts/getAll'
+            'https://192.168.100.90:8000/api/posts/getAll'
 			)
 			.then(response => {
 				this.posts = response.data

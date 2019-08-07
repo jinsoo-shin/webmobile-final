@@ -35,9 +35,9 @@
                 작성일 : {{create_at}}
               <div v-if="chkauthor">
                 <v-btn style="float:right" v-if="flag" @click="onclickeditbtn()" class="primary">수정</v-btn>
-                <v-btn style="float:right" v-if="!flag" @click="editPost(doc, title, editcontent, author)" class="primary">
+                <v-btn style="float:right" v-if="!flag" @click="updatePost(doc, title, editcontent, author)" class="primary">
                   <v-icon size="25" class="mr-2">done</v-icon>수정완료</v-btn>
-                <v-btn style="float:right" @click="deletePost(doc)" class="warning">삭제</v-btn>
+                <v-btn style="float:right" @click="deletePost()" class="warning">삭제</v-btn>
               </div>
             </v-flex>
           </v-layout>
@@ -51,7 +51,6 @@
                     <v-toolbar-title>Comment</v-toolbar-title>
                     <v-spacer></v-spacer>
                   </v-toolbar>
-
                   <v-list three-line>
                     <template v-for="(item, index) in comments">
                       <v-divider v-if="item.divider" :key="index" :inset="item.inset"</v-divider>
@@ -63,7 +62,6 @@
                       </v-list-tile>
                     </template>
                   </v-list>
-                
                 </v-card>
               </v-flex>
             </v-layout>
@@ -101,9 +99,9 @@ export default {
     author: {type: String}
   },
   methods: {
-    async deletePortfolio(){
+    async deletePost(){
       await this.$axios.post(
-          'https://192.168.100.90:8000/api/posts/delete/'+this.author)
+          'https://192.168.100.90:8000/api/posts/delete/'+this.bno)
 			.then(response => {
 				this.dialog = false
         location.reload(true)
@@ -113,18 +111,35 @@ export default {
       this.editcontent = this.content
       this.flag = false
     },
-    async editPost(doc, title, content, author){
-      await FirebaseService.editPost(doc, title, content, author)
-      this.dialog = false
-      location.reload(true)
-    },
+    async updatePost(){
+      var data = {
+        bno: this.bno,
+        author: this.author,
+        email: this.email,
+        content: this.editcontent,
+        title: this.title
+      }
+      await this.$axios.post(
+          'https://192.168.100.90:8000/api/posts/update', data)
+			.then(response => {
+				this.dialog = false
+        location.reload(true)
+			})
+		},
     async getComments() {
 			await this.$axios.post(
           'https://192.168.100.90:8000/api/postcomment/getAll/'+this.bno)
 			.then(response => {
 				this.comments = response.data
-        console.log(this.comments)
 			})
+		},
+    async deleteComment(item) {
+      console.log(this.comments.indexOf(item))
+			await this.$axios.post(
+          'https://192.168.100.90:8000/api/postcomment/delete/'+item.cno)
+			.then(
+        this.comments.splice(this.comments.indexOf(item),1)
+      )
 		}
   },
   computed: {
