@@ -8,13 +8,12 @@
         </v-flex>
         <v-flex xs7 md9>
           <v-text-field
-            v-model="commentcontent"
+            v-model="content"
             label="Comment Content"
             required
           ></v-text-field>
         </v-flex>
         <v-btn @click="writeComment()" class="warning" style="float:right">댓글작성</v-btn>
-        <v-icon xs1 md2 color="primary">edit</v-icon>
       </v-layout>
     </v-container>
   </v-form>
@@ -28,16 +27,22 @@
         </v-toolbar>
         <v-list three-line>
           <template v-for="(item, index) in chkdialog">
-            <v-divider v-if="item.divider" :key="index" :inset="item.inset"></v-divider>
+            <v-divider v-if="item.divider" :key="index" :inset="item.inset"</v-divider>
             <v-list-tile :key="item.title" avatar>
-        
               <v-list-tile-content>
                 <v-list-tile-title>{{item.create_at}}</v-list-tile-title>
-                <v-list-tile-sub-title>{{item.author}} - {{item.content}}</v-list-tile-sub-title>
-                <v-btn @click="deleteComment(item)" class="warning" style="float:right">삭제</v-btn>
-                
+                <v-list-tile-sub-title v-if="flag">{{item.author}} - {{item.content}}</v-list-tile-sub-title>
+                <v-textarea v-model="editcomment" v-if="!flag" full-width height="160px"></v-textarea>
+
+                <span>
+                  <v-btn @click="onclickupdatebtn(item.content)" v-if="flag" class="primary" style="float:right">수정</v-btn>
+                  <v-btn @click="updateComment(item)" v-if="!flag" class="primary" style="float:right">
+                    <v-icon size="25" class="mr-2">done</v-icon>수정완료</v-btn>
+                  <v-btn @click="deleteComment(item)" class="warning" style="float:right">삭제</v-btn>
+                </span>
               </v-list-tile-content>
             </v-list-tile>
+            <br>
           </template>
         </v-list>
       </v-card>
@@ -55,9 +60,11 @@ export default {
     name: "Comment",
     data: () => ({
       valid: false,
-      commentcontent: '',
+      flag: true,
+      content: '',
       username: sessionStorage.getItem('name'),
-      comments: []
+      comments: [],
+      editcomment:''
     }),
     props: {
       bno:{type:Number},
@@ -71,16 +78,21 @@ export default {
         return this.comments;
       }
     },
+    mounted(){
+      console.log(this.editcomment)
+    },
     methods: {
       async writeComment() {
         var data = {
             bno: this.bno,
             author: this.username,
-            content: this.commentcontent
+            content: this.content
           }
         await this.$axios.post(
             'https://192.168.100.90:8000/api/portcomment/insert', data)
-        .then(response => { })
+        .then(response => {
+          this.content=''
+        })
       },
       async getComments() {
         await this.$axios.post(
@@ -89,8 +101,23 @@ export default {
           this.comments = response.data
         })
       },
+      onclickupdatebtn(content){
+        this.editcomment = content
+        console.log(this.editcontent)
+        this.flag = false
+      },
+      async updateComment(item) {
+        var data = {
+            bno: this.bno,
+            cno: item.cno,
+            author: this.username,
+            content: this.editcomment
+          }
+        await this.$axios.post(
+            'https://192.168.100.90:8000/api/portcomment/update', data)
+        .then(response => { })
+      },
       async deleteComment(item) {
-        console.log(this.comments.indexOf(item))
         await this.$axios.post(
             'https://192.168.100.90:8000/api/portcomment/delete/'+item.cno)
         .then(
