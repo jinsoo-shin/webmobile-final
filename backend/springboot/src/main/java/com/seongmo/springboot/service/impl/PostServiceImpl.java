@@ -17,7 +17,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void insertPost(Post post) throws Exception {
-        post.setCreate_at(LocalDate.now());
+        post.setCreate_at(LocalDate.now().plusDays(1));
         postRepository.save(post);
     }
 
@@ -27,22 +27,20 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post getPost(String author) throws Exception {
-        return postRepository.findByAuthor(author);
+    public Post getPost(Long bno) throws Exception {
+        return postRepository.findById(bno).get();
     }
 
     @Override
     public void updatePost(Post post) throws Exception {
-        Post p = postRepository.findByAuthor(post.getAuthor());
-        if(p != null) {
-            p.setContent(post.getContent());
-            p.setTitle(post.getTitle());
-            postRepository.save(p);
-        }
+        Post p = postRepository.findById(post.getBno()).get();
+        p.setContent(post.getContent());
+        p.setTitle(post.getTitle());
+        postRepository.save(p);
     }
 
     @Override
-    public void deletePost(String author) throws Exception {
-        postRepository.deleteByAuthor(author);
+    public void deletePost(Long bno) throws Exception {
+        postRepository.deleteById(bno);
     }
 }
