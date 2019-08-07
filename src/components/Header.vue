@@ -47,17 +47,6 @@
               </v-btn>
             </v-list-tile-content>
           </v-list-tile>
-          <v-list-tile
-            v-for="item in adminHeader" :key="item.title">
-            <v-list-tile-action>
-                  <v-icon> keyboard_arrow_right</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-             <v-btn flat style="color:black" v-on:click='go(item)'>
-                 {{ item.title }}
-              </v-btn>
-            </v-list-tile-content>
-          </v-list-tile>
         </v-list>
       </v-navigation-drawer>
     </div>

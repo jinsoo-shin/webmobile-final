@@ -66,7 +66,7 @@ export default {
                 });
                 var tokens = [];
                 Vue.$http.post(
-                        'http://192.168.100.90:8000/api/tokens/getAll/0'
+                        'https://192.168.100.90:8000/api/tokens/getAll/0'
                     )
                     .then(response => {
                         tokens = response.data;
@@ -148,7 +148,7 @@ export default {
     sendCommentPush(component) {
         var tokens = [];
         Vue.$http.post(
-                'http://192.168.100.90:8000/api/tokens/getAll/3'
+                'https://192.168.100.90:8000/api/tokens/getAll/3'
             )
             .then(response => {
                 tokens = response.data;
