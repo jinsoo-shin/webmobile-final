@@ -8,7 +8,7 @@
             <v-toolbar-title>5G Admin</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
-          <v-sheet dark height="90.5vh">
+          <v-sheet tile dark height="90.5vh">
             
             <v-list subheader>
             <template v-for="(item, index) in drawitem">
@@ -39,14 +39,14 @@
                 <v-toolbar-side-icon dark @click.stop="drawer = !drawer"></v-toolbar-side-icon>
             </div>
             </v-toolbar>
-            <v-sheet white height="90.5vh" class="pa-3" style="text-align:center">
+            <v-sheet tile white height="90.5vh" class="pa-3" style="text-align:center">
               <img v-if="!select" src="../../public/img/admin_page_wallpaper.jpg"
               style="z-index:-1; width:100%; height:auto;">
             
             <!--User-->
             <v-card v-if="Usershow">
                 <v-card-title>
-                {{data_title}}
+                  {{data_title}}
                 <v-spacer></v-spacer>
                 <v-text-field
                     v-model="search"
@@ -86,7 +86,12 @@
             <!--PF-->
             <v-card v-if="Portfolioshow">
                 <v-card-title>
-                {{data_title}}
+                <v-badge color="green">
+                  <template v-slot:badge>
+                    <span style="font-size:11px">{{length}}</span>
+                  </template>
+                  <span>{{data_title}}</span>
+                </v-badge>
                 <v-spacer></v-spacer>
                 <v-text-field
                     v-model="search"
@@ -124,7 +129,12 @@
             <!--PF-->
             <v-card v-if="Postshow">
                 <v-card-title>
-                {{data_title}}
+                <v-badge color="green">
+                  <template v-slot:badge>
+                    <span style="font-size:11px">{{length}}</span>
+                  </template>
+                  <span>{{data_title}}</span>
+                </v-badge>
                 <v-spacer></v-spacer>
                 <v-text-field
                     v-model="search"
@@ -158,6 +168,11 @@
                 </template>
                 </v-data-table>
             </v-card>
+
+              <div v-show="Etcshow" id="embed-api-auth-container"></div>
+              <div  v-show="Etcshow" id="chart-container"></div>
+              <div  v-show="Etcshow" id="view-selector-container"></div>
+
             </v-sheet>
             
         </v-flex>
@@ -222,6 +237,7 @@ export default {
             Postshow : false,
             Repositoryshow : false,
             Etcshow : false,
+            length : 0,
             Userheaders: [
             {
               text: 'Name',
@@ -265,7 +281,7 @@ export default {
         { title: 'Portpolio', url: 'portfolio' },
         { title: 'Post', url: 'post' },
         { title: 'Repository', url: 'repository' },
-        { title: 'Login', url: 'login'},
+        // { title: 'Login', url: 'login'},
         { title: 'QnA', url: '/'}
       ],
       drawitem: [
@@ -279,43 +295,73 @@ export default {
     }
   },
   created(){
-    Eventbus.$on('getUserEmail',getEmail=>{
-      this.login=true;
-      sessionStorage.setItem('email',getEmail)
-      this.email=getEmail;
-      this.name=sessionStorage.getItem('name');
-      this.changeTitle();
-    });
-    FirebaseService.loginChk();
-  },
-  mounted() {
-      this.$axios.post('http://192.168.100.90:8000/api/members/getAll')
-                .then(response => {
-                  this.Users = response.data;
-                  console.log("User", this.Users);
-                })
-                .catch(error => {
-                  console.log("failed")
-                }); 
-      
-      this.$axios.post('http://192.168.100.90:8000/api/portfolios/getAll')
-                .then(response => {
-                  this.Portfoilos = response.data;
-                  console.log("portfolio", this.Portfoilos);
-                })
-                .catch(error => {
-                  console.log("failed")
-                });
-      this.$axios.post('http://192.168.100.90:8000/api/posts/getAll')
-                .then(response => {
-                  this.Posts = response.data;
-                  console.log("posts", this.Posts);
-                })
-                .catch(error => {
-                  console.log("failed")
-                });
+    // Eventbus.$on('getUserEmail',getEmail=>{
+    //   this.login=true;
+    //   sessionStorage.setItem('email',getEmail)
+    //   this.email=getEmail;
+    //   this.name=sessionStorage.getItem('name');
+    //   this.changeTitle();
+    // });
+    // FirebaseService.loginChk();
   },
 	methods: {
+      test(){
+        gapi.analytics.ready(function() {
+
+  /**
+   * Authorize the user immediately if the user has already granted access.
+   * If no access has been created, render an authorize button inside the
+   * element with the ID "embed-api-auth-container".
+   */
+  gapi.analytics.auth.authorize({
+    container: 'embed-api-auth-container',
+    clientid: '527574403487-5rjveiqpfsptnn22qge8ohmkl3p3obmi.apps.googleusercontent.com'
+  });
+
+
+  /**
+   * Create a new ViewSelector instance to be rendered inside of an
+   * element with the id "view-selector-container".
+   */
+  var viewSelector = new gapi.analytics.ViewSelector({
+    container: 'view-selector-container'
+  });
+
+  // Render the view selector to the page.
+  viewSelector.execute();
+
+
+  /**
+   * Create a new DataChart instance with the given query parameters
+   * and Google chart options. It will be rendered inside an element
+   * with the id "chart-container".
+   */
+  var dataChart = new gapi.analytics.googleCharts.DataChart({
+    query: {
+      metrics: 'ga:sessions',
+      dimensions: 'ga:date',
+      'start-date': '30daysAgo',
+      'end-date': 'yesterday'
+    },
+    chart: {
+      container: 'chart-container',
+      type: 'LINE',
+      options: {
+        width: '100%'
+      }
+    }
+  });
+
+
+  /**
+   * Render the dataChart on the page whenever a new view is selected.
+   */
+  viewSelector.on('change', function(ids) {
+    dataChart.set({query: {ids: ids}}).execute();
+  });
+
+});
+      },
       favorite:function(){
         var title = document.title;
         var url = location.href;
@@ -393,10 +439,9 @@ export default {
           if(str === "USERS")
           {
             this.Usershow = true;
-            this.$axios.post('http://192.168.100.90:8000/api/members/getAll')
+            this.$axios.post('https://192.168.100.90:8000/api/members/getAll')
                 .then(response => {
                   this.Users = response.data;
-                  console.log("User", this.Users);
                 })
                 .catch(error => {
                   console.log("failed")
@@ -405,10 +450,10 @@ export default {
           else if(str === "PORTFOLIOS")
           {
             this.Portfolioshow = true;
-            this.$axios.post('http://192.168.100.90:8000/api/portfolios/getAll')
+            this.$axios.post('https://192.168.100.90:8000/api/portfolios/getAll')
                 .then(response => {
                   this.Portfoilos = response.data;
-                  console.log("portfolio", this.Portfoilos);
+                  this.length = reponse.data.length;
                 })
                 .catch(error => {
                   console.log("failed")
@@ -417,10 +462,10 @@ export default {
           else if(str === "POSTS")
           {
             this.Postshow = true;
-            this.$axios.post('http://192.168.100.90:8000/api/posts/getAll')
+            this.$axios.post('https://192.168.100.90:8000/api/posts/getAll')
                 .then(response => {
                   this.Posts = response.data;
-                  console.log("posts", this.Posts);
+                  this.length = reponse.data.length;
                 })
                 .catch(error => {
                   console.log("failed")
@@ -433,6 +478,7 @@ export default {
           else if(str === "ETC")
           {
             this.Etcshow = true;
+            this.test();
           }
         },
         editItem(item, str){
@@ -442,7 +488,8 @@ export default {
             email: item.email,
             ranks: item.ranks
             };
-            this.$axios.post('http://192.168.100.90:8000/api/members/update',data).then(response => {
+            this.$axios.post('https://192.168.100.90:8000/api/members/update',data).then(response => {
+              alert("수정 완료!")
             }).catch(error => {
               console.log(error)
             })
@@ -452,8 +499,8 @@ export default {
           if(str === "USERS")
           {
             var data =item.email;
-            this.$axios.post('http://192.168.100.90:8000/api/members/delete/'+data).then(response => {
-              this.$axios.post('http://192.168.100.90:8000/api/members/getAll')
+            this.$axios.post('https://192.168.100.90:8000/api/members/delete/'+data).then(response => {
+              this.$axios.post('https://192.168.100.90:8000/api/members/getAll')
                 .then(response => {
                   this.Users = response.data;
                 })
@@ -467,8 +514,8 @@ export default {
           else if(str === "PORTFOLIOS")
           {
             var data =item.bno;
-            this.$axios.post('http://192.168.100.90:8000/api/portfolios/delete/'+data).then(response => {
-              this.$axios.post('http://192.168.100.90:8000/api/portfolios/getAll')
+            this.$axios.post('https://192.168.100.90:8000/api/portfolios/delete/'+data).then(response => {
+              this.$axios.post('https://192.168.100.90:8000/api/portfolios/getAll')
                 .then(response => {
                   this.Portfoilos = response.data;
                 })
@@ -482,8 +529,8 @@ export default {
           else if(str === "POSTS")
           {
             var data =item.bno;
-            this.$axios.post('http://192.168.100.90:8000/api/posts/delete/'+data).then(response => {
-              this.$axios.post('http://192.168.100.90:8000/api/posts/getAll')
+            this.$axios.post('https://192.168.100.90:8000/api/posts/delete/'+data).then(response => {
+              this.$axios.post('https://192.168.100.90:8000/api/posts/getAll')
                 .then(response => {
                   this.Posts = response.data;
                 })
