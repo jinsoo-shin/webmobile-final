@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <v-toolbar dark color="#FBC02D" fixed>
+    <v-toolbar dark color="#FF6F61" fixed>
       <v-btn flat icon v-on:click='go("home")'><v-icon>home</v-icon></v-btn>
       <v-toolbar-title v-if="!login" style="font-family: 'Jua', sans-serif;">{{email}}</v-toolbar-title>
       <v-toolbar-title class="hidden-xs-only" v-if="login" style="font-family: 'Jua', sans-serif;">{{name}}님 어서오세요</v-toolbar-title>
