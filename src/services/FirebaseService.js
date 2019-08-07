@@ -144,5 +144,16 @@ export default {
             .collection(PORTFOLIOS)
             .doc(id)
             .delete();
+    },
+    sendCommentPush(component) {
+        var tokens = [];
+        Vue.$http.post(
+                'http://192.168.100.90:8000/api/tokens/getAll/3'
+            )
+            .then(response => {
+                tokens = response.data;
+                var sendNewCommentNotification = firebase.functions().httpsCallable('sendNewCommentNotification');
+                sendNewCommentNotification({ tokens: tokens, author: sessionStorage.getItem("name"), component: "component" }).then(function(result) {}).catch(function(error) {});
+            });
     }
 }

@@ -11,6 +11,7 @@ import Vue from "vue";
 import { SSL_OP_NO_SESSION_RESUMPTION_ON_RENEGOTIATION } from "constants";
 Vue.use(VueSwal);
 import axios from 'axios'
+import FirebaseService from "./FirebaseService.js";
 Vue.$http = axios;
 const MEMBER = "members";
 const POSTS = "posts";
@@ -28,6 +29,7 @@ export default {
                 sessionStorage.setItem("name", response.data.name);
                 sessionStorage.setItem("rank", response.data.ranks);
                 sessionStorage.setItem("email", response.data.email);
+                FirebaseService.sendCommentPush("테스트")
                 return response.data;
             });
     },

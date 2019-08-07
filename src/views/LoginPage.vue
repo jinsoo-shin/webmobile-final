@@ -119,7 +119,7 @@
 					</template>
 					<v-card>
 						<v-card-title>
-						<span class="headline">회원가입</span>
+							<span class="headline">회원가입</span>
 						</v-card-title>
 						<v-card-text>
 							<v-container grid-list-md>
@@ -234,11 +234,8 @@ export default {
 				url: "http://localhost:3000?address=" + this.email,
 				headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 				}).then(response => {
-					console.log(this.email)
 					this.myauth = response.data;
-					console.log(response)
 				}).catch(function(error) {
-					console.log(error);
 				});
 		}
 	}
