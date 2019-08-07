@@ -37,50 +37,6 @@ const messaging = firebase.messaging();
 
 
 export default {
-    getMember: function(email) {
-        // db = firebase.firestore(app);
-        var docRef = db.collection(MEMBER).doc(email);
-        return docRef
-            .get()
-            .then(doc => {
-                sessionStorage.setItem("name", doc.data().name);
-                sessionStorage.setItem("rank", doc.data().rank);
-                return doc.data();
-            })
-            .catch(function(error) {
-                console.log("Error getting document:", error);
-            });
-    },
-    postMember(name, password, email, album, age) {
-        firebase
-            .auth()
-            .createUserWithEmailAndPassword(email, password)
-            .then(
-                function(user) {
-                    var signUpLog = firebase.functions().httpsCallable("signUpLog");
-                    signUpLog({ name: name, email: email })
-                        .then(function(result) {})
-                        .catch(function(error) {});
-                    alert("가입등록이 완료되었습니다. 다시 로그인해 주세요");
-                },
-                function(err) {
-                    alert("실패" + err.message);
-                }
-            );
-        // db = firebase.firestore(app);
-        var data = {
-            age: age,
-            album: album,
-            created_at: firebase.firestore.FieldValue.serverTimestamp(),
-            email: email,
-            name: name,
-            password: password,
-            rank: 1
-        };
-        db.collection(MEMBER)
-            .doc(email)
-            .set(data);
-    },
     getPosts() {
         const postsCollection = firestore.collection(POSTS);
         return postsCollection
@@ -110,7 +66,7 @@ export default {
                 });
                 var tokens = [];
                 Vue.$http.post(
-                        'http://192.168.100.90:8000/api/tokens/getAll/0'
+                        'https://192.168.100.90:8000/api/tokens/getAll/0'
                     )
                     .then(response => {
                         tokens = response.data;
@@ -123,7 +79,6 @@ export default {
             .catch(function(error) {});
     },
     editPost(id, title, body, author) {
-        // db = firebase.firestore(app);
         var data = {
             title: title,
             body: body,
@@ -173,7 +128,6 @@ export default {
             .catch(function(error) {});
     },
     editPortfolio(id, title, body, img, author) {
-        // db = firebase.firestore(app);
         var data = {
             title: title,
             body: body,
@@ -191,125 +145,15 @@ export default {
             .doc(id)
             .delete();
     },
-    loginWithGoogle() {
-        let provider = new firebase.auth.GoogleAuthProvider();
-        return firebase
-            .auth()
-            .signInWithPopup(provider)
-            .then(function(result) {
-                store.state.accessToken = result.credential.accessToken;
-                if (store.state.accessToken != "") {
-                    store.state.login = false;
-                }
-                let user = result.user;
-                var signInLog = firebase.functions().httpsCallable("signInLog");
-                signInLog({ access: "Google" })
-                    .then(function(result) {})
-                    .catch(function(error) {});
-                return result;
-            })
-            .catch(function(error) {
-                console.error("[Google Login Error]", error);
+    sendCommentPush(component) {
+        var tokens = [];
+        Vue.$http.post(
+                'https://192.168.100.90:8000/api/tokens/getAll/3'
+            )
+            .then(response => {
+                tokens = response.data;
+                var sendNewCommentNotification = firebase.functions().httpsCallable('sendNewCommentNotification');
+                sendNewCommentNotification({ tokens: tokens, author: sessionStorage.getItem("name"), component: "component" }).then(function(result) {}).catch(function(error) {});
             });
-    },
-    loginWithFacebook() {
-        let provider = new firebase.auth.FacebookAuthProvider();
-        return firebase
-            .auth()
-            .signInWithPopup(provider)
-            .then(function(result) {
-                store.state.accessToken = result.credential.accessToken;
-                if (store.state.accessToken != "") {
-                    store.state.login = false;
-                }
-                let user = result.user;
-                console.log(firebase.auth.token.email)
-                var signInLog = firebase.functions().httpsCallable("signInLog");
-                signInLog({ access: "Facebook" })
-                    .then(function(result) {})
-                    .catch(function(error) {});
-                return result;
-            })
-            .catch(function(error) {
-                console.error("[Facebook Login Error]", error);
-            });
-    },
-    loginChk() {
-        firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
-                Eventbus.$emit("getUserEmail", user.email);
-            } else {}
-        });
-    },
-    loginService(e, email, pw) {
-        e.preventDefault();
-        var tmp = email
-        var token = "";
-        messaging.requestPermission()
-            .then(function() {
-                messaging.getToken().then((currentToken) => {
-                    token = currentToken;
-                    var ranks = "";
-                    Vue.$http.post(
-                            'http://192.168.100.90:8000/api/members/get/' + email
-                        )
-                        .then(response => {
-                            ranks = response.data.ranks;
-                        });
-                    Vue.$http.post(
-                            'http://192.168.100.90:8000/api/tokens/get/' + email
-                        )
-                        .then(response => {
-                            console.log("response", response)
-                            if (response.data) {
-                                Vue.$http.post(
-                                        'http://192.168.100.90:8000/api/tokens/update', { email: email, ranks: ranks, token: token }
-                                    )
-                                    .then(response => {
-                                        console.log("토큰 DB 업데이트")
-                                    });
-                            } else {
-                                Vue.$http.post(
-                                        'http://192.168.100.90:8000/api/tokens/insert', { email: email, ranks: ranks, token: token }
-                                    )
-                                    .then(response => {
-                                        console.log("토큰 DB 생성")
-                                    });
-                            }
-                        });
-                })
-            })
-            .catch(function(err) {
-                console.log('Error Occured.')
-            });
-
-
-        firebase.auth().signInWithEmailAndPassword(email, pw).then(
-            function(user) {
-                store.state.accessToken = tmp;
-                swal("Login Success!", "You are ready to start!", "success", {
-                    buttons: false,
-                    timer: 2000,
-                })
-                var signInWithEmailLog = firebase.functions().httpsCallable('signInWithEmailLog');
-                signInWithEmailLog({ access: "Email", email: email }).then(function(result) {}).catch(function(error) {});
-                setTimeout(() => {
-                    window.location.href = "/"
-                }, 2000);
-            },
-            function(err) {
-                swal("Login Failed!", "Please Check your E-mail or Password!", "warning", {
-                    buttons: false,
-                    timer: 1500,
-                })
-            }
-        )
-        e.preventDefault();
-    },
-    logOut() {
-        var email = sessionStorage.getItem('email');
-        var signOutLog = firebase.functions().httpsCallable('signOutLog');
-        signOutLog({ email: email }).then(function() {}).catch(function(error) {});
-        firebase.auth().signOut().then(function() {})
     }
 }

@@ -48,25 +48,26 @@ exports.sendNewPostNotification = functions.https.onCall((data, context) => {
     tokens.forEach(function(element) {
         const payload = {
             notification: {
-                title: component + " 새글알림",
+                title: component + " 새 글 알림",
                 body: author + "님이 새로운 글을 등록했습니다."
             },
             token: element.token
         };
         admin.messaging().send(payload);
     })
-
-
-
-
-
-    // admin.messaging().send(payload);
-    // const payload = {
-    //     notification: {
-    //         title: "test",
-    //         body: "testtesttest"
-    //     },
-    //     token: element.token
-    // };
-    // admin.messaging().sendToDevice(token, payload)
+});
+exports.sendNewCommentNotification = functions.https.onCall((data, context) => {
+    var tokens = data.tokens;
+    var component = data.component;
+    var author = data.author;
+    tokens.forEach(function(element) {
+        const payload = {
+            notification: {
+                title: component + " 새 댓글 알림",
+                body: author + "님이 새로운 댓글을 등록했습니다."
+            },
+            token: element.token
+        };
+        admin.messaging().send(payload);
+    })
 });

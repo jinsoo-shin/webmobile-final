@@ -28,8 +28,8 @@
         </v-toolbar>
         <v-list three-line>
           <template v-for="(item, index) in chkdialog">
-            <v-divider v-if="item.divider" :key="index" :inset="item.inset"</v-divider>
-            <v-list-tile v-if :key="item.title" avatar>
+            <v-divider v-if="item.divider" :key="index" :inset="item.inset"></v-divider>
+            <v-list-tile :key="item.title" avatar>
         
               <v-list-tile-content>
                 <v-list-tile-title>{{item.create_at}}</v-list-tile-title>
@@ -78,12 +78,12 @@ export default {
             content: this.commentcontent
           }
         await this.$axios.post(
-            'http://192.168.100.90:8000/api/portcomment/insert', data)
+            'https://192.168.100.90:8000/api/portcomment/insert', data)
         .then(response => { })
       },
       async getComments() {
         await this.$axios.post(
-            'http://192.168.100.90:8000/api/portcomment/getAll/'+this.bno)
+            'https://192.168.100.90:8000/api/portcomment/getAll/'+this.bno)
         .then(response => {
           this.comments = response.data
         })
@@ -91,7 +91,7 @@ export default {
       async deleteComment(item) {
         console.log(this.comments.indexOf(item))
         await this.$axios.post(
-            'http://192.168.100.90:8000/api/portcomment/delete/'+item.cno)
+            'https://192.168.100.90:8000/api/portcomment/delete/'+item.cno)
         .then(
           this.comments.splice(this.comments.indexOf(item),1)
         )
