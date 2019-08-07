@@ -8,10 +8,11 @@
               :content="portfolios[i-1].content"
 			  :img="portfolios[i-1].img"
 			  :author="portfolios[i-1].author"
+			  :email="portfolios[i-1].email"
       ></Portfolio>
     </v-flex>
 
-    <v-flex xs12 text-xs-center round my-5 v-if="loadMore">
+    <v-flex xs12 text-xs-center round my-5 v-if="limits < portfolios.length">
       <v-btn color="rgb(123,142,169)" dark v-on:click="loadMorePortfolios"><v-icon size="25" class="mr-2">fa-plus</v-icon> 더 보기</v-btn>
     </v-flex>
   </v-layout>
@@ -38,7 +39,7 @@ export default {
 	methods: {
 		async getPortfolios() {
 			await this.$axios.post(
-            'http://192.168.100.90:8000/api/portfolios/getAll'
+            'https://192.168.100.90:8000/api/portfolios/getAll'
 			)
 			.then(response => {
 				this.portfolios = response.data
