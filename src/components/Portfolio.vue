@@ -46,7 +46,7 @@
               </v-flex>
             </v-layout>
             <br>
-            <Comment :bno="bno" :dialog="dialog"></Comment>
+            <PortfolioComment :bno="bno" :dialog="dialog"></PortfolioComment>
           </v-card>
         </v-dialog>
 
@@ -58,12 +58,12 @@
 <script>
 import Vue from 'vue'
 import FirebaseService from '@/services/FirebaseService'
-import Comment from './Comment.vue'
+import PortfolioComment from './PortfolioComment.vue'
 
 export default {
 	name: 'Portfolio',
   components:{
-    Comment
+    PortfolioComment
   },
   data () {
       return {

@@ -42,7 +42,7 @@
             </v-flex>
           </v-layout>
           <br>
-          <Comment></Comment>
+          <PostComment :bno="bno" :dialog="dialog"></PostComment>
 
           <v-layout row>
               <v-flex xs12 >
@@ -75,12 +75,12 @@
 
 <script>
 import FirebaseService from '@/services/FirebaseService'
-import Comment from './Comment.vue'
+import PostComment from './PostComment.vue'
 
 export default {
   name: 'Post',
   components:{
-    Comment
+    PostComment
   },
   data () {
       return {
