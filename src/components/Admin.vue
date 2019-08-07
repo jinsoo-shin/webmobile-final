@@ -339,13 +339,13 @@ export default {
             metrics: 'ga:sessions',
             dimensions: 'ga:date',
             'start-date': '30daysAgo',
-            'end-date': 'yesterday'
+            'end-date': 'today'
           },
           chart: {
             container: 'chart-container',
             type: 'LINE',
             options: {
-              width: '100%'
+              width: '10%'
             }
           }
         });
