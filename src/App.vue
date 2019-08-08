@@ -4,6 +4,7 @@
       <router-view/>
     </v-content>
 	<TopButton></TopButton>
+	<ChatBot></ChatBot>
   </v-app>
 </template>
 <script>
@@ -18,6 +19,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Header from './components/Header'
 import TopButton from './components/TopButton'
+import ChatBot from './components/ChatBot'
 
 Vue.prototype.$axios = axios
 Vue.use(Vuetify)
@@ -29,7 +31,8 @@ export default {
 	components: {
 		Header,
 		TopButton,
-		Notification
+		Notification,
+		ChatBot
 	},
 	store
 }
