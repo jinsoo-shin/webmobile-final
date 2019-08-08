@@ -28,7 +28,7 @@
         <v-list three-line>
                 <v-textarea v-model="editcomment" v-if="!flag" full-width height="160px"></v-textarea>
           <template v-for="(item, index) in chkdialog">
-            <v-divider v-if="item.divider" :key="index" :inset="item.inset"</v-divider>
+            <v-divider v-if="item.divider" :key="index" :inset="item.inset"></v-divider>
             <v-list-tile :key="item.title" avatar>
               <v-list-tile-content>
                 <v-list-tile-title>{{item.create_at}}</v-list-tile-title>
@@ -115,7 +115,7 @@ export default {
             for(var i = 0; i < this.comments.length ;i++)
             {
               this.editcomments.push(this.comments.content);
-            }
+             }
             console.log(this.comments);
           })
         
