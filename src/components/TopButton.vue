@@ -1,8 +1,13 @@
 <template>
-    <button type ="button" v-if = "isVisible" @click = "$vuetify.goTo(0)" class = "v-btn v-btn--bottom v-btn--floating v-btn--fixed v-btn--right theme--dark" style = "background-color:rgba(043,063,107,0.7);" data-v-10ea4164 = "">
-    <div class="v-btn__content">
-    <i aria-hidden = "true" class = "v-icon material-icons theme--dark"> keyboard_arrow_up </i>
-    </div>
+    <button type ="button" 
+        v-if = "isVisible" 
+        @click = "$vuetify.goTo(0)" 
+        class = "v-btn v-btn--bottom v-btn--floating v-btn--fixed v-btn--right theme--dark" 
+        style = "background-color:rgba(043,063,107,0.7);" 
+        data-v-10ea4164 = "">
+      <div class="v-btn__content">
+        <i aria-hidden = "true" class = "v-icon material-icons theme--dark"> keyboard_arrow_up </i>
+      </div>
     </button>
 </template>
 
