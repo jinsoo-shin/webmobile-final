@@ -28,20 +28,19 @@
         <v-list three-line>
                 <v-textarea v-model="editcomment" v-if="!flag" full-width height="160px"></v-textarea>
           <template v-for="(item, index) in chkdialog">
-            <v-divider v-if="item.divider" :key="index" :inset="item.inset"</v-divider>
+            <v-divider v-if="item.divider" :key="index" :inset="item.inset"></v-divider>
             <v-list-tile :key="item.title" avatar>
               <v-list-tile-content>
                 <v-list-tile-title>{{item.create_at}}</v-list-tile-title>
                 <v-list-tile-sub-title v-if="flag">{{item.author}} - {{item.content}}</v-list-tile-sub-title>
                 <span>
                   <v-btn @click="onclickupdatebtn(index)" v-if="flag" class="primary" style="float:right">수정</v-btn>
-                  <v-btn @click="updateComment(item)" v-if="!flag" class="primary" style="float:right">
+                  <v-btn @click="updateComment(item, index)" v-if="!flag && select[index]" class="primary" style="float:right">
                     <v-icon size="25" class="mr-2">done</v-icon>수정완료</v-btn>
                   <v-btn @click="deleteComment(item)" class="warning" style="float:right">삭제</v-btn>
                 </span>
               </v-list-tile-content>
             </v-list-tile>
-            <br>
           </template>
         </v-list>
       </v-card>
@@ -64,7 +63,8 @@ export default {
       username: sessionStorage.getItem('name'),
       comments: [],
       editcomments:[],
-      editcomment : ''
+      editcomment : '',
+      select : []
     }),
     props: {
       bno:{type:Number},
@@ -92,40 +92,29 @@ export default {
             'https://192.168.100.90:8000/api/portcomment/insert', data)
         .then(response => {
           FirebaseService.sendCommentPush("Portfolio")
-          this.$axios.post(
-              'https://192.168.100.90:8000/api/portcomment/getAll/'+this.bno)
-          .then(response => {
-            this.comments = response.data
-            for(var i = 0; i < this.comments.length ;i++)
-            {
-              this.editcomments.push(this.comments.content);
-            }
-            console.log(this.comments);
-          })
+          this.getComments();
           this.content=''
         })
       },
       async getComments() {
-
-          if(this.comments.length == 0)
           await this.$axios.post(
               'https://192.168.100.90:8000/api/portcomment/getAll/'+this.bno)
           .then(response => {
             this.comments = response.data
             for(var i = 0; i < this.comments.length ;i++)
             {
-              this.editcomments.push(this.comments.content);
+              this.editcomments.push(this.comments[i].content);
+              this.select.push(false);
             }
-            console.log(this.comments);
           })
         
       },
       onclickupdatebtn(index){
-        console.log("what? ", index)
         this.editcomment = this.editcomments[index];
         this.flag = false
+        this.select[index] = true;
       },
-      async updateComment(item) {
+      async updateComment(item, index) {
         var data = {
             bno: this.bno,
             cno: item.cno,
@@ -133,19 +122,11 @@ export default {
             content: this.editcomment
           }
         await this.$axios.post(
-            'https://192.168.100.90:8000/api/portcomment/update', data)
+          'https://192.168.100.90:8000/api/portcomment/update', data)
         .then(response => {
-          this.$axios.post(
-              'https://192.168.100.90:8000/api/portcomment/getAll/'+this.bno)
-          .then(response => {
-            this.comments = response.data
-            for(var i = 0; i < this.comments.length ;i++)
-            {
-              this.editcomments.push(this.comments.content);
-            }
-            console.log(this.comments);
-            this.flag = true;
-          })
+          this.getComments();
+          this.flag = true;
+          this.select[index] = false;
         })
       },
       async deleteComment(item) {
