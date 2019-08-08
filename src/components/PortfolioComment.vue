@@ -91,6 +91,7 @@ export default {
         await this.$axios.post(
             'https://192.168.100.90:8000/api/portcomment/insert', data)
         .then(response => {
+          FirebaseService.sendCommentPush("Portfolio")
           this.$axios.post(
               'https://192.168.100.90:8000/api/portcomment/getAll/'+this.bno)
           .then(response => {
