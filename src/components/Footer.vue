@@ -1,6 +1,6 @@
 <template>
   <v-footer  height="auto">
-    <v-card color="#FF6F61" class="flex" flat tile>
+    <v-card dark color="#FF6F61" class="flex" flat tile>
       <v-card-title class="">
         <v-layout hidden-xs-only>
           <v-flex sm4 offset-sm2>
