@@ -56,7 +56,7 @@
                     hide-details
                 ></v-text-field>
                 </v-card-title>
-                <v-data-table
+                <v-data-table dense
                 :headers="Userheaders"
                 :items="Users"
                 :search="search"
@@ -168,9 +168,9 @@
                 </template>
                 </v-data-table>
             </v-card>
-              <div v-show="Etcshow" id="embed-api-auth-container"></div>
-              <div v-show="Etcshow" id="chart-container"></div>
-              <div v-show="Etcshow" id="view-selector-container"></div>
+              <div v-show="false" id="embed-api-auth-container"></div>
+              <div  v-show="Etcshow" id="chart-container"></div>
+              <div  v-show="Etcshow" id="view-selector-container"></div>
 
             </v-sheet>
             
