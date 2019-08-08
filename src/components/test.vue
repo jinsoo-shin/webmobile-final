@@ -1,32 +1,20 @@
 <template>
   <div>
-    <v-layout row>
-      <v-flex xs12 sm6 offset-sm3 px-4>
-        <v-card>
-          <v-list two-line class="noPadding">
-            <v-list-tile
-              :disabled="loading"
-              active-class="highlighted"
-              :class="item.username === selecteduser ? 'primary' : ''"
-              v-for="(item, i) in members"
-              :key="i"
-              @click="changeMember(item.username)"
-            >
-              <v-list-tile-avatar>
-                <img :src="item.avatar_url" />
-              </v-list-tile-avatar>
-
-              <v-list-tile-content>
-                <v-list-tile-title v-html="item.name"></v-list-tile-title>
-                <v-list-tile-sub-title
-                  v-html="item.web_url"
-                ></v-list-tile-sub-title>
-              </v-list-tile-content>
-            </v-list-tile>
-          </v-list>
-        </v-card>
+    <v-layout>
+      <v-flex style="padding: 70px"
+       v-for="(item, i) in members"
+      :key="i">
+      <v-avatar
+      :disabled="loading"
+      active-class="highlighted"
+      :class="item.username === selecteduser ? 'primary' : ''"
+      @click="changeMember(item.username)">
+        <img :src="item.avatar_url" />
+      </v-avatar>
+      <h3>{{item.name}}</h3>
       </v-flex>
-    </v-layout>
+      </v-layout>
+
     <br />
     <v-layout column px-4>
       <div>
@@ -153,8 +141,3 @@ export default {
 
 
 </script>
-<style>
-.noPadding {
-  padding: 0 0px;
-}
-</style>
