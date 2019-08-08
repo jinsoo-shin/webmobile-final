@@ -43,7 +43,7 @@ export default {
 				this.posts = response.data
 				localStorage.setItem("posts", JSON.stringify(response.data));
 			}).catch( response => { 
-			this.portfolios=JSON.parse(localStorage.getItem("posts"))
+			this.posts=JSON.parse(localStorage.getItem("posts"))
 			});
 		},
 		loadMorePosts() {
