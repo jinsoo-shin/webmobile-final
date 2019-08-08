@@ -26,16 +26,15 @@
           <v-spacer></v-spacer>
         </v-toolbar>
         <v-list three-line>
+                <v-textarea v-model="editcomment" v-if="!flag" full-width height="160px"></v-textarea>
           <template v-for="(item, index) in chkdialog">
             <v-divider v-if="item.divider" :key="index" :inset="item.inset"</v-divider>
             <v-list-tile :key="item.title" avatar>
               <v-list-tile-content>
                 <v-list-tile-title>{{item.create_at}}</v-list-tile-title>
                 <v-list-tile-sub-title v-if="flag">{{item.author}} - {{item.content}}</v-list-tile-sub-title>
-                <v-textarea v-model="editcomment" v-if="!flag" full-width height="160px"></v-textarea>
-
                 <span>
-                  <v-btn @click="onclickupdatebtn(item.content)" v-if="flag" class="primary" style="float:right">수정</v-btn>
+                  <v-btn @click="onclickupdatebtn(index)" v-if="flag" class="primary" style="float:right">수정</v-btn>
                   <v-btn @click="updateComment(item)" v-if="!flag" class="primary" style="float:right">
                     <v-icon size="25" class="mr-2">done</v-icon>수정완료</v-btn>
                   <v-btn @click="deleteComment(item)" class="warning" style="float:right">삭제</v-btn>
@@ -64,7 +63,8 @@ export default {
       content: '',
       username: sessionStorage.getItem('name'),
       comments: [],
-      editcomment:''
+      editcomments:[],
+      editcomment : ''
     }),
     props: {
       bno:{type:Number},
@@ -79,7 +79,7 @@ export default {
       }
     },
     mounted(){
-      console.log(this.editcomment)
+    
     },
     methods: {
       async writeComment() {
@@ -91,20 +91,38 @@ export default {
         await this.$axios.post(
             'https://192.168.100.90:8000/api/portcomment/insert', data)
         .then(response => {
-          this.content=''
           FirebaseService.sendCommentPush("Portfolio")
+          this.$axios.post(
+              'https://192.168.100.90:8000/api/portcomment/getAll/'+this.bno)
+          .then(response => {
+            this.comments = response.data
+            for(var i = 0; i < this.comments.length ;i++)
+            {
+              this.editcomments.push(this.comments.content);
+            }
+            console.log(this.comments);
+          })
+          this.content=''
         })
       },
       async getComments() {
-        await this.$axios.post(
-            'https://192.168.100.90:8000/api/portcomment/getAll/'+this.bno)
-        .then(response => {
-          this.comments = response.data
-        })
+
+          if(this.comments.length == 0)
+          await this.$axios.post(
+              'https://192.168.100.90:8000/api/portcomment/getAll/'+this.bno)
+          .then(response => {
+            this.comments = response.data
+            for(var i = 0; i < this.comments.length ;i++)
+            {
+              this.editcomments.push(this.comments.content);
+            }
+            console.log(this.comments);
+          })
+        
       },
-      onclickupdatebtn(content){
-        this.editcomment = content
-        console.log(this.editcontent)
+      onclickupdatebtn(index){
+        console.log("what? ", index)
+        this.editcomment = this.editcomments[index];
         this.flag = false
       },
       async updateComment(item) {
@@ -116,7 +134,19 @@ export default {
           }
         await this.$axios.post(
             'https://192.168.100.90:8000/api/portcomment/update', data)
-        .then(response => { })
+        .then(response => {
+          this.$axios.post(
+              'https://192.168.100.90:8000/api/portcomment/getAll/'+this.bno)
+          .then(response => {
+            this.comments = response.data
+            for(var i = 0; i < this.comments.length ;i++)
+            {
+              this.editcomments.push(this.comments.content);
+            }
+            console.log(this.comments);
+            this.flag = true;
+          })
+        })
       },
       async deleteComment(item) {
         await this.$axios.post(
