@@ -92,6 +92,7 @@ export default {
             'https://192.168.100.90:8000/api/portcomment/insert', data)
         .then(response => {
           this.content=''
+          FirebaseService.sendCommentPush("Portfolio")
         })
       },
       async getComments() {
