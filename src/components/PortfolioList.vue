@@ -43,20 +43,11 @@ export default {
 			)
 			.then(response => {
 				this.portfolios = response.data
-				// localStorage.removeItem("portfolios");
 				localStorage.setItem("portfolios", JSON.stringify(response.data));
 			})
 			.catch( response => { 
 			this.portfolios=JSON.parse(localStorage.getItem("portfolios"))
-			console.log("왜안들어가요",this.portfolios)
-			
-			
 			});
-					// .catch(function(error) {
-			// 	console.log("에러에러",localStorage.getItem("portfolios"))
-			// 	console.log("포폴")
-			// 	// this.portfolios =JSON.parse(localStorage.getItem("portfolios"));
-			// });
 		},
 		loadMorePortfolios() {
 			this.limits+=6;
