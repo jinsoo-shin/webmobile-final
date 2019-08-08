@@ -29,7 +29,6 @@ export default {
                 sessionStorage.setItem("name", response.data.name);
                 sessionStorage.setItem("rank", response.data.ranks);
                 sessionStorage.setItem("email", response.data.email);
-                FirebaseService.sendCommentPush("테스트")
                 return response.data;
             });
     },
