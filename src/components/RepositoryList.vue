@@ -2,7 +2,8 @@
   <div>
     <v-layout row>
       <v-flex xs12 sm6 offset-sm3 px-4>
-        <v-card>
+
+        <!-- <v-card>
           <v-list two-line class="noPadding">
             <v-list-tile
               :disabled="loading"
@@ -24,9 +25,34 @@
               </v-list-tile-content>
             </v-list-tile>
           </v-list>
-        </v-card>
+        </v-card> -->
       </v-flex>
     </v-layout>
+
+        <div id="app">
+          <v-app id="inspire">
+            <v-layout justify-space-around wrap>
+          
+              <v-avatar color="indigo">
+                <v-icon dark>account_circle</v-icon>
+              </v-avatar>
+          
+              <v-avatar>
+                <img
+                  src="https://cdn.vuetifyjs.com/images/john.jpg"
+                  alt="John"
+                >
+              </v-avatar>
+          
+              <v-avatar color="red">
+                <span class="white--text headline">CJ</span>
+              </v-avatar>
+          
+            </v-layout>
+          </v-app>
+        </div>
+
+
     <br />
     <v-layout column px-4>
       <div>
