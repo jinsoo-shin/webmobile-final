@@ -27,7 +27,7 @@
         </v-toolbar>
         <v-list three-line>
           <template v-for="(item, index) in chkdialog">
-            <v-divider v-if="item.divider" :key="index" :inset="item.inset"</v-divider>
+            <v-divider v-if="item.divider" :key="index" :inset="item.inset"></v-divider>
             <v-list-tile :key="item.title" avatar>
               <v-list-tile-content>
                 <v-list-tile-title>{{item.create_at}}</v-list-tile-title>
@@ -92,11 +92,12 @@ export default {
             'https://192.168.100.90:8000/api/postcomment/insert', data)
         .then(response => {
           this.content=''
+          FirebaseService.sendCommentPush("Post")
         })
       },
       async getComments() {
         await this.$axios.post(
-            'https://192.168.100.90:8000/api/posttcomment/getAll/'+this.bno)
+            'https://192.168.100.90:8000/api/postcomment/getAll/'+this.bno)
         .then(response => {
           this.comments = response.data
         })

@@ -70,4 +70,5 @@ exports.sendNewCommentNotification = functions.https.onCall((data, context) => {
         };
         admin.messaging().send(payload);
     })
+    console.log(component + " 에 새로운 댓글이 작성되었습니다.")
 });
