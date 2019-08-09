@@ -39,7 +39,7 @@ export default {
 	methods: {
 		async getPortfolios() {
 			await this.$axios.post(
-            'https://192.168.100.90:8000/api/portfolios/getAll'
+            'http://192.168.100.90:8000/api/portfolios/getAll'
 			)
 			.then(response => {
 				this.portfolios = response.data

@@ -78,7 +78,7 @@ export default {
   methods: {
     async deletePost(){
       await this.$axios.post(
-          'https://192.168.100.90:8000/api/posts/delete/'+this.bno)
+          'http://192.168.100.90:8000/api/posts/delete/'+this.bno)
 			.then(response => {
 				this.dialog = false
         location.reload(true)
@@ -97,7 +97,7 @@ export default {
         title: this.title
       }
       await this.$axios.post(
-          'https://192.168.100.90:8000/api/posts/update', data)
+          'http://192.168.100.90:8000/api/posts/update', data)
 			.then(response => {
 				this.dialog = false
         location.reload(true)
@@ -105,7 +105,7 @@ export default {
 		},
     async getComments() {
 			await this.$axios.post(
-          'https://192.168.100.90:8000/api/postcomment/getAll/'+this.bno)
+          'http://192.168.100.90:8000/api/postcomment/getAll/'+this.bno)
 			.then(response => {
 				this.comments = response.data
 			})
@@ -113,7 +113,7 @@ export default {
     async deleteComment(item) {
       console.log(this.comments.indexOf(item))
 			await this.$axios.post(
-          'https://192.168.100.90:8000/api/postcomment/delete/'+item.cno)
+          'http://192.168.100.90:8000/api/postcomment/delete/'+item.cno)
 			.then(
         this.comments.splice(this.comments.indexOf(item),1)
       )

@@ -117,7 +117,7 @@ export default{
       else{
         var form = new FormData();
         var settings = {
-          "url": "https://api.imgur.com/3/account/DigitCode0110/album/X99Xe9d",
+          "url": "http://api.imgur.com/3/account/DigitCode0110/album/X99Xe9d",
           "method": "GET",
           "timeout": 0,
           "headers": {
@@ -162,7 +162,7 @@ export default{
           email: sessionStorage.getItem('email')
         }
         await this.$axios.post(
-          'https://192.168.100.90:8000/api/portfolios/insert', data)
+          'http://192.168.100.90:8000/api/portfolios/insert', data)
         .then(response => {
           location.reload(true)
         })

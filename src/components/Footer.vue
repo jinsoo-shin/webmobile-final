@@ -25,8 +25,8 @@
         </v-layout>
         <v-layout hidden-sm-and-up column reverse>
           <v-flex xs12>
-            팀명 : 5G는 5조 <br>프로젝트명 : webmobile-sub2<br>팀원 : 박성하, 신진수, 안현상, 이지선, 조성모<br>
-            <a  href="https://lab.ssafy.com/wiahawm/webmobile-final"  target="_blank"  style="color:rgb(043,063,107); font-weight:bold">
+            팀명 : 5G는 5조 <br>프로젝트명 : webmobile-final<br>팀원 : 박성하, 신진수, 안현상, 이지선, 조성모<br>
+            <a  href="https://lab.ssafy.com/Leejiseon/webmobile-final"  target="_blank"  style="color:rgb(043,063,107); font-weight:bold">
               프로젝트 깃랩페이지 바로가기 <v-icon dark small color="rgb(043,063,107)">chevron_right</v-icon>
             </a>
           </v-flex>
