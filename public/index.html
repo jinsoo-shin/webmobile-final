@@ -69,21 +69,10 @@
     }
     $('.goog-logo-link').css('display', 'none');
     $('.goog-te-gadget').css('font-size', '0');
-    //서비스 워커 실행용 소스
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/sw.js', {
             scope: '/'
-        }).then(function(reg) {
-            if (reg.installing) {
-                console.log('Service worker installing');
-            } else if (reg.waiting) {
-                console.log('Service worker installed');
-            } else if (reg.active) {
-                console.log('Service worker active');
-            }
-        }).catch(function(error) {
-            console.log('Registration failed with ' + error);
-        });
+        })
     }
 </script>
 
