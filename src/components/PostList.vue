@@ -7,6 +7,7 @@
               :title="posts[i-1].title"
               :content="posts[i-1].content"
 			  :author="posts[i-1].author"
+			  style="cursor:pointer"
 	  ></Post>
       <v-divider></v-divider>
     </v-flex>
