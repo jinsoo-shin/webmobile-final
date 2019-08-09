@@ -89,7 +89,7 @@ export default {
             content: this.content
           }
         await this.$axios.post(
-            'https://192.168.100.90:8000/api/postcomment/insert', data)
+            'http://192.168.100.90:8000/api/postcomment/insert', data)
         .then(response => {
           this.content=''
           FirebaseService.sendCommentPush("Post")
@@ -97,7 +97,7 @@ export default {
       },
       async getComments() {
         await this.$axios.post(
-            'https://192.168.100.90:8000/api/postcomment/getAll/'+this.bno)
+            'http://192.168.100.90:8000/api/postcomment/getAll/'+this.bno)
         .then(response => {
           this.comments = response.data
         })
@@ -115,12 +115,12 @@ export default {
             content: this.editcomment
           }
         await this.$axios.post(
-            'https://192.168.100.90:8000/api/postcomment/update', data)
+            'http://192.168.100.90:8000/api/postcomment/update', data)
         .then(response => { })
       },
       async deleteComment(item) {
         await this.$axios.post(
-            'https://192.168.100.90:8000/api/postcomment/delete/'+item.cno)
+            'http://192.168.100.90:8000/api/postcomment/delete/'+item.cno)
         .then(
           this.comments.splice(this.comments.indexOf(item),1)
         )

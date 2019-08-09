@@ -27,9 +27,10 @@
 
         <v-dialog v-model="dialog" max-width="800px">
           <v-card class="px-3 py-3">
-            <v-icon style="position:absolute; left:765px;" flat @click="dialog = false">close</v-icon>
+            <v-icon style="position:absolute; right:0px;" flat @click="dialog = false">close</v-icon>
             <v-layout wrap>
               <v-flex xs12 md5 lg5>
+              <p>{{create_at}}</p>
                 <v-img :src="img" width="100%" height="50px + 5vw"></v-img>
               </v-flex>
               <v-flex xs12 md7 lg7 class="px-4 py-1">
@@ -38,10 +39,10 @@
                 <v-textarea v-model="editcontent" v-if="!flag" full-width height="160px" no-resize></v-textarea>
                   작성자 : {{author}}
                 <div v-if="chkauthor">
-                  <v-btn @click="onclickupdatebtn()" v-if="flag" class="primary" style="float:right">수정</v-btn>
-                  <v-btn @click="updatePortfolio(doc, title, editcontent, img, author)" v-if="!flag" class="primary" style="float:right">
+                  <v-btn outline @click="deletePortfolio()" color="warning" style="float:right">삭제</v-btn>
+                  <v-btn outline @click="onclickupdatebtn()" v-if="flag" color="primary" style="float:right">수정</v-btn>
+                  <v-btn outline @click="updatePortfolio(doc, title, editcontent, img, author)" v-if="!flag" color="primary" style="float:right">
                     <v-icon size="25" class="mr-2">done</v-icon>수정완료</v-btn>
-                  <v-btn @click="deletePortfolio()" class="warning" style="float:right">삭제</v-btn>
                 </div>
               </v-flex>
             </v-layout>
@@ -87,7 +88,7 @@ export default {
   methods: {
     async deletePortfolio(){
       await this.$axios.post(
-          'https://192.168.100.90:8000/api/portfolios/delete/'+this.bno)
+          'http://192.168.100.90:8000/api/portfolios/delete/'+this.bno)
 			.then(response => {
 				this.dialog = false
         location.reload(true)
@@ -103,7 +104,7 @@ export default {
         img: this.img
       }
       await this.$axios.post(
-          'https://192.168.100.90:8000/api/portfolios/update', data)
+          'http://192.168.100.90:8000/api/portfolios/update', data)
 			.then(response => {
 				this.dialog = false
         location.reload(true)
@@ -115,7 +116,7 @@ export default {
     },
     async getComments() {
 			await this.$axios.post(
-          'https://192.168.100.90:8000/api/portcomment/getAll/'+this.bno)
+          'http://192.168.100.90:8000/api/portcomment/getAll/'+this.bno)
 			.then(response => {
 				this.comments = response.data
 			})
@@ -123,7 +124,7 @@ export default {
     async deleteComment(item) {
       console.log(this.comments.indexOf(item))
 			await this.$axios.post(
-          'https://192.168.100.90:8000/api/portcomment/delete/'+item.cno)
+          'http://192.168.100.90:8000/api/portcomment/delete/'+item.cno)
 			.then(
         this.comments.splice(this.comments.indexOf(item),1)
       )

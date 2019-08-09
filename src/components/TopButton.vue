@@ -3,10 +3,10 @@
         v-if = "isVisible" 
         @click = "$vuetify.goTo(0)" 
         class = "v-btn v-btn--bottom v-btn--floating v-btn--fixed v-btn--right theme--dark" 
-        style = "background-color:rgba(043,063,107,0.7);" 
-        data-v-10ea4164 = "">
+        style = "background-color:rgba(043,063,107,0.8);" 
+        data-v-10ea4164 = "" id="topButton">
       <div class="v-btn__content">
-        <i aria-hidden = "true" class = "v-icon material-icons theme--dark"> keyboard_arrow_up </i>
+        <i aria-hidden = "true" class = "v-icon material-icons theme--dark large" style="margin-right: 0;"> keyboard_arrow_up </i>
       </div>
     </button>
 </template>
@@ -24,7 +24,14 @@
   transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
   width: 100%;
 }
-
+#topButton {
+  height: 62px;
+  width: 62px;
+  position: fixed;
+  bottom: 96px;
+  right: 20px;
+  z-index: 10000000;
+}
 .isVisible {
   opacity: .8;
   z-index: 4;

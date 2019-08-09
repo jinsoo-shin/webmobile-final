@@ -74,7 +74,7 @@ export default{
               email: sessionStorage.getItem('email')
             }
           await this.$axios.post(
-            'https://192.168.100.90:8000/api/posts/insert', data)
+            'http://192.168.100.90:8000/api/posts/insert', data)
             .then(response => {
             location.reload(true)
           })
