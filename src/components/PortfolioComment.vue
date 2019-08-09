@@ -2,48 +2,57 @@
 <div>
     <v-form v-model="valid">
     <v-container grid-list-xl>
-      <v-layout wrap>
-        <v-flex xs2 md1>
-          <h3 class="pl-2 pt-3" >{{username}}</h3>
+      <v-layout wrap row>
+        <v-flex hidden-xs-only md5></v-flex>
+        <v-flex xs3 md2 align-self-center style="text-align:center;">
+          <h3>{{username}}</h3>
         </v-flex>
-        <v-flex xs7 md9>
+        <v-flex xs6 md4>
           <v-text-field
             v-model="content"
             label="Comment Content"
             required
           ></v-text-field>
         </v-flex>
-        <v-btn @click="writeComment()" class="warning" style="float:right">댓글작성</v-btn>
+        <v-flex xs3 md1 align-self-center>
+        <i @click="writeComment()" class="material-icons" style="cursor:pointer; margin-right: 0; !important" >create</i>
+        </v-flex>
       </v-layout>
     </v-container>
   </v-form>
 
   <v-layout row>
-    <v-flex xs12 >
-      <v-card>
-        <v-toolbar color="white">
-          <v-toolbar-title>Comment</v-toolbar-title>
-          <v-spacer></v-spacer>
-        </v-toolbar>
+    <v-flex md8>
+      <v-card flat>
         <v-list three-line>
-                <v-textarea v-model="editcomment" v-if="!flag" full-width height="160px"></v-textarea>
+              <v-textarea v-model="editcomment" v-if="!flag" full-width height="160px"></v-textarea>
           <template v-for="(item, index) in chkdialog">
             <v-divider v-if="item.divider" :key="index" :inset="item.inset"></v-divider>
-            <v-list-tile :key="item.title" avatar>
+            <v-list-tile  v-if="flag" :key="item.title">
               <v-list-tile-content>
-                <v-list-tile-title>{{item.create_at}}</v-list-tile-title>
-                <v-list-tile-sub-title v-if="flag">{{item.author}} - {{item.content}}</v-list-tile-sub-title>
-                <span>
-                  <v-btn @click="onclickupdatebtn(index)" v-if="flag" class="primary" style="float:right">수정</v-btn>
-                  <v-btn @click="updateComment(item, index)" v-if="!flag && select[index]" class="primary" style="float:right">
-                    <v-icon size="25" class="mr-2">done</v-icon>수정완료</v-btn>
-                  <v-btn @click="deleteComment(item)" class="warning" style="float:right">삭제</v-btn>
-                </span>
+                <v-list-tile-title >{{item.create_at}}</v-list-tile-title>
+                <v-list-tile-sub-title>{{item.author}} - {{item.content}}</v-list-tile-sub-title>
               </v-list-tile-content>
             </v-list-tile>
           </template>
         </v-list>
       </v-card>
+    </v-flex>
+    <v-flex md4>
+        <v-list three-line>
+         <template v-for="(item, index) in chkdialog">
+            <v-divider v-if="item.divider" :key="index" :inset="item.inset"></v-divider>
+                <v-btn @click="updateComment(item, index)" :key="index" v-if="!flag && select[index]" class="primary" style="float:right">
+                <v-icon size="25" class="mr-2">done</v-icon>수정완료</v-btn>
+            <v-list-tile v-if="flag" :key="item.title">
+                <span :key="item.title">
+                  <v-btn @click="onclickupdatebtn(index)" v-if="flag" class="primary" style="float:right">수정</v-btn>
+                  <v-btn @click="deleteComment(item)" v-if="flag" class="warning" style="float:right">삭제</v-btn>
+                </span>
+            </v-list-tile>
+          </template>
+        </v-list>
+
     </v-flex>
   </v-layout>
   </div>
