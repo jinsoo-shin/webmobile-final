@@ -1,10 +1,10 @@
 server:
   port: 8000
-  ssl:
-    enabled: true
-    key-store:  src/main/resources/keystore.jks
-    key-store-password: 123456
-    key-password: 123456
+#  ssl:
+#    enabled: true
+#    key-store:  src/main/resources/keystore.jks
+#    key-store-password: 123456
+#    key-password: 123456
   servlet:
     context-path: /
 

@@ -215,7 +215,7 @@
 import FirebaseService from '@/services/FirebaseService'
 import store from '../store.js'
 import {Eventbus} from '../main.js'
-
+var accessToken=""
 export default {
   name: 'AdminHeader',
 	props: {
@@ -304,17 +304,16 @@ export default {
     // FirebaseService.loginChk();
   },
 	methods: {
-      test(){
-        gapi.analytics.ready(function() {
-
-        /**
-         * Authorize the user immediately if the user has already granted access.
-         * If no access has been created, render an authorize button inside the
-         * element with the ID "embed-api-auth-container".
-         */
+      async test(){
+        
+        await this.getToken();
+        gapi.analytics.ready(async function() {
         gapi.analytics.auth.authorize({
           container: 'embed-api-auth-container',
-          clientid: '527574403487-5rjveiqpfsptnn22qge8ohmkl3p3obmi.apps.googleusercontent.com'
+          clientid: '527574403487-5rjveiqpfsptnn22qge8ohmkl3p3obmi.apps.googleusercontent.com',
+          serverAuth: {
+            'access_token': 'ya29.Gl9fB-M9cjDrKdMbezodionOMrqPq488-pLSQqtti3nQQTbcG-7nx-sCKWm7d02LplwD5XBE4vQ9zuUskVvxF9cRZsuAtJD1JH21edH3wSjY_Q_v-Am8cTSDryw37BoqxA' 
+           }
         });
 
         /**
@@ -393,6 +392,17 @@ export default {
           this.drawer=null;
         }, 2000)
         this.changeTitle();
+      },
+      async getToken(){
+        await this.$axios.get('https://accounts.google.com/o/oauth2/auth?response_type=token&client_id=527574403487-5rjveiqpfsptnn22qge8ohmkl3p3obmi.apps.googleusercontent.com&redirect_uris=http://www.google.com&scope=https://www.googleapis.com/auth/analytics.readonly&redirect_uri=http://www.google.com')
+                .then(response => {
+                  console.log('xxxxxxxxxxxxxxxxxxxxxx',response);
+                  accessToken = response;
+                  return response
+                })
+                .catch(error => {
+                  console.log("failed")
+                }); 
       },
       changeTitle(){
         if(this.login){
