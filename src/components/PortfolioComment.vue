@@ -131,6 +131,7 @@ export default {
         await this.$axios.post(
             'http://192.168.100.90:8000/api/portcomment/getAll/'+this.bno)
         .then(response => {
+          this.editcomments = [];
           this.comments = response.data
           for(var i = 0; i < this.comments.length ;i++)
           {
@@ -144,6 +145,7 @@ export default {
       this.editcomment = this.editcomments[index];
       this.flag = false
       this.select[index] = true;
+      console.log("수정 버튼 누름 : ", this.editcomments[index]);
     },
     async updateComment(item, index) {
       var data = {
