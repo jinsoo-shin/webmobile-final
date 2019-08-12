@@ -9,9 +9,9 @@
 </style>
 <template>
 <div>
-	<Header></Header>
+<Header></Header>
   <v-layout align-center justify-center row fill-height class="mt-2">
-    <v-flex hidden-xs-only sm8 lg4 text-xs-center>
+    <v-flex sm8 lg4 text-xs-center v-if="width>=600">
       <v-layout md12 justify-center column fill-height elevation-5 style="min-height:500px;" white pa-5>
 		<h1 class="mt-4" style="font-family: 'Nanum Gothic Coding', monospace;">LOGIN</h1>
 		<v-layout align-center>
@@ -90,7 +90,7 @@
 		</v-flex>
       </v-layout>
     </v-flex>
-	<v-flex hidden-sm-and-up xs10 sm8 lg4 text-xs-center>
+	<v-flex v-if="width<600" xs10 sm8 lg4 text-xs-center>
       <v-layout align-center justify-center row fill-height elevation-5 style="min-height:500px;" white pa-5>
         <v-flex xs12 text-xs-center>
 			<h1 class="mt-4" style="font-family: 'Nanum Gothic Coding', monospace;">LOGIN</h1>
@@ -189,10 +189,21 @@ export default {
 			password: '',
 			age: '',
 			auth: '',
-			myauth: ''
+			myauth: '',
+			width:0
 		}
 	},
+	created(){
+	window.addEventListener('resize', this.handleResize)
+    this.handleResize();
+	},
+	destroyed() {
+    window.removeEventListener('resize', this.handleResize)
+  	},
 	methods: {
+		handleResize() {	
+			this.width = window.innerWidth;
+		},
 		async loginWithGoogle() {
 			const self = this;
 			const result = await LoginService.loginWithGoogle()
