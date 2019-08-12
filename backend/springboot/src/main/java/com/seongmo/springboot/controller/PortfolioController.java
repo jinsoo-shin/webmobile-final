@@ -336,11 +336,4 @@ public class PortfolioController {
             e.printStackTrace();
         }
     }
-
-    @PostMapping("analytics/getToken")
-    @ResponseBody
-    public String getAnalyticsToken() throws Exception {
-        MyAuth.sendGet();
-        return "MyAuth.getToken()";
-    }
 }
