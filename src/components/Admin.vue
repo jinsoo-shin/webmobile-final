@@ -390,7 +390,7 @@ export default {
             accessToken = JSON.parse(httpRequest.responseText)
           }
         }
-        httpRequest.open("GET", "http://localhost:5000/gapi/token/access", false)
+        httpRequest.open("GET", "http://192.168.100.90:5000/gapi/token/access", false)
         await httpRequest.send()
 
       },
