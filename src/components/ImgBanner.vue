@@ -6,7 +6,7 @@
       <v-layout row justify-center>
         <v-dialog v-model="dialog" max-width="50vw">
           <template v-slot:activator="{ on }">
-            <v-btn color="#FBC02D" dark v-on="on" v-on:click="click_select" style="margin-top:20vw;">Image Change</v-btn>
+            <v-btn color="#FBC02D" v-if="loginChk" dark v-on="on" v-on:click="click_select" style="margin-top:20vw;">Image Change</v-btn>
           </template>
           <v-card>
             <v-card-title>Select Image</v-card-title>
@@ -57,6 +57,16 @@ export default {
         imgSrc: randomImg,
         selected: '' 
       }
+  },
+  computed:{
+    loginChk:function(){
+      if(sessionStorage.getItem('name')){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
   },
   mounted() {
     this.imgSrc = randomImg

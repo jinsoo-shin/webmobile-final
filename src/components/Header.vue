@@ -122,9 +122,6 @@ export default {
       logout(){
         LoginService.logOut();
         this.login=false;
-        // sessionStorage.removeItem('email');
-        // sessionStorage.removeItem('name');
-        // sessionStorage.removeItem('rank');
         sessionStorage.clear();
         this.$swal("LOGOUT!", "Good Bye!", "success",{
           buttons: false,
