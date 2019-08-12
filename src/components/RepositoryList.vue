@@ -1,59 +1,21 @@
 <template>
   <div>
-    <v-layout row>
-      <v-flex xs12 sm6 offset-sm3 px-4>
-
-        <!-- <v-card>
-          <v-list two-line class="noPadding">
-            <v-list-tile
-              :disabled="loading"
-              active-class="highlighted"
-              :class="item.username === selecteduser ? 'primary' : ''"
-              v-for="(item, i) in members"
-              :key="i"
-              @click="changeMember(item.username)"
-            >
-              <v-list-tile-avatar>
-                <img :src="item.avatar_url" />
-              </v-list-tile-avatar>
-
-              <v-list-tile-content>
-                <v-list-tile-title v-html="item.name"></v-list-tile-title>
-                <v-list-tile-sub-title
-                  v-html="item.web_url"
-                ></v-list-tile-sub-title>
-              </v-list-tile-content>
-            </v-list-tile>
-          </v-list>
-        </v-card> -->
-      </v-flex>
-    </v-layout>
-
-        <div id="app">
-          <v-app id="inspire">
-            <v-layout justify-space-around wrap>
-          
-              <v-avatar color="indigo">
-                <v-icon dark>account_circle</v-icon>
-              </v-avatar>
-          
-              <v-avatar>
-                <img
-                  src="https://cdn.vuetifyjs.com/images/john.jpg"
-                  alt="John"
-                >
-              </v-avatar>
-          
-              <v-avatar color="red">
-                <span class="white--text headline">CJ</span>
-              </v-avatar>
-          
-            </v-layout>
-          </v-app>
-        </div>
-
-
-    <br />
+    <div id="app">
+      <v-app id="inspire">
+        <v-layout justify-space-around wrap>
+          <v-avatar color="indigo">
+            <v-icon dark>account_circle</v-icon>
+          </v-avatar>
+          <v-avatar>
+            <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
+          </v-avatar>
+          <v-avatar color="red">
+            <span class="white--text headline">CJ</span>
+          </v-avatar>
+        </v-layout>
+      </v-app>
+    </div>
+    <br>
     <v-layout column px-4>
       <div>
         <v-expansion-panel
