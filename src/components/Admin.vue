@@ -303,6 +303,13 @@ export default {
     // });
     // FirebaseService.loginChk();
   },
+  mounted(){
+    if(sessionStorage.getItem("rank") != 3)
+    {
+      alert("관리자만 접근할 수 있습니다.")
+      this.$router.push('/');
+    }
+  },
 	methods: {
       async test(){
         
@@ -447,7 +454,7 @@ export default {
           if(str === "USERS")
           {
             this.Usershow = true;
-            this.$axios.post('https://192.168.100.90:8000/api/members/getAll')
+            this.$axios.post('http://192.168.100.90:8000/api/members/getAll')
                 .then(response => {
                   this.Users = response.data;
                 })
@@ -458,22 +465,22 @@ export default {
           else if(str === "PORTFOLIOS")
           {
             this.Portfolioshow = true;
-            this.$axios.post('https://192.168.100.90:8000/api/portfolios/getAll')
+            this.$axios.post('http://192.168.100.90:8000/api/portfolios/getAll')
                 .then(response => {
                   this.Portfoilos = response.data;
-                  this.length = reponse.data.length;
+                  this.length = response.data.length;
                 })
                 .catch(error => {
-                  console.log("failed")
+                  console.log(error)
                 });
           }
           else if(str === "POSTS")
           {
             this.Postshow = true;
-            this.$axios.post('https://192.168.100.90:8000/api/posts/getAll')
+            this.$axios.post('http://192.168.100.90:8000/api/posts/getAll')
                 .then(response => {
                   this.Posts = response.data;
-                  this.length = reponse.data.length;
+                  this.length = response.data.length;
                 })
                 .catch(error => {
                   console.log("failed")
@@ -496,7 +503,7 @@ export default {
             email: item.email,
             ranks: item.ranks
             };
-            this.$axios.post('https://192.168.100.90:8000/api/members/update',data).then(response => {
+            this.$axios.post('http://192.168.100.90:8000/api/members/update',data).then(response => {
               alert("수정 완료!")
             }).catch(error => {
               console.log(error)
@@ -507,8 +514,8 @@ export default {
           if(str === "USERS")
           {
             var data =item.email;
-            this.$axios.post('https://192.168.100.90:8000/api/members/delete/'+data).then(response => {
-              this.$axios.post('https://192.168.100.90:8000/api/members/getAll')
+            this.$axios.post('http://192.168.100.90:8000/api/members/delete/'+data).then(response => {
+              this.$axios.post('http://192.168.100.90:8000/api/members/getAll')
                 .then(response => {
                   this.Users = response.data;
                 })
@@ -522,8 +529,8 @@ export default {
           else if(str === "PORTFOLIOS")
           {
             var data =item.bno;
-            this.$axios.post('https://192.168.100.90:8000/api/portfolios/delete/'+data).then(response => {
-              this.$axios.post('https://192.168.100.90:8000/api/portfolios/getAll')
+            this.$axios.post('http://192.168.100.90:8000/api/portfolios/delete/'+data).then(response => {
+              this.$axios.post('http://192.168.100.90:8000/api/portfolios/getAll')
                 .then(response => {
                   this.Portfoilos = response.data;
                 })
@@ -537,8 +544,8 @@ export default {
           else if(str === "POSTS")
           {
             var data =item.bno;
-            this.$axios.post('https://192.168.100.90:8000/api/posts/delete/'+data).then(response => {
-              this.$axios.post('https://192.168.100.90:8000/api/posts/getAll')
+            this.$axios.post('http://192.168.100.90:8000/api/posts/delete/'+data).then(response => {
+              this.$axios.post('http://192.168.100.90:8000/api/posts/getAll')
                 .then(response => {
                   this.Posts = response.data;
                 })
