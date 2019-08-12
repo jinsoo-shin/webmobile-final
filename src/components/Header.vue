@@ -113,7 +113,7 @@ export default {
             elem.setAttribute('title', title);
             elem.setAttribute('rel', 'sidebar');
             elem.click();
-        }else if (document.all) { //msie
+        }else if (document.all) {
             window.external.AddFavorite(url, title);
         }else {
             alert("해당브라우저는 즐겨찾기 추가기능이 지원되지 않습니다.\n\nCtrl+D를 눌러 즐겨찾기에 추가해주세요.");
@@ -122,9 +122,6 @@ export default {
       logout(){
         LoginService.logOut();
         this.login=false;
-        // sessionStorage.removeItem('email');
-        // sessionStorage.removeItem('name');
-        // sessionStorage.removeItem('rank');
         sessionStorage.clear();
         this.$swal("LOGOUT!", "Good Bye!", "success",{
           buttons: false,
@@ -152,7 +149,7 @@ export default {
       go(item){
         if(item=="home"){
           if(this.$router.currentRoute.path==("/")){
-            window.location.href="/"
+            location.reload(true)
           }else{
             this.$router.push("/");
           }
