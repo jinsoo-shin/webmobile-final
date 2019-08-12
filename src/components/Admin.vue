@@ -8,7 +8,7 @@
             <v-toolbar-title>5G Admin</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
-          <v-sheet tile dark height="90.5vh">
+          <v-sheet tile dark height="91.2vh">
             
             <v-list subheader>
             <template v-for="(item, index) in drawitem">
@@ -39,7 +39,7 @@
                 <v-toolbar-side-icon dark @click.stop="drawer = !drawer"></v-toolbar-side-icon>
             </div>
             </v-toolbar>
-            <v-sheet tile white height="90.5vh" class="pa-3" style="text-align:center">
+            <v-sheet tile white height="91.2vh" class="pa-3" style="text-align:center">
               <img v-if="!select" src="../../public/img/admin_page_wallpaper.jpg"
               style="z-index:-1; width:100%; height:auto;">
             
