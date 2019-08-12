@@ -25,7 +25,6 @@ export default {
                 'http://192.168.100.90:8000/api/members/get/' + email
             )
             .then(response => {
-                console.log("response", response.data)
                 sessionStorage.setItem("name", response.data.name);
                 sessionStorage.setItem("rank", response.data.ranks);
                 sessionStorage.setItem("email", response.data.email);
@@ -105,9 +104,7 @@ export default {
                         });
                 })
             })
-            .catch(function(err) {
-                console.log('Error Occured.')
-            });
+            .catch(function(err) {});
         e.preventDefault();
     },
     logOut() {
@@ -117,6 +114,7 @@ export default {
         if (firebase.auth()) {
             firebase.auth().signOut().then(function() {})
         }
+        location.reload(true)
     },
     loginWithGoogle() {
         let provider = new firebase.auth.GoogleAuthProvider();
@@ -138,9 +136,7 @@ export default {
                     .catch(function(error) {});
                 return result;
             })
-            .catch(function(error) {
-                console.error("[Google Login Error]", error);
-            });
+            .catch(function(error) {});
     },
     loginWithFacebook() {
         let provider = new firebase.auth.FacebookAuthProvider();
@@ -162,9 +158,7 @@ export default {
                     .catch(function(error) {});
                 return result;
             })
-            .catch(function(error) {
-                console.error("[Facebook Login Error]", error);
-            });
+            .catch(function(error) {});
     },
 
 }
