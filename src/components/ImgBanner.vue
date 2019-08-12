@@ -91,7 +91,6 @@ export default {
                       this.images = response.data.data;
                     }).catch(function(error) {
                       this.imgSrc = randomImg;
-                      console.log(error);
                     });
       }
     },
