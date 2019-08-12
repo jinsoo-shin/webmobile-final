@@ -5,7 +5,7 @@
         <v-card>
           <v-toolbar color="#fcbe03" dark>
             <img src="https://cdn2.iconfinder.com/data/icons/poke-ball-set-free/150/Poke_Ball-512.png" style="width:20px; height:20px"/>
-            <v-toolbar-title>5G Admin</v-toolbar-title>
+            <v-toolbar-title style="cursor:pointer">5G Admin</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
           <v-sheet tile dark height="91.2vh">
@@ -14,7 +14,7 @@
             <template v-for="(item, index) in drawitem">
               <v-list-tile :key="index">
                 <v-list-tile-content @click="show(item.title)">
-                  <v-list-tile-title><i class="material-icons">{{item.icon}}</i>{{ item.title }}</v-list-tile-title>
+                  <v-list-tile-title style="cursor:pointer"><i class="material-icons">{{item.icon}}</i>{{ item.title }}</v-list-tile-title>
                 </v-list-tile-content>
               </v-list-tile>
             </template>
