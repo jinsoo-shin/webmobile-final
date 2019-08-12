@@ -69,7 +69,11 @@ export default {
     }
   },
   mounted() {
-    this.imgSrc = randomImg
+    if(sessionStorage.getItem("imgSrc")){
+      this.imgSrc = sessionStorage.getItem("imgSrc")
+    }else{
+      this.imgSrc = randomImg
+    }
   },
 	methods: {
     async click_select() {
@@ -96,6 +100,7 @@ export default {
     },
     change_img() {
       this.imgSrc = this.img
+      sessionStorage.setItem("imgSrc",this.imgSrc)
       if(this.imgSrc==="")
       {
         this.imgSrc = "https://source.unsplash.com/random"
