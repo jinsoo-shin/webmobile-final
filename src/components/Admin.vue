@@ -319,27 +319,15 @@ export default {
           container: 'embed-api-auth-container',
           clientid: '527574403487-5rjveiqpfsptnn22qge8ohmkl3p3obmi.apps.googleusercontent.com',
           serverAuth: {
-            'access_token': 'ya29.Gl9fB-M9cjDrKdMbezodionOMrqPq488-pLSQqtti3nQQTbcG-7nx-sCKWm7d02LplwD5XBE4vQ9zuUskVvxF9cRZsuAtJD1JH21edH3wSjY_Q_v-Am8cTSDryw37BoqxA' 
+            'access_token': accessToken
            }
         });
 
-        /**
-         * Create a new ViewSelector instance to be rendered inside of an
-         * element with the id "view-selector-container".
-         */
         var viewSelector = new gapi.analytics.ViewSelector({
           container: 'view-selector-container'
         });
-
-        // Render the view selector to the page.
         viewSelector.execute();
 
-
-        /**
-         * Create a new DataChart instance with the given query parameters
-         * and Google chart options. It will be rendered inside an element
-         * with the id "chart-container".
-         */
         var dataChart = new gapi.analytics.googleCharts.DataChart({
           query: {
             metrics: 'ga:sessions',
@@ -355,15 +343,10 @@ export default {
             }
           }
         });
-
-
-        /**
-         * Render the dataChart on the page whenever a new view is selected.
-         */
+      
         viewSelector.on('change', function(ids) {
           dataChart.set({query: {ids: ids}}).execute();
         });
-
       });
       },
       favorite:function(){
@@ -401,15 +384,15 @@ export default {
         this.changeTitle();
       },
       async getToken(){
-        await this.$axios.get('https://accounts.google.com/o/oauth2/auth?response_type=token&client_id=527574403487-5rjveiqpfsptnn22qge8ohmkl3p3obmi.apps.googleusercontent.com&redirect_uris=http://www.google.com&scope=https://www.googleapis.com/auth/analytics.readonly&redirect_uri=http://www.google.com')
-                .then(response => {
-                  console.log('xxxxxxxxxxxxxxxxxxxxxx',response);
-                  accessToken = response;
-                  return response
-                })
-                .catch(error => {
-                  console.log("failed")
-                }); 
+        httpRequest = new XMLHttpRequest()
+        httpRequest.onreadystatechange = function () {
+          if (httpRequest.readyState === XMLHttpRequest.DONE && httpRequest.status === 200) {
+            accessToken = JSON.parse(httpRequest.responseText)
+          }
+        }
+        httpRequest.open("GET", "http://localhost:5000/gapi/token/access", false)
+        await httpRequest.send()
+
       },
       changeTitle(){
         if(this.login){
