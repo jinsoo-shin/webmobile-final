@@ -4,9 +4,11 @@
       <v-card-title class="">
         <v-layout hidden-xs-only>
           <v-flex sm4 offset-sm2>
-            팀명 : 5G는 5조 <br> 프로젝트명 : webmobile-sub2 <br> 팀원 : 박성하, 신진수, 안현상, 이지선, 조성모 <br>
-            <a href="https://lab.ssafy.com/wiahawm/webmobile-final" target="_blank" style="color:rgb(043,063,107); font-weight:bold">
-               프로젝트 깃랩페이지 바로가기 <v-icon dark small color="rgb(043,063,107)">chevron_right</v-icon>
+            <v-icon dark small>favorite</v-icon>Team - 5G는 5조 <br> 
+            <v-icon dark small>notifications</v-icon>Project - webmobile-final <br> 
+            <v-icon dark small>group</v-icon>Members - 박성하, 신진수, 안현상, 이지선, 조성모 <br>
+            <a href="https://lab.ssafy.com/Leejiseon/webmobile-final" target="_blank" style="color:rgb(043,063,107); font-weight:bold">
+              <v-icon dark small color="rgb(043,063,107)">fa-gitlab</v-icon> Go to Project Gitlab page
             </a>
           </v-flex>
           <v-flex sm4>
@@ -15,7 +17,9 @@
                 <v-img :src="imgSrc" aspect-ratio="1" max-height="100px" min-height="30px" max-width="100px" min-width="30px"></v-img>
               </v-flex>
               <v-flex sm6>
-                {{ locate }}<br>{{ temperature }}℃<br>{{ sky.name }}
+                <v-icon dark small>place</v-icon>{{ locate }}<br>
+                <v-icon dark small>wb_sunny</v-icon>{{ temperature }}℃<br>
+                <v-icon dark small>wb_cloudy</v-icon>{{ sky.name }}
               </v-flex>
             </v-layout>
             <v-layout align-center v-else>
@@ -25,9 +29,11 @@
         </v-layout>
         <v-layout hidden-sm-and-up column reverse>
           <v-flex xs12>
-            팀명 : 5G는 5조 <br>프로젝트명 : webmobile-final<br>팀원 : 박성하, 신진수, 안현상, 이지선, 조성모<br>
-            <a  href="https://lab.ssafy.com/Leejiseon/webmobile-final"  target="_blank"  style="color:rgb(043,063,107); font-weight:bold">
-              프로젝트 깃랩페이지 바로가기 <v-icon dark small color="rgb(043,063,107)">chevron_right</v-icon>
+            <v-icon dark small>favorite</v-icon>Team - 5G는 5조 <br> 
+            <v-icon dark small>notifications</v-icon>Project - webmobile-final <br> 
+            <v-icon dark small>group</v-icon>Members - 박성하, 신진수, 안현상, 이지선, 조성모 <br>
+            <a href="https://lab.ssafy.com/Leejiseon/webmobile-final" target="_blank" style="color:rgb(043,063,107); font-weight:bold">
+              <v-icon dark small color="rgb(043,063,107)">fa-gitlab</v-icon> Go to Project Gitlab page
             </a>
           </v-flex>
           <v-flex xs12>
@@ -36,7 +42,9 @@
                 <v-img :src="imgSrc" aspect-ratio="1" max-height="100px" min-height="30px" max-width="100px" min-width="30px"/>
               </v-flex>
               <v-flex xs6>
-                {{ locate }}<br>{{ temperature }}℃<br>{{ sky.name }}
+                <v-icon dark small>place</v-icon>{{ locate }}<br>
+                <v-icon dark small>wb_sunny</v-icon>{{ temperature }}℃<br>
+                <v-icon dark small>wb_cloudy</v-icon>{{ sky.name }}
               </v-flex>
             </v-layout>
             <v-layout align-center v-else>
