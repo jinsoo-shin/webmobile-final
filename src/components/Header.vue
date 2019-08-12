@@ -149,7 +149,8 @@ export default {
       go(item){
         if(item=="home"){
           if(this.$router.currentRoute.path==("/")){
-            window.location.href="/"
+            // window.location.href="/"
+            location.reload(true)
           }else{
             this.$router.push("/");
           }
