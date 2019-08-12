@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import FirebaseService from '@/services/FirebaseService'
+import LoginService from '@/services/LoginService'
 const clientid = '0c352653059d518'
 const randomImg = 'https://source.unsplash.com/random'
 export default {
@@ -74,13 +74,13 @@ export default {
 	methods: {
     async click_select() {
       let user_email=sessionStorage.getItem('email')
-      if(user_email != null) {
-        let member =  await FirebaseService.getMember(user_email);
+      if(user_email) {
+        let member =  await LoginService.getMember(user_email);
         let album='';
         if(member) {
           album = member.album;
         } else {
-          album = 'X99Xe9d'; //google, facebook으로 로그인해서 DB정보가 없는 경우 default로 줌
+          album = 'X99Xe9d';
         }
         let link = 'https://api.imgur.com/3/album/' + album + '/images';
         this.$axios({
@@ -91,7 +91,6 @@ export default {
                       this.images = response.data.data;
                     }).catch(function(error) {
                       this.imgSrc = randomImg;
-                      console.log(error);
                     });
       }
     },
