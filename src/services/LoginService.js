@@ -114,7 +114,6 @@ export default {
         if (firebase.auth()) {
             firebase.auth().signOut().then(function() {})
         }
-        location.reload(true)
     },
     loginWithGoogle() {
         let provider = new firebase.auth.GoogleAuthProvider();

@@ -12,7 +12,7 @@
             
             <v-list subheader>
             <template v-for="(item, index) in drawitem">
-              <v-list-tile :key="index" @click="">
+              <v-list-tile :key="index">
                 <v-list-tile-content @click="show(item.title)">
                   <v-list-tile-title><i class="material-icons">{{item.icon}}</i>{{ item.title }}</v-list-tile-title>
                 </v-list-tile-content>
@@ -27,7 +27,6 @@
       <v-flex xs10 md10 lg10>
         <v-flex column>
             <v-toolbar>
-            <!-- <router-link to ="/"><v-icon>home</v-icon></router-link> -->
             <v-btn flat icon v-on:click='go("home")'><v-icon>home</v-icon></v-btn>
             <v-toolbar-title style=""></v-toolbar-title>
             <v-spacer></v-spacer>
@@ -175,44 +174,12 @@
             </v-sheet>
             
         </v-flex>
-<!-- 
-            <div class="hidden-sm-and-up">
-            <v-navigation-drawer v-model="drawer" fixed right hide-overlay disable-resize-watcher>
-                <v-list class="pa-1">
-                <v-list-tile avatar>
-                    <v-list-tile-avatar>
-                    <img src="../assets/mokuro.gif">
-                    </v-list-tile-avatar>
-
-                    <v-list-tile-content>
-                    <v-list-tile-title style="font-family: 'Jua', sans-serif;">{{name}}</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-                </v-list>
-
-                <v-list class="pt-0">
-                <v-divider></v-divider>
-                <v-list-tile
-                    v-for="item in items" :key="item.title">
-                    <v-list-tile-action>
-                    <v-icon> keyboard_arrow_right</v-icon>
-                    </v-list-tile-action>
-                    <v-list-tile-content>
-                    <v-btn flat style="color:black; font-family: 'Jua', sans-serif;" v-on:click='go(item)'>{{ item.title }}</v-btn>
-                    </v-list-tile-content>
-                </v-list-tile>
-                </v-list>
-            </v-navigation-drawer>
-            </div> -->
-                <!-- 이 부분은 데이터를 나타내는 곳이다. -->
-                
       </v-flex>
     </v-layout>
   </div>
 </template>
 
 <script>
-import FirebaseService from '@/services/FirebaseService'
 import store from '../store.js'
 import {Eventbus} from '../main.js'
 var accessToken=""
@@ -280,8 +247,6 @@ export default {
         { title: 'Portpolio', url: 'portfolio' },
         { title: 'Post', url: 'post' },
         { title: 'Repository', url: 'repository' },
-        // { title: 'Login', url: 'login'},
-        { title: 'QnA', url: '/'}
       ],
       drawitem: [
           { icon : 'face', title: 'USERS'},
@@ -294,14 +259,7 @@ export default {
     }
   },
   created(){
-    // Eventbus.$on('getUserEmail',getEmail=>{
-    //   this.login=true;
-    //   sessionStorage.setItem('email',getEmail)
-    //   this.email=getEmail;
-    //   this.name=sessionStorage.getItem('name');
-    //   this.changeTitle();
-    // });
-    // FirebaseService.loginChk();
+   
   },
   mounted(){
     if(sessionStorage.getItem("rank") != 3)
@@ -349,42 +307,8 @@ export default {
         });
       });
       },
-      favorite:function(){
-        var title = document.title;
-        var url = location.href;
-      
-        if (window.sidebar && window.sidebar.addPanel) {
-            window.sidebar.addPanel(title, url, "");
-        } else if (window.opera && window.print) {
-            var elem = document.createElement('a');
-            elem.setAttribute('href', url);
-            elem.setAttribute('title', title);
-            elem.setAttribute('rel', 'sidebar');
-            elem.click();
-        }else if (document.all) { //msie
-            window.external.AddFavorite(url, title);
-        }else {
-            alert("해당브라우저는 즐겨찾기 추가기능이 지원되지 않습니다.\n\nCtrl+D를 눌러 즐겨찾기에 추가해주세요.");
-        }
-      },
-      logout(){
-        FirebaseService.logOut();
-        this.login=false;
-        sessionStorage.removeItem('email');
-        sessionStorage.removeItem('name');
-        sessionStorage.removeItem('rank');
-        this.$swal("LOGOUT!", "Good Bye!", "success",{
-          buttons: false,
-                    timer: 2000,
-                })
-        setTimeout(() => {
-          this.$router.push("/");
-          this.drawer=null;
-        }, 2000)
-        this.changeTitle();
-      },
       async getToken(){
-        httpRequest = new XMLHttpRequest()
+        var httpRequest = new XMLHttpRequest()
         httpRequest.onreadystatechange = function () {
           if (httpRequest.readyState === XMLHttpRequest.DONE && httpRequest.status === 200) {
             accessToken = JSON.parse(httpRequest.responseText)
@@ -393,17 +317,6 @@ export default {
         httpRequest.open("GET", "http://192.168.100.90:5000/gapi/token/access", false)
         await httpRequest.send()
 
-      },
-      changeTitle(){
-        if(this.login){
-          this.items[3].title="Logout";
-          this.items[3].url="/";
-        }
-        if(!this.login){
-          this.items[3].title="Login";
-          this.items[3].url="login";
-          this.name="5G는5조";
-        }
       },
       go(item){
         if(item=="home"){
@@ -486,64 +399,117 @@ export default {
             email: item.email,
             ranks: item.ranks
             };
-            this.$axios.post('http://192.168.100.90:8000/api/members/update',data).then(response => {
-              alert("수정 완료!")
-            }).catch(error => {
-              console.log(error)
-            })
+              this.$axios.post('http://192.168.100.90:8000/api/members/update',data).then(response => {
+                this.$axios.post('http://192.168.100.90:8000/api/members/getAll').then(res => {
+                  var cnt_admin=0;
+                  var member_data=res.data;
+                  member_data.forEach(function(element){
+                    if(element.ranks=='3'){
+                      cnt_admin=cnt_admin+1;
+                    }
+                  });
+                  if(cnt_admin=='0'){
+                        data.ranks=3;
+                        this.$axios.post('http://192.168.100.90:8000/api/members/update',data).then(response => {
+                          alert("관리자는 최소 1명 이상이어야 합니다")
+                          this.$axios.post('http://192.168.100.90:8000/api/members/getAll').then(res => {
+                            console.log(res.data)
+                          this.Users = res.data; 
+                           })
+                          })
+                    }else{
+                      alert("수정 완료!")
+                    }
+                })
+              }).catch(error => {
+              })
           }
         },
         deleteItem(item, str){
           if(str === "USERS")
           {
-            var data =item.email;
-            this.$axios.post('http://192.168.100.90:8000/api/members/delete/'+data).then(response => {
-              this.$axios.post('http://192.168.100.90:8000/api/members/getAll')
-                .then(response => {
-                  this.Users = response.data;
+            if(item.ranks=='3'){
+               this.$axios.post('http://192.168.100.90:8000/api/members/getAll').then(res => {
+                  var cnt_admin=0;
+                  var member_data=res.data;
+                  member_data.forEach(function(element){
+                    if(element.ranks=='3'){
+                      cnt_admin=cnt_admin+1;
+                    }
+                  });
+                  if(cnt_admin=='1'){
+                    alert("관리자는 최소 1명 이상이어야 합니다")
+                   }else{
+                     var result= confirm(item.email+" 정말 삭제하시겠습니까?")
+                     if(result){
+                       var data =item.email;
+                       this.$axios.post('http://192.168.100.90:8000/api/members/delete/'+data).then(response => {
+                         this.$axios.post('http://192.168.100.90:8000/api/members/getAll')
+                           .then(response => {
+                             this.Users = response.data;
+                           })
+                           .catch(error => {
+                             console.log("failed")
+                           }); 
+                       }).catch(error => {
+                         console.log(error)
+                       })
+                     } 
+                   }
                 })
-                .catch(error => {
-                  console.log("failed")
-                }); 
-            }).catch(error => {
-              console.log(error)
-            })
+            }else{
+              var result= confirm(item.email+" 정말 삭제하시겠습니까?")
+              if(result){
+                var data =item.email;
+                this.$axios.post('http://192.168.100.90:8000/api/members/delete/'+data).then(response => {
+                  this.$axios.post('http://192.168.100.90:8000/api/members/getAll')
+                    .then(response => {
+                      this.Users = response.data;
+                    })
+                    .catch(error => {
+                      console.log("failed")
+                    }); 
+                }).catch(error => {
+                  console.log(error)
+                })
+              } 
+            }
           }
           else if(str === "PORTFOLIOS")
           {
-            var data =item.bno;
-            this.$axios.post('http://192.168.100.90:8000/api/portfolios/delete/'+data).then(response => {
-              this.$axios.post('http://192.168.100.90:8000/api/portfolios/getAll')
-                .then(response => {
-                  this.Portfoilos = response.data;
-                })
-                .catch(error => {
-                  console.log("failed")
-                }); 
-            }).catch(error => {
-              console.log(error)
-            })
+             var result= confirm(item.title+"을 정말 삭제하시겠습니까?")
+            if(result){
+              var data =item.bno;
+              this.$axios.post('http://192.168.100.90:8000/api/portfolios/delete/'+data).then(response => {
+                this.$axios.post('http://192.168.100.90:8000/api/portfolios/getAll')
+                  .then(response => {
+                    this.Portfoilos = response.data;
+                  })
+                  .catch(error => {
+                    console.log("failed")
+                  }); 
+              }).catch(error => {
+                console.log(error)
+              })
+            }
           }
           else if(str === "POSTS")
           {
-            var data =item.bno;
-            this.$axios.post('http://192.168.100.90:8000/api/posts/delete/'+data).then(response => {
-              this.$axios.post('http://192.168.100.90:8000/api/posts/getAll')
-                .then(response => {
-                  this.Posts = response.data;
-                })
-                .catch(error => {
-                  console.log("failed")
-                }); 
-            }).catch(error => {
-              console.log(error)
-            })
-          }
-          else if(str === "REPOSITORY")
-          {
-          }
-          else if(str === "ETC")
-          {
+             var result= confirm(item.title+"을 정말 삭제하시겠습니까?")
+            if(result){
+              var data =item.bno;
+              this.$axios.post('http://192.168.100.90:8000/api/posts/delete/'+data).then(response => {
+                this.$axios.post('http://192.168.100.90:8000/api/posts/getAll')
+                  .then(response => {
+                    this.Posts = response.data;
+                  })
+                  .catch(error => {
+                    console.log("failed")
+                  }); 
+              }).catch(error => {
+                console.log(error)
+              })
+            }
           }
         }
     }
