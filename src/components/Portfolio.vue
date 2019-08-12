@@ -35,8 +35,8 @@
               </v-flex>
               <v-flex xs12 md7 lg7 class="px-4 py-1">
                 <h2>{{title}}</h2><br>
-                <v-textarea v-model="content" v-if="flag" full-width height="160px" no-resize readonly></v-textarea>
-                <v-textarea v-model="editcontent" v-if="!flag" full-width height="160px" no-resize></v-textarea>
+                <v-textarea v-model="content" v-if="flag" full-width height="250px" no-resize readonly></v-textarea>
+                <v-textarea v-model="editcontent" v-if="!flag" full-width height="250px" no-resize></v-textarea>
                   작성자 : {{author}}
                 <div v-if="chkauthor">
                   <v-btn outline @click="deletePortfolio()" color="warning" style="float:right">삭제</v-btn>

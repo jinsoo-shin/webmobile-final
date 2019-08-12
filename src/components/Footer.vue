@@ -8,7 +8,7 @@
             <v-icon dark small>notifications</v-icon>Project - webmobile-final <br> 
             <v-icon dark small>group</v-icon>Members - 박성하, 신진수, 안현상, 이지선, 조성모 <br>
             <a href="https://lab.ssafy.com/Leejiseon/webmobile-final" target="_blank" style="color:rgb(043,063,107); font-weight:bold">
-              <v-icon dark small color="rgb(043,063,107)">fa-gitlab</v-icon> Go to Project Gitlab page
+              <v-icon dark small color="rgb(043,063,107)">fa-gitlab</v-icon> &nbsp; Go to Project Gitlab page
             </a>
           </v-flex>
           <v-flex sm4>
@@ -33,7 +33,7 @@
             <v-icon dark small>notifications</v-icon>Project - webmobile-final <br> 
             <v-icon dark small>group</v-icon>Members - 박성하, 신진수, 안현상, 이지선, 조성모 <br>
             <a href="https://lab.ssafy.com/Leejiseon/webmobile-final" target="_blank" style="color:rgb(043,063,107); font-weight:bold">
-              <v-icon dark small color="rgb(043,063,107)">fa-gitlab</v-icon> Go to Project Gitlab page
+              <v-icon dark small color="rgb(043,063,107)">fa-gitlab</v-icon> &nbsp; Go to Project Gitlab page
             </a>
           </v-flex>
           <v-flex xs12>

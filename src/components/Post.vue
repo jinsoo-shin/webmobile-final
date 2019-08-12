@@ -29,8 +29,8 @@
           <v-layout>
             <v-flex class="px-3 py-1">
               <h2 class="py-1">{{title}}</h2>
-              <v-textarea v-model="content" v-if="flag" full-width height="160px" no-resize readonly></v-textarea>
-              <v-textarea v-model="editcontent" v-if="!flag" full-width height="160px" no-resize></v-textarea>
+              <v-textarea v-model="content" v-if="flag" full-width height="250px" no-resize readonly></v-textarea>
+              <v-textarea v-model="editcontent" v-if="!flag" full-width height="250px" no-resize></v-textarea>
                 작성자 : {{author}} <br>
                 작성일 : {{create_at}}
               <div v-if="chkauthor">
