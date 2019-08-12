@@ -1,5 +1,4 @@
 import time
-import redis
 from flask import Flask, jsonify
 from flask_cors import CORS
 from oauth2client.service_account import ServiceAccountCredentials
@@ -7,12 +6,10 @@ from oauth2client.service_account import ServiceAccountCredentials
 # CORS를 허용한 플라스크 웹서버
 app = Flask(__name__)
 CORS(app)
-# Redis DB
-cache = redis.Redis(host="redis", port=6379)
 
 # GAPI Consts
 SCOPE = 'https://www.googleapis.com/auth/analytics.readonly'
-KEY_FILEPATH = 'client_secret_527574403487-5rjveiqpfsptnn22qge8ohmkl3p3obmi.apps.googleusercontent.com.json'
+KEY_FILEPATH = 'C://Users//multicampus//webmobile-final//backend//analytics_auth//jwt.json'
 
 # API 서버 상태
 @app.route("/")
