@@ -77,7 +77,6 @@ export default {
         { title: 'Post', url: 'post' },
         { title: 'Repository', url: 'repository' },
         { title: 'Login', url: 'login'},
-        { title: 'QnA', url: '/'},
         { title: 'Admin', url: 'admin'}
       ],
       login: false
@@ -113,7 +112,7 @@ export default {
             elem.setAttribute('title', title);
             elem.setAttribute('rel', 'sidebar');
             elem.click();
-        }else if (document.all) {
+        }else if (document.all) { //msie
             window.external.AddFavorite(url, title);
         }else {
             alert("해당브라우저는 즐겨찾기 추가기능이 지원되지 않습니다.\n\nCtrl+D를 눌러 즐겨찾기에 추가해주세요.");
@@ -128,7 +127,11 @@ export default {
                     timer: 2000,
                 })
         setTimeout(() => {
-          this.$router.push("/");
+          if(this.$router.currentRoute.path==("/")){
+            location.reload(true)
+          }else{
+            this.$router.push("/");
+          }
           this.drawer=null;
         }, 2000)
         this.changeTitle();
