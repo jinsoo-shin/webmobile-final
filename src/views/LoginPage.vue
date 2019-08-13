@@ -22,7 +22,7 @@
 						<v-text-field type='password' v-model="password" label="Password" required></v-text-field>
 						<v-flex md1>
 						</v-flex>
-						<v-btn xs12 sm4 md4 color="#8C7875" block dark type='submit' class="mt-4" @click="loginWithEmail" style="">로그인</v-btn>
+						<v-btn xs12 sm4 md4 color="#A99794" block dark type='submit' class="mt-4" @click="loginWithEmail" style="">로그인</v-btn>
 					</form>
 				</template>
 			</v-flex>
@@ -101,7 +101,7 @@
 				<form v-on:submit='loginWithEmail'>
 					<v-text-field type='email' v-model="email" label="E-mail" required></v-text-field>
 					<v-text-field type='password' v-model="password" label="Password" required></v-text-field>
-					<v-btn color="#8C7875" dark type='submit' style="width:100%;">로그인</v-btn>
+					<v-btn color="#A99794" dark type='submit' style="width:100%;">로그인</v-btn>
 				</form>
 			</template>
 			<br>
