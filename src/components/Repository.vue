@@ -4,12 +4,6 @@
 	 overflow: hidden;
    text-overflow: ellipsis;
    width:70vw;
-	/* word-break : nowrap;  */
-	 /* word-break:break-all;
-    white-space: nowrap;
-   overflow: hidden;
-   text-overflow: ellipsis;
-   width:80vw; */
 }
 </style>
 
