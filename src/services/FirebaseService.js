@@ -17,6 +17,7 @@ Vue.$http = axios;
 const MEMBER = "members";
 const POSTS = "posts";
 const PORTFOLIOS = "portfolios";
+const url = 'http://52.78.157.214:8000'
 
 const config = {
     apiKey: "AIzaSyCif27PgFJSlqA4-fZdPEEgikmP3UAQ7-A",
@@ -40,7 +41,7 @@ export default {
     sendCommentPush(component) {
         var tokens = [];
         Vue.$http.post(
-                'https://192.168.100.90:8000/api/tokens/getAll/3'
+                url + '/api/tokens/getAll/3'
             )
             .then(response => {
                 tokens = response.data;

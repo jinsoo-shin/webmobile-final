@@ -18,6 +18,7 @@
   </v-layout>
 </template>
 <script>
+const url = 'http://52.78.157.214:8000'
 import Portfolio from '@/components/Portfolio'
 import FirebaseService from '@/services/FirebaseService'
 
@@ -39,7 +40,7 @@ export default {
 	methods: {
 		async getPortfolios() {
 			await this.$axios.post(
-            'http://192.168.100.90:8000/api/portfolios/getAll'
+            url+'/api/portfolios/getAll'
 			)
 			.then(response => {
 				this.portfolios = response.data

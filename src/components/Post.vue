@@ -51,6 +51,7 @@
 </template>
 
 <script>
+const url = 'http://52.78.157.214:8000'
 import FirebaseService from '@/services/FirebaseService'
 import PostComment from './PostComment.vue'
 
@@ -78,7 +79,7 @@ export default {
   methods: {
     async deletePost(){
       await this.$axios.post(
-          'http://192.168.100.90:8000/api/posts/delete/'+this.bno)
+          url+'/api/posts/delete/'+this.bno)
 			.then(response => {
 				this.dialog = false
         location.reload(true)
@@ -97,7 +98,7 @@ export default {
         title: this.title
       }
       await this.$axios.post(
-          'http://192.168.100.90:8000/api/posts/update', data)
+          url+'/api/posts/update', data)
 			.then(response => {
 				this.dialog = false
         location.reload(true)
@@ -105,7 +106,7 @@ export default {
 		},
     async getComments() {
 			await this.$axios.post(
-          'http://192.168.100.90:8000/api/postcomment/getAll/'+this.bno)
+          url+'/api/postcomment/getAll/'+this.bno)
 			.then(response => {
 				this.comments = response.data
 			})
@@ -113,7 +114,7 @@ export default {
     async deleteComment(item) {
       console.log(this.comments.indexOf(item))
 			await this.$axios.post(
-          'http://192.168.100.90:8000/api/postcomment/delete/'+item.cno)
+          url+'/api/postcomment/delete/'+item.cno)
 			.then(
         this.comments.splice(this.comments.indexOf(item),1)
       )
