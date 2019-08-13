@@ -180,6 +180,8 @@
 </template>
 
 <script>
+const url = 'http://52.78.157.214:8000'
+
 import store from '../store.js'
 import {Eventbus} from '../main.js'
 var accessToken=""
@@ -350,7 +352,7 @@ export default {
           if(str === "USERS")
           {
             this.Usershow = true;
-            this.$axios.post('http://192.168.100.90:8000/api/members/getAll')
+            this.$axios.post(url+'/api/members/getAll')
                 .then(response => {
                   this.Users = response.data;
                 })
@@ -361,7 +363,7 @@ export default {
           else if(str === "PORTFOLIOS")
           {
             this.Portfolioshow = true;
-            this.$axios.post('http://192.168.100.90:8000/api/portfolios/getAll')
+            this.$axios.post(url+'/api/portfolios/getAll')
                 .then(response => {
                   this.Portfoilos = response.data;
                   this.length = response.data.length;
@@ -373,7 +375,7 @@ export default {
           else if(str === "POSTS")
           {
             this.Postshow = true;
-            this.$axios.post('http://192.168.100.90:8000/api/posts/getAll')
+            this.$axios.post(url+'/api/posts/getAll')
                 .then(response => {
                   this.Posts = response.data;
                   this.length = response.data.length;
@@ -399,8 +401,8 @@ export default {
             email: item.email,
             ranks: item.ranks
             };
-              this.$axios.post('http://192.168.100.90:8000/api/members/update',data).then(response => {
-                this.$axios.post('http://192.168.100.90:8000/api/members/getAll').then(res => {
+              this.$axios.post(url+'/api/members/update',data).then(response => {
+                this.$axios.post(url+'/api/members/getAll').then(res => {
                   var cnt_admin=0;
                   var member_data=res.data;
                   member_data.forEach(function(element){
@@ -410,9 +412,9 @@ export default {
                   });
                   if(cnt_admin=='0'){
                         data.ranks=3;
-                        this.$axios.post('http://192.168.100.90:8000/api/members/update',data).then(response => {
+                        this.$axios.post(url+'/api/members/update',data).then(response => {
                           alert("관리자는 최소 1명 이상이어야 합니다")
-                          this.$axios.post('http://192.168.100.90:8000/api/members/getAll').then(res => {
+                          this.$axios.post(url+'/api/members/getAll').then(res => {
                             console.log(res.data)
                           this.Users = res.data; 
                            })
@@ -429,7 +431,7 @@ export default {
           if(str === "USERS")
           {
             if(item.ranks=='3'){
-               this.$axios.post('http://192.168.100.90:8000/api/members/getAll').then(res => {
+               this.$axios.post(url+'/api/members/getAll').then(res => {
                   var cnt_admin=0;
                   var member_data=res.data;
                   member_data.forEach(function(element){
@@ -443,8 +445,8 @@ export default {
                      var result= confirm(item.email+" 정말 삭제하시겠습니까?")
                      if(result){
                        var data =item.email;
-                       this.$axios.post('http://192.168.100.90:8000/api/members/delete/'+data).then(response => {
-                         this.$axios.post('http://192.168.100.90:8000/api/members/getAll')
+                       this.$axios.post(url+'/api/members/delete/'+data).then(response => {
+                         this.$axios.post(url+'/api/members/getAll')
                            .then(response => {
                              this.Users = response.data;
                            })
@@ -461,8 +463,8 @@ export default {
               var result= confirm(item.email+" 정말 삭제하시겠습니까?")
               if(result){
                 var data =item.email;
-                this.$axios.post('http://192.168.100.90:8000/api/members/delete/'+data).then(response => {
-                  this.$axios.post('http://192.168.100.90:8000/api/members/getAll')
+                this.$axios.post(url+'/api/members/delete/'+data).then(response => {
+                  this.$axios.post(url+'/api/members/getAll')
                     .then(response => {
                       this.Users = response.data;
                     })
@@ -480,8 +482,8 @@ export default {
              var result= confirm(item.title+"을 정말 삭제하시겠습니까?")
             if(result){
               var data =item.bno;
-              this.$axios.post('http://192.168.100.90:8000/api/portfolios/delete/'+data).then(response => {
-                this.$axios.post('http://192.168.100.90:8000/api/portfolios/getAll')
+              this.$axios.post(url+'/api/portfolios/delete/'+data).then(response => {
+                this.$axios.post(url+'/api/portfolios/getAll')
                   .then(response => {
                     this.Portfoilos = response.data;
                   })
@@ -498,8 +500,8 @@ export default {
              var result= confirm(item.title+"을 정말 삭제하시겠습니까?")
             if(result){
               var data =item.bno;
-              this.$axios.post('http://192.168.100.90:8000/api/posts/delete/'+data).then(response => {
-                this.$axios.post('http://192.168.100.90:8000/api/posts/getAll')
+              this.$axios.post(url+'/api/posts/delete/'+data).then(response => {
+                this.$axios.post(url+'/api/posts/getAll')
                   .then(response => {
                     this.Posts = response.data;
                   })

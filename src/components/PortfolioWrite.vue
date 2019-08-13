@@ -48,6 +48,7 @@
 </template>
 
 <script>
+const url = 'http://52.78.157.214:8000'
 import Portfolio from '@/components/Portfolio'
 import FirebaseService from '@/services/FirebaseService'
 import 'v-markdown-editor/dist/index.css'
@@ -162,7 +163,7 @@ export default{
           email: sessionStorage.getItem('email')
         }
         await this.$axios.post(
-          'http://192.168.100.90:8000/api/portfolios/insert', data)
+          url+'/api/portfolios/insert', data)
         .then(response => {
           location.reload(true)
         })

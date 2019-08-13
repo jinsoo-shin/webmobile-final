@@ -18,11 +18,12 @@ const POSTS = "posts";
 const PORTFOLIOS = "portfolios";
 const firestore = firebase.firestore();
 const messaging = firebase.messaging();
+const url = 'http://52.78.157.214:8000'
 
 export default {
     getMember(email) {
         Vue.$http.post(
-                'http://192.168.100.90:8000/api/members/get/' + email
+                url+'/api/members/get/' + email
             )
             .then(response => {
                 sessionStorage.setItem("name", response.data.name);
@@ -43,7 +44,7 @@ export default {
             ranks: 1
         };
         Vue.$http.post(
-                'http://192.168.100.90:8000/api/members/insert', data
+                url+'/api/members/insert', data
             )
             .then(response => {});
     },
@@ -63,7 +64,7 @@ export default {
                     token = currentToken;
                     var ranks = "";
                     Vue.$http.post(
-                            'http://192.168.100.90:8000/api/members/get/' + email
+                            url+'/api/members/get/' + email
                         )
                         .then(response => {
                             member = response.data;
@@ -87,17 +88,17 @@ export default {
                             }
                         });
                     Vue.$http.post(
-                            'http://192.168.100.90:8000/api/tokens/get/' + email
+                            url+'/api/tokens/get/' + email
                         )
                         .then(response => {
                             if (response.data) {
                                 Vue.$http.post(
-                                        'http://192.168.100.90:8000/api/tokens/update', { email: email, ranks: ranks, token: token }
+                                        url+'/api/tokens/update', { email: email, ranks: ranks, token: token }
                                     )
                                     .then(response => {});
                             } else {
                                 Vue.$http.post(
-                                        'http://192.168.100.90:8000/api/tokens/insert', { email: email, ranks: ranks, token: token }
+                                        url+'/api/tokens/insert', { email: email, ranks: ranks, token: token }
                                     )
                                     .then(response => {});
                             }

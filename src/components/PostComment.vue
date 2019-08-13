@@ -61,6 +61,7 @@
 </template>
 
 <script>
+const url = 'http://52.78.157.214:8000'
 import FirebaseService from '@/services/FirebaseService'
 import store from '../store.js'
 import Post from '../components/Post'
@@ -119,7 +120,7 @@ export default {
             content: this.content
           }
         await this.$axios.post(
-            'http://192.168.100.90:8000/api/postcomment/insert', data)
+            url+'/api/postcomment/insert', data)
         .then(response => {
           FirebaseService.sendCommentPush("Post")
           this.getComments();
@@ -129,7 +130,7 @@ export default {
     },
     async getComments() {
         await this.$axios.post(
-            'http://192.168.100.90:8000/api/postcomment/getAll/'+this.bno)
+            url+'/api/postcomment/getAll/'+this.bno)
         .then(response => {
           this.comments = response.data
           for(var i = 0; i < this.comments.length ;i++)
@@ -153,7 +154,7 @@ export default {
           content: this.editcomment
         }
       await this.$axios.post(
-        'http://192.168.100.90:8000/api/postcomment/update', data)
+        url+'/api/postcomment/update', data)
       .then(response => {
         this.getComments();
         this.flag = true;
@@ -162,7 +163,7 @@ export default {
     },
     async deleteComment(item) {
       await this.$axios.post(
-          'http://192.168.100.90:8000/api/postcomment/delete/'+item.cno)
+          url+'/api/postcomment/delete/'+item.cno)
       .then(
         this.comments.splice(this.comments.indexOf(item),1)
       )

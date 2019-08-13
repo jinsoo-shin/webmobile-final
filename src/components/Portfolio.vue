@@ -57,6 +57,7 @@
 </template>
                             
 <script>
+const url = 'http://52.78.157.214:8000'
 import Vue from 'vue'
 import FirebaseService from '@/services/FirebaseService'
 import PortfolioComment from './PortfolioComment.vue'
@@ -88,7 +89,7 @@ export default {
   methods: {
     async deletePortfolio(){
       await this.$axios.post(
-          'http://192.168.100.90:8000/api/portfolios/delete/'+this.bno)
+          url+'/api/portfolios/delete/'+this.bno)
 			.then(response => {
 				this.dialog = false
         location.reload(true)
@@ -104,7 +105,7 @@ export default {
         img: this.img
       }
       await this.$axios.post(
-          'http://192.168.100.90:8000/api/portfolios/update', data)
+          url+'/api/portfolios/update', data)
 			.then(response => {
 				this.dialog = false
         location.reload(true)
@@ -116,7 +117,7 @@ export default {
     },
     async getComments() {
 			await this.$axios.post(
-          'http://192.168.100.90:8000/api/portcomment/getAll/'+this.bno)
+          url+'/api/portcomment/getAll/'+this.bno)
 			.then(response => {
 				this.comments = response.data
 			})
@@ -124,7 +125,7 @@ export default {
     async deleteComment(item) {
       console.log(this.comments.indexOf(item))
 			await this.$axios.post(
-          'http://192.168.100.90:8000/api/portcomment/delete/'+item.cno)
+          url+'/api/portcomment/delete/'+item.cno)
 			.then(
         this.comments.splice(this.comments.indexOf(item),1)
       )

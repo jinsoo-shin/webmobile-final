@@ -17,6 +17,7 @@
   </v-layout>
 </template>
 <script>
+const url = 'http://52.78.157.214:8000'
 import Post from '@/components/Post'
 import FirebaseService from '@/services/FirebaseService'
 
@@ -38,7 +39,7 @@ export default {
 	methods: {
 		async getPosts() {
 			await this.$axios.post(
-            'http://192.168.100.90:8000/api/posts/getAll'
+            url+'/api/posts/getAll'
 			)
 			.then(response => {
 				this.posts = response.data
