@@ -15,7 +15,7 @@
       </v-layout>
   </v-form>
     <div class="container">
-      <markdown-editor v-model="body"></markdown-editor>
+      <markdown-editor v-model="content"></markdown-editor>
     </div>
     <br class='fclear'>
     <router-link :to="{ name: 'post', params: {} }">
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+const url = 'http://52.78.157.214:8000'
 import Post from '@/components/Post'
 import FirebaseService from '@/services/FirebaseService'
 import 'v-markdown-editor/dist/index.css'
@@ -42,7 +43,7 @@ export default{
    data() {
       return {
         title : "",
-        body : "",
+        content : "",
         dialog: false,
         rank: 0,
       }
@@ -62,14 +63,24 @@ export default{
        }
    },
    methods: {
-    writePost() {
-      if(this.title.length>20){
-        alert("제목은 최대 20자까지 입력가능합니다.")
+    async writePost() {
+        if(this.title.length>20){
+          alert("제목은 최대 20자까지 입력가능합니다.")
+        }
+        else{
+          var data = {
+              author: sessionStorage.getItem('name'),
+              content: this.content,
+              title: this.title,
+              email: sessionStorage.getItem('email')
+            }
+          await this.$axios.post(
+            url+'/api/posts/insert', data)
+            .then(response => {
+            location.reload(true)
+          })
+        }
       }
-      else{
-        let msg = FirebaseService.postPost(this.title, this.body, this.imageUrl);
-      }
-    },
-   }
-}
+    }
+    }
 </script>

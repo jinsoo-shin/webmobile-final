@@ -1,11 +1,10 @@
 <template>
   <v-app>
-	<Header></Header>
     <v-content>
       <router-view/>
     </v-content>
-	<Footer></Footer>
 	<TopButton></TopButton>
+	<ChatBot></ChatBot>
   </v-app>
 </template>
 <script>
@@ -19,8 +18,8 @@ import './css/style.css'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import Header from './components/Header'
-import Footer from './components/Footer'
 import TopButton from './components/TopButton'
+import ChatBot from './components/ChatBot'
 
 Vue.prototype.$axios = axios
 Vue.use(Vuetify)
@@ -31,9 +30,9 @@ export default {
 	name: 'App',
 	components: {
 		Header,
-		Footer,
 		TopButton,
-		Notification
+		Notification,
+		ChatBot
 	},
 	store
 }

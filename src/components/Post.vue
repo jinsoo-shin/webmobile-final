@@ -19,9 +19,9 @@
 <template>
   <v-layout px-4 py-4 h-100 @click.stop="dialog = true">
     <v-flex row>
-      <div class="mb-2 caption">{{formatedDate}}</div>
+      <div class="mb-2 caption">{{create_at}}</div>
       <h2 class="mb-2 color-333 headline " id="post_title">{{title}}</h2>
-      <p class="mb-2 color-666 font-weight-light subheading" id="post_sub">{{body}}</p>
+      <p class="mb-2 color-666 font-weight-light subheading" id="post_sub">{{content}}</p>
 
       <v-dialog v-model="dialog" max-width="800px">
         <v-card class="px-3 py-3">
@@ -29,20 +29,20 @@
           <v-layout>
             <v-flex class="px-3 py-1">
               <h2 class="py-1">{{title}}</h2>
-              <v-textarea v-model="body" v-if="flag" full-width height="160px" no-resize readonly></v-textarea>
-              <v-textarea v-model="editbody" v-if="!flag" full-width height="160px" no-resize></v-textarea>
+              <v-textarea v-model="content" v-if="flag" full-width height="250px" no-resize readonly></v-textarea>
+              <v-textarea v-model="editcontent" v-if="!flag" full-width height="250px" no-resize></v-textarea>
                 작성자 : {{author}} <br>
-                작성일 : {{formatedDate}}
+                작성일 : {{create_at}}
               <div v-if="chkauthor">
                 <v-btn style="float:right" v-if="flag" @click="onclickeditbtn()" class="primary">수정</v-btn>
-                <v-btn style="float:right" v-if="!flag" @click="editPost(doc, title, editbody, author)" class="primary">
+                <v-btn style="float:right" v-if="!flag" @click="updatePost(doc, title, editcontent, author)" class="primary">
                   <v-icon size="25" class="mr-2">done</v-icon>수정완료</v-btn>
-                <v-btn style="float:right" @click="deletePost(doc)" class="warning">삭제</v-btn>
+                <v-btn style="float:right" @click="deletePost()" class="warning">삭제</v-btn>
               </div>
             </v-flex>
           </v-layout>
           <br>
-          <Comment></Comment>
+          <PostComment :bno="bno" :dialog="dialog"></PostComment>
         </v-card>
       </v-dialog>
 
@@ -51,46 +51,76 @@
 </template>
 
 <script>
+const url = 'http://52.78.157.214:8000'
 import FirebaseService from '@/services/FirebaseService'
-import Comment from './Comment.vue'
+import PostComment from './PostComment.vue'
 
 export default {
-	name: 'Post',
+  name: 'Post',
+  components:{
+    PostComment
+  },
   data () {
       return {
         dialog: false,
-        editbody: '',
+        editcontent: '',
         flag: true,
         name: '',
+        comments: []
       }
     },
 	props: {
-    doc: '',
-		date: {type: Date},
+    bno:{type:Number},
+		create_at: {type: String},
 		title: {type: String},
-		body: {type: String},
+		content: {type: String},
     author: {type: String}
   },
   methods: {
-    async deletePost(id){
-      await FirebaseService.deletePost(id)
-      this.dialog = false
-      location.reload(true)
-    },
+    async deletePost(){
+      await this.$axios.post(
+          url+'/api/posts/delete/'+this.bno)
+			.then(response => {
+				this.dialog = false
+        location.reload(true)
+			})
+		},
     onclickeditbtn(){
-      this.editbody = this.body
+      this.editcontent = this.content
       this.flag = false
     },
-    async editPost(doc, title, body, author){
-      await FirebaseService.editPost(doc, title, body, author)
-      this.dialog = false
-      location.reload(true)
-    }
+    async updatePost(){
+      var data = {
+        bno: this.bno,
+        author: this.author,
+        email: this.email,
+        content: this.editcontent,
+        title: this.title
+      }
+      await this.$axios.post(
+          url+'/api/posts/update', data)
+			.then(response => {
+				this.dialog = false
+        location.reload(true)
+			})
+		},
+    async getComments() {
+			await this.$axios.post(
+          url+'/api/postcomment/getAll/'+this.bno)
+			.then(response => {
+				this.comments = response.data
+			})
+		},
+    async deleteComment(item) {
+      console.log(this.comments.indexOf(item))
+			await this.$axios.post(
+          url+'/api/postcomment/delete/'+item.cno)
+			.then(
+        this.comments.splice(this.comments.indexOf(item),1)
+      )
+		}
   },
   computed: {
-		formatedDate() {
-			return `${this.date.getFullYear()}년 ${this.date.getMonth()}월 ${this.date.getDate()}일`
-    },
     chkauthor(){
       this.name = sessionStorage.getItem("name");
       if ( this.name == this.author){

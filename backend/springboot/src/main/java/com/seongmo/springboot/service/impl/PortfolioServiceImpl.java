@@ -6,6 +6,7 @@ import com.seongmo.springboot.service.PortfolioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -14,25 +15,26 @@ public class PortfolioServiceImpl implements PortfolioService {
     PortfolioRepository portfolioRepository;
 
     @Override
-    public void insertPortfolio(Portfolio Portfolio) throws Exception {
-        portfolioRepository.save(Portfolio);
+    public void insertPortfolio(Portfolio portfolio) throws Exception {
+        portfolio.setCreate_at(LocalDate.now().plusDays(1));
+        portfolioRepository.save(portfolio);
     }
 
     @Override
     public List<Portfolio> getAllPortfolio() throws Exception {
-        return (List<Portfolio>)portfolioRepository.findAll();
+        return portfolioRepository.findAll();
     }
 
     @Override
-    public Portfolio getPortfolio(String email) throws Exception {
-        return portfolioRepository.findById(email).get();
+    public Portfolio getPortfolio(Long bno) throws Exception {
+        return portfolioRepository.findById(bno).get();
     }
 
     @Override
     public void updatePortfolio(Portfolio portfolio) throws Exception {
-        Portfolio p = portfolioRepository.findById(portfolio.getAuthor()).get();
+        Portfolio p = portfolioRepository.findById(portfolio.getBno()).get();
         if(p != null) {
-            p.setBody(portfolio.getBody());
+            p.setContent(portfolio.getContent());
             p.setImg(portfolio.getImg());
             p.setTitle(portfolio.getTitle());
             portfolioRepository.save(p);
@@ -40,7 +42,7 @@ public class PortfolioServiceImpl implements PortfolioService {
     }
 
     @Override
-    public void deletePortfolio(String email) throws Exception {
-        portfolioRepository.deleteById(email);
+    public void deletePortfolio(Long bno) throws Exception {
+        portfolioRepository.deleteById(bno);
     }
 }

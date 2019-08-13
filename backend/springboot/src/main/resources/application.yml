@@ -1,12 +1,17 @@
 server:
   port: 8000
+#  ssl:
+#    enabled: true
+#    key-store:  src/main/resources/keystore.jks
+#    key-store-password: 123456
+#    key-password: 123456
   servlet:
     context-path: /
 
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/PORTFOLIO?serverTimezone=UTC&useSSL=false
+    url: jdbc:mysql://localhost:3306/PORTFOLIO?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true&useSSL=false
     username: root
     password: 1234
 

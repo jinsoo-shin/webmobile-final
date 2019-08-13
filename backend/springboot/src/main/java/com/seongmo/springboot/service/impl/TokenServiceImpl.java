@@ -40,13 +40,15 @@ public class TokenServiceImpl implements TokenService {
             t = tokenRepository.findById(token.getEmail()).get();
         }
 
-        if(!token.getToken().equals("") && !t.getToken().equals(token.getToken())) {
-            t.setToken(token.getToken());
+        if (t != null) {
+            if(!token.getToken().equals("") && !t.getToken().equals(token.getToken())) {
+                t.setToken(token.getToken());
+            }
+            if(token.getRanks() != 0 && t.getRanks() != token.getRanks()) {
+                t.setRanks(token.getRanks());
+            }
+            tokenRepository.save(t);
         }
-        if(token.getRanks() != 0 && t.getRanks() != token.getRanks()) {
-            t.setRanks(token.getRanks());
-        }
-        tokenRepository.save(t);
     }
 
     @Override

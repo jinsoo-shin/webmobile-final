@@ -1,55 +1,144 @@
 <template>
-  <v-layout column px-4>
-    <v-flex v-bind:key="i" v-for="i in repositories.length > limits ? limits : repositories.length">
-      <v-divider v-if="i === 1"></v-divider>
-      <Repository :repos="repositories[i - 1]"></Repository>
-      <v-divider></v-divider>
-    </v-flex>
-
-	<v-flex xs12 text-xs-center round my-5 v-if="loadMore">
-      <v-btn color="rgb(123,142,169)" dark v-on:click="loadMoreReposistories"><v-icon size="25" class="mr-2">fa-plus</v-icon> 더 보기</v-btn>
-    </v-flex>
-  </v-layout>
+  <div>
+    <div id="app">
+      <v-app id="inspire">
+        <v-layout justify-space-around wrap>
+          <v-avatar color="indigo">
+            <v-icon dark>account_circle</v-icon>
+          </v-avatar>
+          <v-avatar>
+            <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
+          </v-avatar>
+          <v-avatar color="red">
+            <span class="white--text headline">CJ</span>
+          </v-avatar>
+        </v-layout>
+      </v-app>
+    </div>
+    <br>
+    <v-layout column px-4>
+      <div>
+        <v-expansion-panel
+          v-if="loading"
+          :disabled="true"
+          expand
+          v-model="loadingPanel"
+        >
+          <v-expansion-panel-content disabled>
+            <template v-slot:header>
+              <Repository :repos="loadingRepo"></Repository>
+            </template>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+        <v-expansion-panel
+          v-model="panel"
+          expand
+          v-if="!loading"
+          :disabled="!show"
+          v-resize="isMobile"
+        >
+          <v-expansion-panel-content
+            v-for="i in repositories.length > limits
+              ? limits
+              : repositories.length"
+            :key="i"
+          >
+            <template v-slot:header>
+              <Repository
+                :repos="repositories[i - 1]"
+                :user="selecteduser"
+                :graphno="selecteduser + 'graph' + i"
+              ></Repository>
+            </template>
+            <v-card class="hidden-xs-only">
+              <v-card-text class="grey lighten-3">
+                <RepositoryGraph
+                  :show="panel[i - 1]"
+                  :repos="repositories[i - 1]"
+                  :user="selecteduser"
+                  :graphno="selecteduser + 'graph' + i"
+                >
+                </RepositoryGraph>
+              </v-card-text>
+            </v-card>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </div>
+    </v-layout>
+  </div>
 </template>
 
 <script>
-import Repository from '@/components/Repository'
-import GitlabService from '@/services/GitlabService'
+
+import RepositoryGraph from "@/components/RepositoryGraph";
+import Repository from "@/components/Repository";
+import GitlabService from "@/services/GitlabService";
+
 
 export default {
-	name: 'RepositoryList',
-	data() {
-		return {
-			repositories: [],
-			limits:3,
-			loadMore:true
+  name: "RepositoryList",
+  props: {
+    limits: {
+      type: Number,
+      default: 5
+    },
+    loadMore: {
+      type: Boolean,
+      default: false
     }
-	},
-	components: {
-		Repository
-	},
+  },
+  data() {
+    return {
+      panel: [],
+      loadingPanel: [true],
+      repositories: [],
+      members: [],
+      selecteduser: "ClearRoot",
+      loading: false,
+      loadingRepo: {
+        path_with_namespace: "로딩중",
+        namespace: {
+          name: "Https://lab.ssafy.com/api/v4에서 정보를 받아오는 중입니다..."
+        }
+      },
+      show: true
+    };
+  },
+  components: {
+    Repository,
+    RepositoryGraph
+  },
 	mounted() {
-		this.getGitlabRepos()
+    this.getGitlabRepos("clearroot");
+    this.getGitlabMembers();
 	},
-	mounted() {
-		this.getGitlabRepos('chosm10')
-	},
-	methods: {
-		async getGitlabRepos() {
-			const response = await GitlabService.getRepos()
-			if(response.status !== 200) {
-				return
-			}
-			this.repositories = response.data
-			
-		},
-		loadMoreReposistories() {
-			this.limits+=2;
-			if(this.limits>=this.repositories.length){
-				this.limits=this.repositories.length;
-				this.loadMore=false;
-			}
-		}
-	}
-}
+  methods: {
+    isMobile() {
+      if (window.innerWidth > 600) this.show = true;
+      else this.show = false;
+    },
+    async getGitlabRepos(userName) {
+      this.loading = true;
+      const response = await GitlabService.getRepos2(userName);
+      if (response.status !== 200) {
+        return;
+      }
+      this.repositories = response.data;
+      this.loading = false;
+    },
+    async getGitlabMembers() {
+      const mem = await GitlabService.getMembers();
+      if (mem.status !== 200) {
+        return;
+      }
+      this.members = mem.data;
+    },
+    changeMember(username) {
+      this.getGitlabRepos(username);
+      this.selecteduser = username;
+      this.panel = [];
+    }
+  }
+};
+
 </script>

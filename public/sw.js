@@ -20,21 +20,39 @@ self.addEventListener('install', function(event) {
         })
     );
 });
+self.addEventListener("fetch", function(event) {
+    if (event.request.method !== 'GET') {
+        return;
+    }
+    event.respondWith(
+        caches
+        .match(event.request)
+        .then(function(cached) {
+            var networked = fetch(event.request)
+                .then(fetchedFromNetwork, unableToResolve)
+                .catch(unableToResolve);
+            return cached || networked;
 
-self.addEventListener('fetch', function(event) {
-    event.respondWith(caches.match(event.request).then(function(response) {
-        if (response !== undefined) {
-            return response;
-        } else {
-            return fetch(event.request).then(function(response) {
-                let responseClone = response.clone();
-                caches.open('my-cache').then(function(cache) {
-                    cache.put(event.request, responseClone);
-                });
+            function fetchedFromNetwork(response) {
+                var cacheCopy = response.clone();
+                caches
+                    .open('my-cache')
+                    .then(function add(cache) {
+                        cache.put(event.request, cacheCopy);
+                    })
+                    .then(function() {});
                 return response;
-            }).catch(function() {
-                return caches.match('/src/assets/mokuroh.png');
-            });
-        }
-    }));
+            }
+
+            function unableToResolve() {
+                return new Response('<h1>Service Unavailable</h1>', {
+                    status: 503,
+                    statusText: 'Service Unavailable',
+                    headers: new Headers({
+                        'Content-Type': 'text/html'
+                    })
+                });
+            }
+        })
+    );
 });

@@ -1,5 +1,6 @@
 <template>
   <div>
+      <Header></Header>
     <ImgBanner imgSrc="https://source.unsplash.com/random">
       <div style="margin-bottom:20vw; line-height:1.2em; font-family: 'Righteous', cursive; font-size:calc(30px + 2.5vw)" slot="text">Portfolio</div>
     </ImgBanner>
@@ -13,6 +14,7 @@
       </v-layout>
     </v-container>
 <PortfolioWrite></PortfolioWrite>
+<Footer></Footer>
   </div>
 </template>
 
@@ -20,7 +22,9 @@
 import ImgBanner from '../components/ImgBanner'
 import PortfolioList from '../components/PortfolioList'
 import PortfolioWrite from '../components/PortfolioWrite'
-import PortfolioListVue from '../components/PortfolioList.vue';
+import PortfolioListVue from '../components/PortfolioList.vue'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
 
 export default {
   name: 'PortfolioPage',
@@ -31,7 +35,9 @@ export default {
 	components: {
 		ImgBanner,
     PortfolioList,
-    PortfolioWrite
+    PortfolioWrite,
+    Header,
+    Footer
     }
   }
 </script>

@@ -6,6 +6,7 @@ import com.seongmo.springboot.entity.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -15,6 +16,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void insertMember(Member member) throws Exception {
+        //mysql이 0일 부터 시작해서 1일을 추가해줘야함
+        member.setCreate_at(LocalDate.now().plusDays(1));
         memberRepository.save(member);
     }
 
