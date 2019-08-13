@@ -27,11 +27,20 @@
 
     <!-- Repository -->
       <v-layout my-5>
-        <v-flex xs12>
+        <v-flex hidden-xs-only>
           <h2 class="headline my-5 text-xs-center">Projects</h2>
           <test></test>
         </v-flex>
       </v-layout>
+
+    <!-- Repository -->
+      <v-layout my-5>
+        <v-flex hidden-sm-and-up>
+          <h2>Repository 페이지는 모바일 환경에서 지원하지 않습니다.</h2>
+          <h2>PC버전에서 이용하시기 바랍니다.</h2>
+        </v-flex>
+      </v-layout>
+
     </v-container>
 
 
