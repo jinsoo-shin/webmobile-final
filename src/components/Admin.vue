@@ -254,8 +254,7 @@ export default {
           { icon : 'face', title: 'USERS'},
           { icon : 'art_track', title: 'PORTFOLIOS'},
           { icon : 'favorite', title: 'POSTS' },
-          { icon : 'dns', title: 'REPOSITORY' },
-          { icon : 'help', title: 'ETC'}
+          { icon : 'help', title: 'WEB LOG'}
         ],
       login: false
     }
@@ -316,7 +315,7 @@ export default {
             accessToken = JSON.parse(httpRequest.responseText)
           }
         }
-        httpRequest.open("GET", "http://192.168.100.90:5000/gapi/token/access", false)
+        httpRequest.open("GET", "http://52.78.157.214:5000/gapi/token/access", false)
         await httpRequest.send()
 
       },
@@ -384,11 +383,7 @@ export default {
                   console.log("failed")
                 });
           }
-          else if(str === "REPOSITORY")
-          {
-            this.Repositoryshow = true;
-          }
-          else if(str === "ETC")
+          else if(str === "WEB LOG")
           {
             this.Etcshow = true;
             this.test();
