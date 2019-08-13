@@ -48,41 +48,44 @@
 						<v-btn class="mt-3" outline v-on="on">회원가입</v-btn>
 					</template>
 					<v-card>
-						<v-card-title>
-							<span class="headline">회원가입</span>
+						<v-card-title center>
+							<span style="margin: 0 auto; font-family: 'Nanum Gothic Coding', monospace; font-size:xx-large; font-weight: bold;">SIGN UP</span>
 						</v-card-title>
 						<v-card-text>
+							<div style="text-align: right; font-size:small;">
+								*는 필수 입력값입니다.
+							</div>
 							<v-container grid-list-md>
 								<v-layout wrap>
 									<v-flex xs12 sm6 md4>
-										<v-text-field label="Name*" v-model="name" required></v-text-field>
+										<v-text-field label="닉네임*" v-model="name" style="ime-mode:disabled;" :rules="[v => !!v || '닉네임을 입력해주세요.']" required></v-text-field>
+									</v-flex>
+									<v-flex xs9>
+										<v-text-field label="이메일*" v-model="email" :rules="emailRules" required></v-text-field>
+									</v-flex>
+									<v-flex xs3>
+										<v-btn v-on:click="sendEmail" outline>인증번호발송</v-btn>
 									</v-flex>
 									<v-flex xs12>
-										<v-text-field label="Email*" v-model="email" required></v-text-field>
+										<v-text-field label="인증번호*" v-model="auth" :rules="[v => !!v || '인증번호를 입력해주세요.']" required></v-text-field>
 									</v-flex>
 									<v-flex xs12>
-									<v-btn v-on:click="sendEmail">Send</v-btn>
+										<v-text-field label="Imgur앨범주소*" v-model="album" :rules="[v => !!v || 'Imgur앨범주소를 입력해주세요.']" required></v-text-field>
 									</v-flex>
 									<v-flex xs12>
-										<v-text-field label="Authentication*" v-model="auth" required></v-text-field>
-									</v-flex>
-									<v-flex xs12>
-										<v-text-field label="Imgur-Album-Hash*" v-model="album" required></v-text-field>
-									</v-flex>
-									<v-flex xs12>
-										<v-text-field label="Password*" type="password" v-model="password" required></v-text-field>
+										<v-text-field label="비밀번호*" type="password" v-model="password" :rules="[v => !!v || '비밀번호를 입력해주세요.']" required></v-text-field>
 									</v-flex>
 									<v-flex xs12 sm6>
-										<v-text-field label="Age*" v-model="age" required></v-text-field>
+										<v-text-field label="나이*" v-model="age" :rules="[v => !!v || '나이를 입력해주세요.']" required></v-text-field>
 									</v-flex>
 								</v-layout>
 							</v-container>
-							<small>*indicates required field</small>
 						</v-card-text>
+						<v-divider class="mt-12"></v-divider>
 						<v-card-actions>
 							<v-spacer></v-spacer>
-							<v-btn color="blue darken-1" flat @click="dialog = false" v-on:click="close">Close</v-btn>
-							<v-btn color="blue darken-1" flat @click="dialog = false" v-on:click="registMember">Regist</v-btn>
+							<v-btn outline flat @click="dialog = false" v-on:click="close">닫기</v-btn>
+							<v-btn outline flat @click="dialog = false" v-on:click="registMember">가입</v-btn>
 						</v-card-actions>
 					</v-card>
 				</v-dialog>
@@ -119,40 +122,44 @@
 					</template>
 					<v-card>
 						<v-card-title>
-							<span class="headline">회원가입</span>
+							<span style="margin: 0 auto; font-family: 'Nanum Gothic Coding', monospace; font-size:xx-large; font-weight: bold;">SIGN UP</span>
 						</v-card-title>
 						<v-card-text>
+							<div style="text-align: right; font-size:small;">
+								*는 필수 입력값입니다.
+							</div>
 							<v-container grid-list-md>
 								<v-layout wrap>
 									<v-flex xs12 sm6 md4>
-										<v-text-field label="Name*" v-model="name" required></v-text-field>
+										<v-text-field label="이름*" v-model="name" required></v-text-field>
+									</v-flex>
+									<v-flex xs10>
+										<v-text-field label="이메일*" v-model="email" required></v-text-field>
+									</v-flex>
+									<v-flex xs2>
+										<v-btn text icon v-on:click="sendEmail"><v-icon color="indigo">send</v-icon></v-btn>
 									</v-flex>
 									<v-flex xs12>
-										<v-text-field label="Email*" v-model="email" required></v-text-field>
+										<v-text-field label="인증번호*" v-model="auth" required></v-text-field>
 									</v-flex>
 									<v-flex xs12>
-										<v-btn v-on:click="sendEmail">Send</v-btn>
+										<v-text-field label="Imgur앨범주소*" v-model="album" required></v-text-field>
 									</v-flex>
 									<v-flex xs12>
-										<v-text-field label="Authentication*" v-model="auth" required></v-text-field>
-									</v-flex>
-									<v-flex xs12>
-										<v-text-field label="Imgur-Album-Hash*" v-model="album" required></v-text-field>
-									</v-flex>
-									<v-flex xs12>
-										<v-text-field label="Password*" type="password" v-model="password" required></v-text-field>
+										<v-text-field label="비밀번호*" type="password" v-model="password" required></v-text-field>
 									</v-flex>
 									<v-flex xs12 sm6>
-										<v-text-field label="Age*" v-model="age" required></v-text-field>
+										<v-text-field label="나이*" v-model="age" required></v-text-field>
 									</v-flex>
 								</v-layout>
 							</v-container>
-							<small>*indicates required field</small>
 						</v-card-text>
+						<v-divider class="mt-12"></v-divider>
 						<v-card-actions>
-							<v-spacer></v-spacer>
-							<v-btn color="blue darken-1" flat @click="dialog = false" v-on:click="close">Close</v-btn>
-							<v-btn color="blue darken-1" flat @click="dialog = false" v-on:click="registMember">Regist</v-btn>
+							<div style="margin:0 auto;">
+								<v-btn color="indigo" flat outline @click="dialog = false" v-on:click="close">닫기</v-btn>
+								<v-btn color="indigo" flat outline @click="dialog = false" v-on:click="registMember">가입</v-btn>
+							</div>
 						</v-card-actions>
 					</v-card>
 				</v-dialog>
@@ -185,6 +192,10 @@ export default {
 			dialog: false,
 			name: '',
 			email: '',
+			emailRules: [
+				v => !!v || 'E-mail을 필수로 입력해주시기 바랍니다.',
+				v => /.+@.+\..+/.test(v) || '올바른 E-mail 형식이 아닙니다.',
+			],
 			album: '',
 			password: '',
 			age: '',
@@ -234,17 +245,18 @@ export default {
 			if(this.auth == this.myauth) {
 				alert('회원가입이 완료 되었습니다!');
 				let msg = LoginService.postMember(this.name, this.password, this.email, this.album, this.age);
-			} else {
-				alert(this.auth +"&" + this.myauth +'인증 번호가 일치하지 않습니다, 확인 후 재입력 부탁드립니다!')
-			}
 			this.close()
+			} else {
+				alert(this.auth +" " + this.myauth +'인증 번호가 일치하지 않습니다. 확인 후 재입력 부탁드립니다!')
+			}
 		},
 		sendEmail() {
 			this.$axios({
 				method: 'GET',
-				url: "http://localhost:3000?address=" + this.email,
+				url: "http://52.78.157.214:3000?address=" + this.email,
 				headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
 				}).then(response => {
+					alert("이메일로 인증번호가 발송되었습니다.")
 					this.myauth = response.data;
 				}).catch(function(error) {
 				});
