@@ -258,6 +258,7 @@ export default {
 				}).then(response => {
 					alert("이메일로 인증번호가 발송되었습니다.")
 					this.myauth = response.data;
+					console.log(this.myauth);
 				}).catch(function(error) {
 				});
 		}

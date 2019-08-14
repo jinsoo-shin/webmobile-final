@@ -165,7 +165,7 @@ export default{
         await this.$axios.post(
           url+'/api/portfolios/insert', data)
         .then(response => {
-          location.reload(true)
+          FirebaseService.sendPortfolioPush();
         })
       }
     },
@@ -206,7 +206,6 @@ export default{
             this.imageUrl= response.data.data[rand].link;
           }
           this.imageName= response.data.data[rand].title;
-            console.log(this.imageUrl)
         }).catch(function(error) {
             console.log(error);
         }).finally(()=>{
