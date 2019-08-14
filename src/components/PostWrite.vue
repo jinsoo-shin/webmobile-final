@@ -77,7 +77,7 @@ export default{
           await this.$axios.post(
             url+'/api/posts/insert', data)
             .then(response => {
-            location.reload(true)
+            FirebaseService.sendPostPush();
           })
         }
       }
