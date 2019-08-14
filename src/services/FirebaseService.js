@@ -11,42 +11,78 @@ import VueSwal from "vue-swal";
 import Vue from "vue";
 import { SSL_OP_NO_SESSION_RESUMPTION_ON_RENEGOTIATION } from "constants";
 Vue.use(VueSwal);
-import axios from 'axios'
+import axios from "axios";
 Vue.$http = axios;
 
 const MEMBER = "members";
 const POSTS = "posts";
 const PORTFOLIOS = "portfolios";
-const url = 'http://52.78.157.214:8000'
+const url = "http://52.78.157.214:8000";
 
 const config = {
-    apiKey: "AIzaSyCif27PgFJSlqA4-fZdPEEgikmP3UAQ7-A",
-    authDomain: "team-42093.firebaseapp.com",
-    databaseURL: "https://team-42093.firebaseio.com",
-    projectId: "team-42093",
-    storageBucket: "team-42093.appspot.com",
-    messagingSenderId: "527574403487",
-    appId: "1:527574403487:web:1df4659fb3babe48"
+  apiKey: "AIzaSyCif27PgFJSlqA4-fZdPEEgikmP3UAQ7-A",
+  authDomain: "team-42093.firebaseapp.com",
+  databaseURL: "https://team-42093.firebaseio.com",
+  projectId: "team-42093",
+  storageBucket: "team-42093.appspot.com",
+  messagingSenderId: "527574403487",
+  appId: "1:527574403487:web:1df4659fb3babe48"
 };
 
 var app = firebase.initializeApp(config);
 let db = firebase.firestore(app);
 
-db.enablePersistence({ experimentalTabSynchronization: true })
+db.enablePersistence({ experimentalTabSynchronization: true });
 const firestore = firebase.firestore();
 const messaging = firebase.messaging();
 
-
 export default {
-    sendCommentPush(component) {
-        var tokens = [];
-        Vue.$http.post(
-                url + '/api/tokens/getAll/3'
-            )
-            .then(response => {
-                tokens = response.data;
-                var sendNewCommentNotification = firebase.functions().httpsCallable('sendNewCommentNotification');
-                sendNewCommentNotification({ tokens: tokens, author: sessionStorage.getItem("name"), component: component }).then(function(result) {}).catch(function(error) {});
-            });
-    }
-}
+  sendCommentPush(component) {
+    var tokens = [];
+    Vue.$http.post(url + "/api/tokens/getAll/3").then(response => {
+      tokens = response.data;
+      var sendNewCommentNotification = firebase
+        .functions()
+        .httpsCallable("sendNewCommentNotification");
+      sendNewCommentNotification({
+        tokens: tokens,
+        author: sessionStorage.getItem("name"),
+        component: component
+      })
+        .then(function(result) {})
+        .catch(function(error) {});
+    });
+  },
+  sendPostPush() {
+    var tokens = [];
+    Vue.$http.post(url + "/api/tokens/getAll/0").then(response => {
+      tokens = response.data;
+      var sendNewPostNotification = firebase
+        .functions()
+        .httpsCallable("sendNewPostNotification");
+      sendNewPostNotification({
+        tokens: tokens,
+        author: sessionStorage.getItem("name"),
+        component: "Post"
+      }).finally(() => {
+        location.reload(true);
+      });
+    });
+  },
+  sendPortfolioPush() {
+    var tokens = [];
+    Vue.$http.post(url + "/api/tokens/getAll/0").then(response => {
+      tokens = response.data;
+      var sendNewPostNotification = firebase
+        .functions()
+        .httpsCallable("sendNewPostNotification");
+      sendNewPostNotification({
+        tokens: tokens,
+        author: sessionStorage.getItem("name"),
+        component: "Portfolio"
+      }).finally(() => {
+        location.reload(true);
+      });
+    });
+  }
+};
