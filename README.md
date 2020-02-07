@@ -1,18 +1,26 @@
-# WEBMOBILE-FINAL
+# 팀블로그 프로젝트
 
-### 1. 목표
+## 개요
+Vue.js및 다양한 API를 이용하고, PWA 개념을 적용한 웹 모바일 페이지
 
-- 웹 프로젝트의 구성과 필요 기능 명세서 작성에 대한 이해
-- 외부 프레임워크와 Open API 활용
-- SPA(Single Page Application)의 구조 이해
-- Firebase를 통한 데이터베이스 연동
+## 프로젝트 기간
+2019.07.01 ~ 2019.08.16
 
+## 개발 환경
+- Python
+- Vue.js
+- Firebase
+- Vuetify
+- AWS
 
+## 담당 역할
+프론트엔드 엔지니어 (기여도 20%)
 
-### 2. Install
+## 담당 기능
+- 오프라인 기능 service worker 구현
+- 새로운 글 업데이트 시 Firebase API를 활용한 push 알림
+- 외부 날씨API를 활용하여 현재 위치의 날씨 정보 제공
 
-- npm install
-- npm install -g yarn
-- npm install -g @vue/cli
-- npm install vue
-- npm install -g firebase-tools
+## 발표자료
+[유튜브 링크](https://docs.google.com/presentation/d/e/2PACX-1vRYvnyCPTDlmiicm1j0Wmrb1JW3zYTafkqGduCdXPIeRmQyKNe748Z-gKUCw3rzJA/pub?start=false&loop=false)
+
